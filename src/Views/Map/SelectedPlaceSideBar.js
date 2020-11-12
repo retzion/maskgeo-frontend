@@ -1,5 +1,5 @@
-import React from "react"
-import Sidebar from "react-sidebar"
+const React = require("react")
+const Sidebar = require("react-sidebar")
 
 const styles = {
   sidebar: {
@@ -64,7 +64,7 @@ const styles = {
   website: { textDecoration: "none" },
 }
 
-export default function SelectedPlaceSideBar(props) {
+module.exports = function SelectedPlaceSideBar(props) {
   const { close, openProfile, selected, user } = props
   const {
     formatted_address: address,

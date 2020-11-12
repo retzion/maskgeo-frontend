@@ -1,24 +1,27 @@
 // libraries
-import React, { useEffect, useState } from "react"
-import { GoogleMap, useLoadScript } from "@react-google-maps/api"
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete"
-import {
+const React = require("react")
+const { useEffect, useState } = require("react")
+const { GoogleMap, useLoadScript } = require("@react-google-maps/api")
+const { default: usePlacesAutocomplete } = require("use-places-autocomplete")
+const { getGeocode, getLatLng } = require("use-places-autocomplete")
+const {
   Combobox,
   ComboboxInput,
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-} from "@reach/combobox"
+} = require("@reach/combobox")
 
 // components
-import ProfileSideBar from "./ProfileSideBar"
-import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
-import Marker from "./Marker"
-import InfoWindow from "./InfoWindow"
-const { decryptToken, processToken, removeToken } = require("../../util/MaskGeoApi")
+const ProfileSideBar = require("./ProfileSideBar")
+const Marker = require("./Marker")
+const InfoWindow = require("./InfoWindow")
+const SelectedPlaceSideBar = require("./SelectedPlaceSideBar")
+const {
+  decryptToken,
+  processToken,
+  removeToken,
+} = require("../../util/MaskGeoApi")
 
 // design resources
 require("@reach/combobox/styles.css")
@@ -42,7 +45,7 @@ const options = {
 }
 let placesService, mapRef
 
-export default function Map(props) {
+module.exports = function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,

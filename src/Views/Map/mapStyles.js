@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   {
     featureType: "all",
     elementType: "geometry.fill",
