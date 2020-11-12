@@ -1,0 +1,68 @@
+h1.logo {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #281414;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+}
+
+.search {
+  position: absolute;
+  top: 72px;
+  width: 90%;
+  z-index: 1;
+  margin-left: 2%;
+}
+@media (min-width: 528px) {
+  .search {
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 225px;
+    max-width: 30%;
+  }
+}
+
+.search input {
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.locate {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  z-index: 1;
+  font-size: 2.1rem;
+  cursor: pointer;
+}
+.locate img {
+  width: 30px;
+  cursor: pointer;
+}
+
+.profile {
+  position: absolute;
+  top: 1rem;
+  right: 4.5rem;
+  background: none;
+  border: none;
+  z-index: 1;
+  font-size: 2.1rem;
+  cursor: pointer;
+}
+.profile img {
+  width: 30px;
+  cursor: pointer;
+}
+
+.rating-icons img {
+  width: 30px;
+  height: 30px;
+}
