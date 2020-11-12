@@ -3,7 +3,6 @@ import Sidebar from "react-sidebar"
 
 const styles = {
   sidebar: {
-    // overlay: { display: "none" },
     sidebar: {
       background: "white",
       width: "99%",
@@ -78,7 +77,7 @@ export default function SelectedPlaceSideBar(props) {
     user_ratings_total,
     website,
   } = selected
-
+  console.log(selected)
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
   function reviewLocation() {
@@ -144,7 +143,7 @@ export default function SelectedPlaceSideBar(props) {
                 }}
               ></div>
             </div>
-            <span style={styles.ratingText}>{rating} / 5 masks</span>
+            <span style={styles.ratingText}>{rating} / 5 masks <i>({user_ratings_total} ratings)</i></span>
           </React.Fragment>
         )}
         <h3>

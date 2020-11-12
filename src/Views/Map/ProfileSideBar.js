@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import Sidebar from "react-sidebar"
 import validate from "validator"
 
-const { createUser, requestMagicLoginLink } = require("../../util/MaskGeoApi")
+import { createUser, requestMagicLoginLink } from "../../util/MaskGeoApi"
 
 const styles = {
   sidebar: {
