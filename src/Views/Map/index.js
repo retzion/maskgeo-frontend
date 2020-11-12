@@ -14,15 +14,15 @@ import {
 } from "@reach/combobox"
 
 // components
-import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 import ProfileSideBar from "./ProfileSideBar"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import Marker from "./Marker"
 import InfoWindow from "./InfoWindow"
+const { decryptToken, processToken, removeToken } = require("../../util/MaskGeoApi")
 
 // design resources
-import "@reach/combobox/styles.css"
-import "./index.css"
+require("@reach/combobox/styles.css")
+require("./index.css")
 // import mapStyles from "./mapStyles"
 
 // Set default location to Salt Lake City, Utah

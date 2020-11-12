@@ -125,7 +125,7 @@ async function asyncDel(url) {
   })
 }
 
-module.exports = {
+export default {
   createUser,
   decryptToken,
   processToken,
