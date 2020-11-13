@@ -4,7 +4,6 @@ import validate from "validator"
 import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
-console.log({ apiUri })
 
 /**
  * @title POST New user account
