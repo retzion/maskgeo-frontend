@@ -3,6 +3,9 @@ import validate from "validator"
 
 import { maskGeoApiUri } from "../../config"
 
+const apiUri = maskGeoApiUri()
+console.log({ apiUri })
+
 /**
  * @title POST New user account
  * @dev Get a JSON Web Token from a valid `login token`
@@ -11,7 +14,7 @@ import { maskGeoApiUri } from "../../config"
  * @param {string} username Desired username
  */
 function createUser(email, username) {
-  return post(`${maskGeoApiUri}/user`, {
+  return post(`${apiUri}/user`, {
     email,
     username,
   }).catch(console.error)
@@ -24,7 +27,7 @@ function createUser(email, username) {
  * @param {string} token A token used to log in and retrieve a JWT
  */
 function processToken(token) {
-  return get(`${maskGeoApiUri}/jwt/${token}`).catch(console.error)
+  return get(`${apiUri}/jwt/${token}`).catch(console.error)
 }
 
 /**
@@ -32,7 +35,7 @@ function processToken(token) {
  * @dev Delete JSON Web Tokens
  */
 function removeToken() {
-  return del(`${maskGeoApiUri}/jwt`).catch(console.error)
+  return del(`${apiUri}/jwt`).catch(console.error)
 }
 
 /**
@@ -40,7 +43,7 @@ function removeToken() {
  * @dev Verify JSON Web Token
  */
 function verifyToken() {
-  return head(`${maskGeoApiUri}/jwt`).catch(console.error)
+  return head(`${apiUri}/jwt`).catch(console.error)
 }
 
 /**
@@ -48,7 +51,7 @@ function verifyToken() {
  * @dev Verify JSON Web Token and return decrypted data
  */
 function decryptToken() {
-  return get(`${maskGeoApiUri}/data`).catch(console.error)
+  return get(`${apiUri}/data`).catch(console.error)
 }
 
 /**
@@ -60,7 +63,7 @@ function decryptToken() {
 function requestMagicLoginLink(email) {
   if (!email || !validate.isEmail(email))
     return new Error("Email address is not valid.")
-  return get(`${maskGeoApiUri}/login/${email}`).catch(console.error)
+  return get(`${apiUri}/login/${email}`).catch(console.error)
 }
 
 /** @return Promises resolving to javascript objects */
