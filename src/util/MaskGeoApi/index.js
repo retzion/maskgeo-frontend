@@ -1,7 +1,7 @@
-const axios = require("axios")
-const validate = require("validator")
+import axios from "axios"
+import validate from "validator"
 
-const { maskGeoApiUri } = require("../../config")
+import { maskGeoApiUri } from "../../config"
 
 /**
  * @title POST New user account
@@ -125,7 +125,7 @@ async function asyncDel(url) {
   })
 }
 
-module.exports = {
+export {
   createUser,
   decryptToken,
   processToken,

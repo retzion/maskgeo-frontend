@@ -5,9 +5,9 @@ const appEnvironments = {
 
 const appEnvironment = appEnvironments[process.env['REACT_APP_MG_ENV'] || 'production']
 
-module.exports = {
-  maskGeoApiUri: ({
+export function maskGeoApiUri() {
+  return ({
     production: 'https://api.maskgeo.com',
     local: 'http://localhost:3001',
-  })[appEnvironment],
+  })[appEnvironment]
 }

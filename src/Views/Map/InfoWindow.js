@@ -1,7 +1,7 @@
-const React = require("react")
-const { InfoWindow: GoogleInfoWindow } = require("@react-google-maps/api")
+import React from "react"
+import { InfoWindow as GoogleInfoWindow } from "@react-google-maps/api"
 
-module.exports = props => {
+export default props => {
   const {
     place: {
       formatted_address: address,

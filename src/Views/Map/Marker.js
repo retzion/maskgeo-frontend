@@ -1,7 +1,7 @@
-const React = require("react")
-const { Marker: GoogleMarker } = require("@react-google-maps/api")
+import React from "react"
+import { Marker as GoogleMarker } from "@react-google-maps/api"
 
-module.exports = props => {
+export default props => {
   const { marker, setSelected } = props
 
   if (!marker.geometry) return null

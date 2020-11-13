@@ -1,9 +1,9 @@
-const React = require("react")
-const { useState } = require("react")
-const Sidebar = require("react-sidebar")
-const validate = require("validator")
+import React from "react"
+import { useState } from "react"
+import Sidebar from "react-sidebar"
+import validate from "validator"
 
-const { createUser, requestMagicLoginLink } = require("../../util/MaskGeoApi")
+import { createUser, requestMagicLoginLink } from "../../util/MaskGeoApi"
 
 const styles = {
   sidebar: {
@@ -37,7 +37,7 @@ const styles = {
   button: { padding: "15px 21px", fontSize: "1rem" },
 }
 
-module.exports = function ProfileSideBar(props) {
+export default function ProfileSideBar(props) {
   const [loginLinkSent, setLoginLinkSent] = useState(null)
   const [userCreated, setUserCreated] = useState(null)
 

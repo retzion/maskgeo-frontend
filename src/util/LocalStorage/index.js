@@ -11,7 +11,7 @@ const lsFromJson = (_key, data) =>
     ? window.localStorage.setItem(_key, JSON.stringify(data))
     : null
 
-module.exports = class {
+export default class {
   static async clearStorage(_key) {
     await this.setData(_key)
   }

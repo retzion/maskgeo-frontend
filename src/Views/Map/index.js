@@ -1,31 +1,31 @@
 // libraries
-const React = require("react")
-const { useEffect, useState } = require("react")
-const { GoogleMap, useLoadScript } = require("@react-google-maps/api")
-const { default: usePlacesAutocomplete } = require("use-places-autocomplete")
-const { getGeocode, getLatLng } = require("use-places-autocomplete")
-const {
+import React from "react"
+import { useEffect, useState } from "react"
+import { GoogleMap, useLoadScript } from "@react-google-maps/api"
+import usePlacesAutocomplete from "use-places-autocomplete"
+import { getGeocode, getLatLng } from "use-places-autocomplete"
+import {
   Combobox,
   ComboboxInput,
   ComboboxPopover,
   ComboboxList,
   ComboboxOption,
-} = require("@reach/combobox")
+} from "@reach/combobox"
 
 // components
-const ProfileSideBar = require("./ProfileSideBar")
-const Marker = require("./Marker")
-const InfoWindow = require("./InfoWindow")
-const SelectedPlaceSideBar = require("./SelectedPlaceSideBar")
-const {
+import ProfileSideBar from "./ProfileSideBar"
+import Marker from "./Marker"
+import InfoWindow from "./InfoWindow"
+import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
+import {
   decryptToken,
   processToken,
   removeToken,
-} = require("../../util/MaskGeoApi")
+} from "../../util/MaskGeoApi"
 
 // design resources
-require("@reach/combobox/styles.css")
-require("./index.css")
+import "@reach/combobox/styles.css"
+import "./index.css"
 // import mapStyles from "./mapStyles"
 
 // Set default location to Salt Lake City, Utah
@@ -45,7 +45,7 @@ const options = {
 }
 let placesService, mapRef
 
-module.exports = function Map(props) {
+export default function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,

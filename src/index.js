@@ -1,11 +1,13 @@
-const React = require("react")
-const ReactDOM = require("react-dom")
-const App = require("./App")
-const serviceWorker = require("./serviceWorker")
-const { version } = require("../package.json")
-require("./index.css")
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
+import * as serviceWorker from "./serviceWorker"
+import { version } from "../package.json"
+import "./index.css"
 
-console.log(`Running version ${version} in ${process.env["NODE_ENV"]} environment`)
+console.log(
+  `Running version ${version} in ${process.env["NODE_ENV"]} environment`
+)
 
 ReactDOM.render(
   <React.StrictMode>

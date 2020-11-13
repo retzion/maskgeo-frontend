@@ -1,11 +1,11 @@
-const React = require("react")
-const { BrowserRouter, Route, Switch } = require("react-router-dom")
+import React from "react"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 
 // views
-const Map = require("./Views/Map")
-const NotFound = require("./Views/404")
+import Map from "./Views/Map"
+import NotFound from "./Views/404"
 
-module.exports = function App() {
+export default function App() {
   return (
     <BrowserRouter>
       <div id="top" className="app">
