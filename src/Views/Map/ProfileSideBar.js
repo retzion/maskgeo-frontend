@@ -3,7 +3,7 @@ import { useState } from "react"
 import Sidebar from "react-sidebar"
 import validate from "validator"
 
-import { createUser, requestMagicLoginLink } from "../../util/MaskGeoApi"
+import { createUser, requestMagicLoginLink, decryptToken } from "../../util/MaskGeoApi"
 
 const styles = {
   sidebar: {
@@ -186,6 +186,7 @@ export default function ProfileSideBar(props) {
         </div>
         <p style={{ display: user ? "block" : "none" }}>
           <button onClick={logOut}>Log Out</button>
+          <button onClick={decryptToken}>verify</button>
         </p>
       </div>
     </div>
