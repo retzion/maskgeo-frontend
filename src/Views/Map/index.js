@@ -17,11 +17,7 @@ import ProfileSideBar from "./ProfileSideBar"
 import Marker from "./Marker"
 import InfoWindow from "./InfoWindow"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
-import {
-  decryptToken,
-  processToken,
-  removeToken,
-} from "../../util/MaskGeoApi"
+import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 
 // design resources
 import "@reach/combobox/styles.css"
@@ -62,13 +58,12 @@ export default function Map(props) {
       const { token } = props.match.params
       if (token) {
         // check for a token
-        const tokenValid = await ProcessToken(token)
-
-        if (!tokenValid) {
+        const validToken = await ProcessToken(token)
+        if (!validToken) {
           setUser(null)
           alert("Your magic login link has expired.")
         } else {
-          setUser(tokenValid)
+          setUser(validToken)
         }
 
         if (window.history.pushState) {
