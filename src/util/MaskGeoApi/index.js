@@ -5,10 +5,11 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
+const allowedHeaders = document.location.protocol === 'https' ? "*; SameSite=None; Secure" : "*; SameSite=Lax;"
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
-  "Access-Control-Request-Headers": "*; SameSite=None; Secure",
+  // "Access-Control-Request-Headers": allowedHeaders,
 }
 axios.defaults.withCredentials = true
 
