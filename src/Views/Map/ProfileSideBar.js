@@ -1,7 +1,7 @@
-import React from "react"
-import { useState } from "react"
+import React, { useRef, useState } from "react"
 import Sidebar from "react-sidebar"
 import validate from "validator"
+import Cookies from "js-cookie"
 
 import { createUser, requestMagicLoginLink, decryptToken } from "../../util/MaskGeoApi"
 
@@ -44,13 +44,18 @@ export default function ProfileSideBar(props) {
   const { close, logOut, user } = props
   const { email, username } = user || {}
 
-  let emailInput, newUserEmailInput, newUserUsernameInput
+  const cookieEmail = Cookies.get("email")
+  const emailInput = useRef(cookieEmail)
+
+  let newUserEmailInput, newUserUsernameInput
 
   async function logIn() {
-    const valid = validate.isEmail(emailInput.value)
+    const valid = validate.isEmail(emailInput.current.value)
     if (!valid) alert("This is not a valid email address!")
     else {
-      const magicLinkResponse = await requestMagicLoginLink(emailInput.value)
+      const currentEmailValue = emailInput.current.value
+      const magicLinkResponse = await requestMagicLoginLink(currentEmailValue)
+      Cookies.set("email", currentEmailValue)
       if (magicLinkResponse && magicLinkResponse.status === 200)
         setLoginLinkSent(true)
       else
@@ -117,12 +122,12 @@ export default function ProfileSideBar(props) {
           >
             <h2>Log In</h2>
             <input
-              ref={r => (emailInput = r)}
+              ref={emailInput}
               name="email"
               type="text"
               style={styles.input}
               placeholder="email address"
-              // value={emailValue}
+              defaultValue={emailInput.current}
               // onChange={emailHandle}
             />
             <p>

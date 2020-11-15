@@ -5,6 +5,13 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
+const universalHeaders = {
+  "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
+  "Content-Type": "application/json",
+  "Access-Control-Request-Headers": "*; SameSite=None; Secure",
+}
+axios.defaults.withCredentials = true
+
 /**
  * @title POST New user account
  * @dev Get a JSON Web Token from a valid `login token`
@@ -71,9 +78,9 @@ async function get(url, options) {
   if (options && options.headers) headers = options.headers
   return axios.get(url, {
     ...options,
-    withCredentials: true,
+    // withCredentials: true,
     headers: {
-      "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
+      ...universalHeaders,
       ...headers,
     },
   })
@@ -83,47 +90,35 @@ async function head(url, options) {
   if (options && options.headers) headers = options.headers
   return axios.head(url, {
     ...options,
-    withCredentials: true,
+    // withCredentials: true,
     headers: {
-      "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
+      ...universalHeaders,
       ...headers,
     },
   })
 }
 async function post(url, data) {
   return axios.post(url, data, {
-    withCredentials: true,
-    headers: {
-      "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
-      "Content-Type": "application/json",
-    },
+    // withCredentials: true,
+    headers: universalHeaders,
   })
 }
 async function put(url, data) {
   return axios.put(url, data, {
     withCredentials: true,
-    headers: {
-      "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
-      "Content-Type": "application/json",
-    },
+    headers: universalHeaders,
   })
 }
 function del(url) {
   return axios.delete(url, {
-    withCredentials: true,
-    headers: {
-      "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
-      "Content-Type": "application/json",
-    },
+    // withCredentials: true,
+    headers: universalHeaders,
   })
 }
 async function asyncDel(url) {
   return axios.delete(url, {
-    withCredentials: true,
-    headers: {
-      "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
-      "Content-Type": "application/json",
-    },
+    // withCredentials: true,
+    headers: universalHeaders,
   })
 }
 
@@ -135,3 +130,4 @@ export {
   requestMagicLoginLink,
   verifyToken,
 }
+
