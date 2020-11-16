@@ -126,8 +126,7 @@ export default function ProfileSideBar(props) {
               type="text"
               style={styles.input}
               placeholder="email address"
-              defaultValue={emailInput.current}
-              // onChange={emailHandle}
+              defaultValue={typeof emailInput.current === 'string' ? emailInput.current : ''}
             />
             <p>
               <button className="primary" style={styles.button} onClick={logIn}>

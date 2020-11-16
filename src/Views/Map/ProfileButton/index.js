@@ -4,10 +4,10 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 import "./index.css"
 
-export default function ProfileIcon({ setShowProfile, user }) {
+export default function ProfileButton({ setShowProfile, user }) {
   return (
     <button
-      className="profile"
+      className={user ? "profile authenticated" : "profile"}
       title="See account details"
       onClick={() => {
         setShowProfile(true)

@@ -13,7 +13,7 @@ import {
 } from "@reach/combobox"
 
 // components
-import ProfileIcon from "./ProfileIcon"
+import ProfileButton from "./ProfileButton"
 import ProfileSideBar from "./ProfileSideBar"
 import Marker from "./Marker"
 import InfoWindow from "./InfoWindow"
@@ -106,7 +106,7 @@ export default function Map(props) {
   return (
     <div className="map-container">
       <Locate panTo={panTo} />
-      <ProfileIcon user={user} setShowProfile={setShowProfile} />
+      <ProfileButton user={user} setShowProfile={setShowProfile} />
 
       <h1 className="logo">
         Mask Forecast{" "}
