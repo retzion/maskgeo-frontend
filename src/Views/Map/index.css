@@ -16,7 +16,7 @@ h1.logo {
   z-index: 1;
   margin-left: 2%;
 }
-@media (min-width: 528px) {
+@media (min-width: 810px) {
   .search {
     top: 1rem;
     left: 50%;
