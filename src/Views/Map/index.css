@@ -17,6 +17,12 @@ h1.logo {
   cursor: default;
   font-size: 2.1rem;
 }
+@media (max-width: 420px) {
+  h1.logo {
+    font-size: 1.5rem;
+    margin-top: 6px;
+  }
+}
 
 .search-container {
   position: absolute;
@@ -37,7 +43,7 @@ h1.logo {
     transform: translateX(-50%);
     width: 225px;
     max-width: 30%;
-    margin-left: 2%;
+    margin-left: 6%;
     text-align: center;
   }
 }
@@ -55,6 +61,15 @@ h1.logo {
 .locate img {
   width: 30px;
   cursor: pointer;
+}
+@media (max-width: 420px) {
+  .locate {
+    font-size: 1.5rem;
+    margin-top: 6px;
+    margin-right: 0;
+    margin-left: 0;
+    padding: auto 0;
+  }
 }
 
 @media (max-width: 809px) {

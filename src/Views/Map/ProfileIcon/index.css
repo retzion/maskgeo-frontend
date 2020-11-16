@@ -1,7 +1,7 @@
 .profile {
   position: absolute;
   top: 1rem;
-  right: 4.5rem;
+  right: 4.2rem;
   background: none;
   border: none;
   z-index: 1;
@@ -13,10 +13,21 @@
   /* width: 30px; */
   max-height: 30px;
   cursor: pointer;
-  margin-left: 12px;
+}
+.profile .button-text {
+  margin-right: 12px;
 }
 
-@media (max-width: 468px) {
+@media (max-width: 420px) {
+  .profile {
+    right: 3rem;
+  }
+  .profile .icon {
+    font-size: 1.5rem;
+    padding: auto 0;
+  }
+}
+@media (max-width: 630px) {
   .profile .button-text {
     display: none;
   }
