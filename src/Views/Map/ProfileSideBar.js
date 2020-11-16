@@ -7,7 +7,6 @@ import { createUser, requestMagicLoginLink } from "../../util/MaskGeoApi"
 
 const styles = {
   sidebar: {
-    // overlay: { display: "none" },
     sidebar: {
       background: "white",
       width: "99%",

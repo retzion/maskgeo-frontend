@@ -13,6 +13,7 @@ import {
 } from "@reach/combobox"
 
 // components
+import ProfileIcon from "./ProfileIcon"
 import ProfileSideBar from "./ProfileSideBar"
 import Marker from "./Marker"
 import InfoWindow from "./InfoWindow"
@@ -103,16 +104,17 @@ export default function Map(props) {
   if (!isLoaded) return "Loading..."
 
   return (
-    <div>
+    <div className="map-container">
+      <Locate panTo={panTo} />
+      <ProfileIcon user={user} setShowProfile={setShowProfile} />
+
       <h1 className="logo">
-        MaskGeo{" "}
+        Mask Forecast{" "}
         <span role="img" aria-label="tent">
           😷
         </span>
       </h1>
 
-      <Profile user={user} setShowProfile={setShowProfile} />
-      <Locate panTo={panTo} />
       <Search panTo={panTo} setMarkers={setMarkers} setSelected={setSelected} />
 
       <GoogleMap
@@ -171,20 +173,6 @@ export default function Map(props) {
   )
 }
 
-function Profile({ setShowProfile, user }) {
-  return (
-    <button
-      className="profile"
-      title="See account details"
-      onClick={() => {
-        setShowProfile(true)
-      }}
-    >
-      {user && user.username} 👤
-    </button>
-  )
-}
-
 function Locate({ panTo }) {
   return (
     <button
@@ -202,7 +190,6 @@ function Locate({ panTo }) {
           () => null
         )
       }}
-      style={{ fontSize: "2.1rem", cursor: "pointer" }}
     >
       🧭
     </button>
@@ -262,23 +249,25 @@ function Search({ panTo, setMarkers, setSelected }) {
   }
 
   return (
-    <div className="search">
-      <Combobox onSelect={handleSelect}>
-        <ComboboxInput
-          value={value}
-          onChange={handleInput}
-          disabled={!ready}
-          placeholder="🔍 search"
-        />
-        <ComboboxPopover>
-          <ComboboxList>
-            {status === "OK" &&
-              data.map(({ place_id, description }) => (
-                <ComboboxOption key={place_id} value={description} />
-              ))}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox>
+    <div className="search-container">
+      <div className="search">
+        <Combobox onSelect={handleSelect}>
+          <ComboboxInput
+            value={value}
+            onChange={handleInput}
+            disabled={!ready}
+            placeholder="🔍 search"
+          />
+          <ComboboxPopover>
+            <ComboboxList>
+              {status === "OK" &&
+                data.map(({ place_id, description }) => (
+                  <ComboboxOption key={place_id} value={description} />
+                ))}
+            </ComboboxList>
+          </ComboboxPopover>
+        </Combobox>
+      </div>
     </div>
   )
 }

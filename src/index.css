@@ -3,6 +3,7 @@
   --color-blue: #2172b4;
   --color-light-blue: #71b7f0;
   --color-dark-grey: rgb(90, 90, 90);
+  --color-dark-text: #3b2121;
 }
 
 body {
@@ -14,12 +15,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
+  color: var(--color-dark-text);
 }
 button, .button {
   border: none;
   padding: 6px 9px;
   background: #ccc;
-  color: #333;
+  color: var(--color-dark-text);
   border-radius: 4.5px;
   cursor: pointer;
 }
