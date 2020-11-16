@@ -2,21 +2,14 @@
 import React from "react"
 import { useEffect, useState } from "react"
 import { GoogleMap, useLoadScript } from "@react-google-maps/api"
-import usePlacesAutocomplete from "use-places-autocomplete"
-import { getGeocode, getLatLng } from "use-places-autocomplete"
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox"
 
 // components
 import ProfileButton from "./ProfileButton"
 import ProfileSideBar from "./ProfileSideBar"
 import Marker from "./Marker"
 import InfoWindow from "./InfoWindow"
+import Locate from "./Locate"
+import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 
@@ -26,7 +19,7 @@ import "./index.css"
 // import mapStyles from "./mapStyles"
 
 // Set default location to Salt Lake City, Utah
-let pos = { lat: 40.758701, lng: -111.876183 }
+const startingPosition = { lat: 40.758701, lng: -111.876183 }
 
 const libraries = ["places"]
 const mapContainerStyle = {
@@ -34,7 +27,7 @@ const mapContainerStyle = {
   width: "100vw",
 }
 const options = {
-  center: pos,
+  center: startingPosition,
   // styles: mapStyles,
   disableDefaultUI: true,
   zoomControl: true,
@@ -50,6 +43,7 @@ export default function Map(props) {
   const [markers, setMarkers] = useState([])
   const [selected, setSelected] = useState(null)
   const [details, setDetails] = useState(null)
+  const [pos, setPos] = useState(startingPosition)
   const [user, setUser] = useState(null)
   const [showProfile, setShowProfile] = useState(null)
 
@@ -105,7 +99,7 @@ export default function Map(props) {
 
   return (
     <div className="map-container">
-      <Locate panTo={panTo} />
+      <Locate panTo={panTo} setPos={setPos} />
       <ProfileButton user={user} setShowProfile={setShowProfile} />
 
       <h1 className="logo">
@@ -115,7 +109,14 @@ export default function Map(props) {
         </span>
       </h1>
 
-      <Search panTo={panTo} setMarkers={setMarkers} setSelected={setSelected} />
+      <Search
+        panTo={panTo}
+        setMarkers={setMarkers}
+        setSelected={setSelected}
+        placesService={placesService}
+        pos={pos}
+        setPos={setPos}
+      />
 
       <GoogleMap
         id="map"
@@ -169,105 +170,6 @@ export default function Map(props) {
           />
         )}
       </GoogleMap>
-    </div>
-  )
-}
-
-function Locate({ panTo }) {
-  return (
-    <button
-      className="locate"
-      title="Pan to your current location"
-      onClick={() => {
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            }
-            panTo(pos)
-          },
-          () => null
-        )
-      }}
-    >
-      🧭
-    </button>
-  )
-}
-
-function Search({ panTo, setMarkers, setSelected }) {
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => pos.lat, lng: () => pos.lng },
-      radius: 30 * 1000,
-    },
-  })
-  // https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service#AutocompletionRequest
-
-  const handleInput = e => {
-    setValue(e.target.value)
-  }
-
-  const handleSelect = async address => {
-    setValue(address, false)
-    clearSuggestions()
-
-    try {
-      const results = await getGeocode({ address })
-      let result = results[0]
-      result.name = address
-      const { lat, lng } = await getLatLng(result)
-
-      // fetch Places data
-      placesService.getDetails(
-        {
-          placeId: result.place_id,
-          // fields: ["formatted_phone_number", "name", "photos", "rating" ],
-        },
-        (placeResults, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            result = {
-              ...result,
-              ...placeResults,
-            }
-            setMarkers([result])
-            setSelected(result)
-            panTo({ lat, lng })
-          }
-        }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  return (
-    <div className="search-container">
-      <div className="search">
-        <Combobox onSelect={handleSelect}>
-          <ComboboxInput
-            value={value}
-            onChange={handleInput}
-            disabled={!ready}
-            placeholder="🔍 search"
-          />
-          <ComboboxPopover>
-            <ComboboxList>
-              {status === "OK" &&
-                data.map(({ place_id, description }) => (
-                  <ComboboxOption key={place_id} value={description} />
-                ))}
-            </ComboboxList>
-          </ComboboxPopover>
-        </Combobox>
-      </div>
     </div>
   )
 }

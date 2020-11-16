@@ -3,7 +3,7 @@ import Sidebar from "react-sidebar"
 import validate from "validator"
 import Cookies from "js-cookie"
 
-import { createUser, requestMagicLoginLink } from "../../util/MaskGeoApi"
+import { createUser, requestMagicLoginLink } from "../../../util/MaskGeoApi"
 
 const styles = {
   sidebar: {
