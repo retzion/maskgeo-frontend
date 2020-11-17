@@ -36,15 +36,14 @@ const styles = {
   button: { padding: "15px 21px", fontSize: "1rem" },
 }
 
-export default function ProfileSideBar(props) {
+export default function ProfileSideBar({ close, logOut, user }) {
+  const { email, username } = user || {}
+
   const [loginLinkSent, setLoginLinkSent] = useState(null)
   const [userCreated, setUserCreated] = useState(null)
 
-  const { close, logOut, user } = props
-  const { email, username } = user || {}
-
-  const cookieEmail = Cookies.get("email")
-  const emailInput = useRef(cookieEmail)
+  const emailInput = useRef()
+  emailInput.current = Cookies.get("email")
 
   let newUserEmailInput, newUserUsernameInput
 
@@ -83,7 +82,6 @@ export default function ProfileSideBar(props) {
       newUserEmailInput.value,
       newUserUsernameInput.value
     ).catch(console.error)
-    console.log({createUserResponse})
     const { data: response } = createUserResponse || {}
     if (!response)
       alert(
@@ -126,7 +124,7 @@ export default function ProfileSideBar(props) {
               type="text"
               style={styles.input}
               placeholder="email address"
-              defaultValue={typeof emailInput.current === 'string' ? emailInput.current : ''}
+              defaultValue={emailInput.current}
             />
             <p>
               <button className="primary" style={styles.button} onClick={logIn}>
@@ -188,7 +186,10 @@ export default function ProfileSideBar(props) {
           </form>
         </div>
         <p style={{ display: user ? "block" : "none" }}>
-          <button onClick={logOut}>Log Out</button>
+          <button onClick={()=> {
+            emailInput.current = Cookies.get('email')
+            logOut()
+          }}>Log Out</button>
         </p>
       </div>
     </div>

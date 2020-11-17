@@ -35,7 +35,7 @@
   }
 }
 @media (max-width: 630px) {
-  .profile .button-text {
+  .profile.authenticated .button-text {
     display: none;
   }
 }

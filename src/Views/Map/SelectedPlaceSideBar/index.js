@@ -64,8 +64,7 @@ const styles = {
   website: { textDecoration: "none" },
 }
 
-export default function SelectedPlaceSideBar(props) {
-  const { close, openProfile, selected, user } = props
+export default ({ close, openProfile, selected, setShowPostReview, user }) => {
   const {
     formatted_address: address,
     formatted_phone_number: phone,
@@ -76,12 +75,12 @@ export default function SelectedPlaceSideBar(props) {
     rating = 0,
     user_ratings_total,
     website,
-  } = selected
-  console.log(selected)
+  } = selected || {}
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
   function reviewLocation() {
     if (!user) openProfile()
+    else setShowPostReview(true)
   }
 
   const SidebarContent = () => (
@@ -124,7 +123,9 @@ export default function SelectedPlaceSideBar(props) {
             <strong>🕘 Hours</strong>
             <div style={styles.hours}>
               {opening_hours.weekday_text.map((day, i) => (
-                <div key={i}>{day}</div>
+                <div style={{ margin: 0, padding: 0 }} key={i}>
+                  {day}
+                </div>
               ))}
             </div>
           </div>
@@ -143,7 +144,9 @@ export default function SelectedPlaceSideBar(props) {
                 }}
               ></div>
             </div>
-            <span style={styles.ratingText}>{rating} / 5 masks <i>({user_ratings_total} ratings)</i></span>
+            <span style={styles.ratingText}>
+              {rating} / 5 masks <i>({user_ratings_total} ratings)</i>
+            </span>
           </React.Fragment>
         )}
         <h3>

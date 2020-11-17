@@ -9,6 +9,7 @@ import ProfileSideBar from "./ProfileSideBar"
 import Marker from "./Marker"
 import InfoWindow from "./InfoWindow"
 import Locate from "./Locate"
+import PostReview from "./PostReview"
 import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
@@ -33,7 +34,7 @@ const options = {
   zoomControl: true,
   zoom: 12,
 }
-let placesService, mapRef
+let mapRef
 
 export default function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
@@ -46,6 +47,8 @@ export default function Map(props) {
   const [pos, setPos] = useState(startingPosition)
   const [user, setUser] = useState(null)
   const [showProfile, setShowProfile] = useState(null)
+  const [showPostReview, setShowPostReview] = useState(null)
+  const [placesService, setPlacesService] = useState(null)
 
   useEffect(() => {
     // check for user data
@@ -82,8 +85,9 @@ export default function Map(props) {
       bounds: bounds,
       type: ["restaurant"],
     }
-    placesService = new window.google.maps.places.PlacesService(map)
-    placesService.nearbySearch(request, (results, status) => {
+    const newPlacesService = new window.google.maps.places.PlacesService(map)
+    setPlacesService(newPlacesService)
+    newPlacesService.nearbySearch(request, (results, status) => {
       if (status === window.google.maps.places.PlacesServiceStatus.OK) {
         console.log(results)
       }
@@ -154,6 +158,7 @@ export default function Map(props) {
             openProfile={() => {
               setShowProfile(true)
             }}
+            setShowPostReview={setShowPostReview}
           />
         )}
 
@@ -166,6 +171,16 @@ export default function Map(props) {
             }}
             close={() => {
               setShowProfile(null)
+            }}
+          />
+        )}
+
+        {showPostReview && (
+          <PostReview
+            user={user}
+            selected={selected}
+            close={() => {
+              setShowPostReview(null)
             }}
           />
         )}
