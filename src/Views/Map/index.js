@@ -80,18 +80,24 @@ export default function Map(props) {
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
 
-    const bounds = new window.google.maps.LatLngBounds()
-    const request = {
-      bounds: bounds,
-      type: ["restaurant"],
-    }
+    map.addListener("center_changed", () => {
+      const center = map.getCenter()
+      const newCenter = {lat: center.lat(), lng: center.lng()}
+      setPos(newCenter)
+    })
+
+    // const bounds = new window.google.maps.LatLngBounds()
+    // const request = {
+    //   bounds: bounds,
+    //   type: ["restaurant"],
+    // }
     const newPlacesService = new window.google.maps.places.PlacesService(map)
     setPlacesService(newPlacesService)
-    newPlacesService.nearbySearch(request, (results, status) => {
-      if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-        console.log(results)
-      }
-    })
+    // newPlacesService.nearbySearch(request, (results, status) => {
+    //   if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+    //     console.log(results)
+    //   }
+    // })
   }, [])
 
   const panTo = React.useCallback(({ lat, lng }) => {
