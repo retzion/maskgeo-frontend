@@ -62,7 +62,7 @@ const styles = {
   },
 }
 
-export default ({ close, selected, user }) => {
+export default ({ close, selected, setSelected, user }) => {
   const {
     formatted_address: address,
     formatted_phone_number: phone,
@@ -95,7 +95,19 @@ export default ({ close, selected, user }) => {
     const savedReviewResponse = await postReview(reviewData)
     const { data: savedReview } = savedReviewResponse
     if (savedReview.error) alert(savedReview.error)
-    else close()
+    else {
+      let updatedSelected = { ...selected }
+      updatedSelected.maskReviews.push(savedReview)
+      updatedSelected.maskRatingsCount++
+      const averageRating =
+        (selected.maskRatingsCount * selected.maskRating) /
+        selected.maskRatingsCount
+      updatedSelected.maskRating =
+        (averageRating * selected.maskRatingsCount + savedReview.rating) /
+        updatedSelected.maskRatingsCount
+      setSelected(updatedSelected)
+      close()
+    }
   }, [selected])
 
   const SidebarContent = () => (

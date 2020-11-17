@@ -88,7 +88,7 @@ export default ({
                 }}
               ></div>
             </div>
-            <span style={styles.ratingText}>{maskRating} / 5 masks</span>
+            <span style={styles.ratingText}>{maskRating.toFixed(2)} / 5 masks</span>
           </React.Fragment>
         ) : "not yet rated"}
         <p>

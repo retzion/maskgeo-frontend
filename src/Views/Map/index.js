@@ -182,6 +182,7 @@ export default function Map(props) {
             close={() => {
               setShowPostReview(null)
             }}
+            setSelected={setSelected}
           />
         )}
       </GoogleMap>

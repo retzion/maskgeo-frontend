@@ -147,7 +147,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
               ></div>
             </div>
             <span style={styles.ratingText}>
-              {maskRating} / 5 masks <i>({maskRatingsCount} ratings)</i>
+              {maskRating.toFixed(2)} / 5 masks <i>({maskRatingsCount} ratings)</i>
             </span>
           </React.Fragment>
         )}
@@ -165,11 +165,12 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
           <span>No reviews have been posted yet.</span>
         ) : (
           maskReviews.map(r => (
-            <div>
+            <div style={{padding: '6px 0'}}>
               <strong>{r.user.username}</strong> says: {r.review}
             </div>
           ))
         )}
+        <p><br /></p>
       </div>
     </div>
   )
