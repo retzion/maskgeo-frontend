@@ -1,21 +1,21 @@
 import React from "react"
 import { InfoWindow as GoogleInfoWindow } from "@react-google-maps/api"
 
-export default props => {
-  const {
-    place: {
-      formatted_address: address,
-      formatted_phone_number: phone,
-      geometry,
-      icon,
-      name,
-      rating = 0,
-      user_ratings_total,
-    },
-    setSelected,
-  } = props
-
-  if (!props.place) return null
+export default ({
+  place,
+  place: {
+    formatted_address: address,
+    formatted_phone_number: phone,
+    geometry,
+    icon,
+    maskRating,
+    maskRatingsCount,
+    name,
+  },
+  setSelected,
+  showDetails,
+}) => {
+  if (!place) return null
 
   const styles = {
     container: {
@@ -78,21 +78,21 @@ export default props => {
           </a>
         </p>
 
-        {user_ratings_total && (
+        {maskRatingsCount ? (
           <React.Fragment>
             <div style={styles.ratingContainer}>
               <div
                 style={{
                   ...styles.ratingResults,
-                  width: rating * 30,
+                  width: maskRating * 30,
                 }}
               ></div>
             </div>
-            <span style={styles.ratingText}>{rating} / 5 masks</span>
+            <span style={styles.ratingText}>{maskRating} / 5 masks</span>
           </React.Fragment>
-        )}
+        ) : "not yet rated"}
         <p>
-          <a onClick={props.showDetails} style={styles.details}>
+          <a onClick={showDetails} style={styles.details}>
             view details
           </a>
         </p>

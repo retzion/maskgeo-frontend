@@ -92,7 +92,8 @@ export default ({ close, selected, user }) => {
     }
 
     // save to db
-    const { data: savedReview } = await postReview(reviewData)
+    const savedReviewResponse = await postReview(reviewData)
+    const { data: savedReview } = savedReviewResponse
     if (savedReview.error) alert(savedReview.error)
     else close()
   }, [selected])

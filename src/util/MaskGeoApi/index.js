@@ -91,6 +91,10 @@ function postReview(reviewData) {
   return post(`${apiUri}/review`, reviewData).catch(c => c.response)
 }
 
+function fetchReviews(query) {
+  return get(`${apiUri}/reviews`, { params: query }).catch(c => c.response)
+}
+
 /** @return Promises resolving to javascript objects */
 async function get(url, options) {
   let headers
@@ -133,6 +137,7 @@ function del(url) {
 export {
   createUser,
   decryptToken,
+  fetchReviews,
   postReview,
   processToken,
   removeToken,

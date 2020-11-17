@@ -72,7 +72,9 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
     name,
     opening_hours,
     photos = [],
-    rating = 0,
+    maskRating,
+    maskRatingsCount,
+    maskReviews,
     user_ratings_total,
     website,
   } = selected || {}
@@ -132,7 +134,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
         )}
         <hr />
         <h2>Mask Forecast</h2>
-        {!user_ratings_total ? (
+        {!maskRatingsCount ? (
           "not yet rated"
         ) : (
           <React.Fragment>
@@ -140,12 +142,12 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
               <div
                 style={{
                   ...styles.ratingResults,
-                  width: rating * 30,
+                  width: maskRating * 30,
                 }}
               ></div>
             </div>
             <span style={styles.ratingText}>
-              {rating} / 5 masks <i>({user_ratings_total} ratings)</i>
+              {maskRating} / 5 masks <i>({maskRatingsCount} ratings)</i>
             </span>
           </React.Fragment>
         )}
@@ -159,7 +161,15 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
             Rate &amp; Review
           </button>
         </h3>
-        No reviews have been posted yet.
+        {!maskReviews || !maskReviews.length ? (
+          <span>No reviews have been posted yet.</span>
+        ) : (
+          maskReviews.map(r => (
+            <div>
+              <strong>{r.user.username}</strong> says: {r.review}
+            </div>
+          ))
+        )}
       </div>
     </div>
   )

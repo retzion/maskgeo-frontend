@@ -9,6 +9,8 @@ import {
   ComboboxOption,
 } from "@reach/combobox"
 
+import { fetchReviews } from "../../../util/MaskGeoApi"
+
 export default ({ panTo, placesService, pos, setMarkers, setSelected }) => {
   const {
     ready,
@@ -44,12 +46,26 @@ export default ({ panTo, placesService, pos, setMarkers, setSelected }) => {
           /** @TODO reduce fetched data fields */
           // fields: ["formatted_phone_number", "name", "photos", "rating" ],
         },
-        (placeResults, status) => {
+        async (placeResults, status) => {
           if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             result = {
               ...result,
               ...placeResults,
             }
+
+            // mask reviews
+            const { data: maskReviews } = await fetchReviews({
+              geoCoordinates: { lat, lng },
+              googlePlaceId: result.place_id,
+            })
+            result.maskReviews = maskReviews.filter(r => r.review.length)
+
+            // mask ratings
+            const reducer = (accumulator, { rating }) => accumulator + rating
+            const accumulatedRatings = maskReviews.reduce(reducer, 0)
+            result.maskRating = maskReviews.length ? accumulatedRatings / maskReviews.length : 0
+            result.maskRatingsCount = maskReviews.length
+
             setMarkers([result])
             setSelected(result)
             panTo({ lat, lng })

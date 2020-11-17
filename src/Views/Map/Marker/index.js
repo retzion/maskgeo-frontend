@@ -1,8 +1,7 @@
 import React from "react"
 import { Marker as GoogleMarker } from "@react-google-maps/api"
 
-export default props => {
-  const { marker, setSelected } = props
+export default ({ marker, setSelected }) => {
 
   if (!marker.geometry) return null
   else
