@@ -5,11 +5,9 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
-const allowedHeaders = document.location.protocol === 'https' ? "*; SameSite=None; Secure" : "*; SameSite=Lax;"
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
-  // "Access-Control-Request-Headers": allowedHeaders,
 }
 axios.defaults.withCredentials = true
 
@@ -73,13 +71,32 @@ function requestMagicLoginLink(email) {
   return get(`${apiUri}/login/${email}`).catch(console.error)
 }
 
+/**
+ * @title POST Rating and Review
+ * @dev Posts a rating and optionally a review for specific coordinates
+ *
+ * @param {object} reviewData Object containing the review data and rating float
+ * @param {object} reviewData.geoCoordinates Geo coordinates object for place being reviewed
+ * @param {float} reviewData.geoCoordinates.lat Latitude
+ * @param {float} reviewData.geoCoordinates.lng Longitude
+ * @param {string} reviewData.googlePlaceId Google Places reference ID
+ * @param {float} reviewData.rating Rating between 0 and 5
+ * @param {string} reviewData.review (optional) Written review
+ * @param {object} reviewData.user User data object
+ * @param {string} reviewData.user._id User's MongoDB object ID
+ * @param {string} reviewData.user.username User's username
+ */
+function postReview(reviewData) {
+  // return reviewData
+  return post(`${apiUri}/review`, reviewData).catch(c => c.response)
+}
+
 /** @return Promises resolving to javascript objects */
 async function get(url, options) {
   let headers
   if (options && options.headers) headers = options.headers
   return axios.get(url, {
     ...options,
-    // withCredentials: true,
     headers: {
       ...universalHeaders,
       ...headers,
@@ -91,7 +108,6 @@ async function head(url, options) {
   if (options && options.headers) headers = options.headers
   return axios.head(url, {
     ...options,
-    // withCredentials: true,
     headers: {
       ...universalHeaders,
       ...headers,
@@ -100,25 +116,16 @@ async function head(url, options) {
 }
 async function post(url, data) {
   return axios.post(url, data, {
-    // withCredentials: true,
     headers: universalHeaders,
   })
 }
 async function put(url, data) {
   return axios.put(url, data, {
-    withCredentials: true,
     headers: universalHeaders,
   })
 }
 function del(url) {
   return axios.delete(url, {
-    // withCredentials: true,
-    headers: universalHeaders,
-  })
-}
-async function asyncDel(url) {
-  return axios.delete(url, {
-    // withCredentials: true,
     headers: universalHeaders,
   })
 }
@@ -126,9 +133,9 @@ async function asyncDel(url) {
 export {
   createUser,
   decryptToken,
+  postReview,
   processToken,
   removeToken,
   requestMagicLoginLink,
   verifyToken,
 }
-

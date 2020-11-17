@@ -1,6 +1,11 @@
-import React, { useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import Sidebar from "react-sidebar"
+
+// components
 import Slider from "./Slider"
+
+// helper
+import { postReview } from "../../../util/MaskGeoApi"
 
 //styles
 const styles = {
@@ -61,11 +66,36 @@ export default ({ close, selected, user }) => {
   const {
     formatted_address: address,
     formatted_phone_number: phone,
+    geometry: { location },
     icon,
     name,
-    rating = 0,
-    user_ratings_total,
+    place_id: googlePlaceId,
   } = selected || {}
+
+  const sliderRef = React.createRef()
+  const reviewInput = useRef("")
+
+  const submitReview = React.useCallback(async () => {
+    const geoCoordinates = {
+      lat: location.lat(),
+      lng: location.lng(),
+    }
+    const reviewData = {
+      geoCoordinates,
+      googlePlaceId,
+      rating: sliderRef.current.props.value,
+      review: reviewInput.current.value,
+      user: {
+        _id: user._id,
+        username: user.username,
+      },
+    }
+
+    // save to db
+    const { data: savedReview } = await postReview(reviewData)
+    if (savedReview.error) alert(savedReview.error)
+    else close()
+  }, [selected])
 
   const SidebarContent = () => (
     <div
@@ -84,37 +114,26 @@ export default ({ close, selected, user }) => {
         </h2>
         <h3 style={styles.address}>{address}</h3>
         <div>
-          {/* <React.Fragment>
-            <div style={styles.ratingContainer}>
-              <div
-                style={{
-                  ...styles.ratingResults,
-                  width: rating * 30,
-                }}
-              ></div>
-            </div>
-            <span style={styles.ratingText}>
-              {rating} / 5 masks <i>({user_ratings_total} ratings)</i>
-            </span>
-          </React.Fragment> */}
           <hr />
           <form
             style={{ display: "block" }}
             onSubmit={e => {
               e.preventDefault()
+              submitReview()
             }}
           >
             <h2>Rate the Wearing of Masks</h2>
-            <Slider />
+            <Slider ref={sliderRef} />
             <hr />
             <h2>Write a Review (optional)</h2>
             <textarea
+              ref={reviewInput}
               name="review"
               style={styles.textarea}
               placeholder="Write a short review of your experience at this location"
             />
             <p>
-              <button className="primary" style={styles.button} onClick={null}>
+              <button className="primary" style={styles.button} type="submit">
                 Post Rating &amp; Review
               </button>
             </p>

@@ -110,7 +110,12 @@ export default function ProfileSideBar({ close, logOut, user }) {
         <div style={{ display: loginLinkSent ? "block" : "none" }}>
           <h2>Please check your inbox for a Login Link.</h2>
         </div>
-        <div style={{ display: user || loginLinkSent ? "none" : "block", marginTop: 45 }}>
+        <div
+          style={{
+            display: user || loginLinkSent ? "none" : "block",
+            marginTop: 45,
+          }}
+        >
           <form
             style={{ display: loginLinkSent ? "none" : "block" }}
             onSubmit={e => {
@@ -161,14 +166,18 @@ export default function ProfileSideBar({ close, logOut, user }) {
           >
             <h2>Create an Account</h2>
             <input
-              ref={r => (newUserUsernameInput = r)}
+              ref={r => {
+                newUserUsernameInput = r
+              }}
               name="username"
               type="text"
               style={styles.input}
               placeholder="choose a username (letters, numbers, and underscores allowed)"
             />
             <input
-              ref={r => (newUserEmailInput = r)}
+              ref={r => {
+                newUserEmailInput = r
+              }}
               name="email"
               type="text"
               style={styles.input}
@@ -186,10 +195,14 @@ export default function ProfileSideBar({ close, logOut, user }) {
           </form>
         </div>
         <p style={{ display: user ? "block" : "none" }}>
-          <button onClick={()=> {
-            emailInput.current = Cookies.get('email')
-            logOut()
-          }}>Log Out</button>
+          <button
+            onClick={() => {
+              emailInput.current = Cookies.get("email")
+              logOut()
+            }}
+          >
+            Log Out
+          </button>
         </p>
       </div>
     </div>

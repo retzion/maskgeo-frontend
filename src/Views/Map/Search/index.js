@@ -28,13 +28,13 @@ export default ({ panTo, placesService, pos, setMarkers, setSelected }) => {
     setValue(e.target.value)
   }
 
-  const handleSelect = async (address) => {
+  const handleSelect = async address => {
     clearSuggestions()
 
     try {
       const results = await getGeocode({ address })
       let result = results[0]
-      result.name = address
+      // result.name = address
       const { lat, lng } = await getLatLng(result)
 
       // fetch Places data
