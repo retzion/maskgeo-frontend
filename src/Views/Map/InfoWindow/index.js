@@ -17,6 +17,7 @@ export default ({
     maskRatingsCount,
     name,
   },
+  resetUrl,
   setSelected,
   showDetails,
 }) => {
@@ -53,6 +54,7 @@ export default ({
       }}
       onCloseClick={() => {
         setSelected(null)
+        resetUrl()
       }}
     >
       <div style={styles.container}>

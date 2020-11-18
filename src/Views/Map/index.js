@@ -54,6 +54,13 @@ export default function Map(props) {
   const [showPostReview, setShowPostReview] = useState(null)
   const [placesService, setPlacesService] = useState(null)
 
+  function resetUrl() {
+    if (window.history.pushState) {
+      const newurl = `${window.location.protocol}//${window.location.host}`
+      window.history.pushState({ path: newurl }, "", newurl)
+    }
+  }
+
   const checkToken = async () => {
     const { token } = props.match.params
     if (token) {
@@ -66,10 +73,7 @@ export default function Map(props) {
         setUser(validToken)
       }
 
-      if (window.history.pushState) {
-        const newurl = `${window.location.protocol}//${window.location.host}`
-        window.history.pushState({ path: newurl }, "", newurl)
-      }
+      resetUrl()
     } else {
       // fetch user data via JWT and get rid of localstorage method
       const tokenResponse = await decryptToken()
@@ -204,6 +208,7 @@ export default function Map(props) {
         {selected && (
           <InfoWindow
             place={selected}
+            resetUrl={resetUrl}
             setSelected={setSelected}
             showDetails={() => {
               openSelected(selected)
