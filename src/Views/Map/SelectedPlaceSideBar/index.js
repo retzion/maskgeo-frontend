@@ -1,63 +1,23 @@
 import React from "react"
 import Sidebar from "react-sidebar"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import {
+  faClock,
+  faGlobeAmericas,
+  faMapMarkerAlt,
+  faPhoneAlt,
+} from "@fortawesome/free-solid-svg-icons"
+import { faThumbsDown, faThumbsUp } from "@fortawesome/free-regular-svg-icons"
 
 // components
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
+import MaskReview from "./MaskReview"
 
 // styles
+import styles from "./styles"
+import "./styles/index.css"
 import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
 const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
-const styles = {
-  sidebar: {
-    sidebar: {
-      background: "white",
-      width: "99%",
-      maxWidth: 550,
-    },
-  },
-  close: {
-    position: "absolute",
-    right: 9,
-    top: 0,
-    cursor: "pointer",
-    margin: "0 0 12px 12px",
-    fontSize: "2rem",
-    textShadow: "2px 2px #ddd",
-  },
-  container: {
-    fontSize: "1rem",
-    textAlign: "left",
-    minWidth: "240px",
-    padding: 12,
-  },
-  icon: { height: 24, marginRight: 9 },
-  title: {
-    fontSize: "1.5rem",
-    marginBottom: 6,
-  },
-  ratingText: {
-    verticalAlign: "middle",
-    display: "inline-block",
-    fontSize: "1rem",
-    height: 21,
-    padding: "0 4.5px",
-    color: "#666",
-  },
-  address: {
-    fontSize: "1rem",
-  },
-  phone: {
-    fontSize: "0.9rem",
-    marginRight: 15,
-  },
-  phoneLink: {
-    textDecoration: "none",
-  },
-  reviewButton: { marginLeft: 15 },
-  hoursContainer: { paddingBottom: 15 },
-  hours: { fontStyle: "italic", fontSize: "0.9rem" },
-  website: { textDecoration: "none" },
-}
 
 export default ({ close, openProfile, selected, setShowPostReview, user }) => {
   const {
@@ -70,10 +30,39 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
     maskRating,
     maskRatingsCount,
     maskReviews,
-    user_ratings_total,
     website,
   } = selected || {}
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
+  const todaysHours = opening_hours
+    ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
+    : null
+  const todaysHoursText = todaysHours
+    ? opening_hours.open_now
+      ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(
+          todaysHours.close.time
+        )}`
+      : `Opens at ${militaryTimeToAmPm(todaysHours.open.time)}`
+    : null
+
+  function militaryTimeToAmPm(time) {
+    let hours = time.substring(0, 2)
+    const amPm = parseInt(hours) < 12 ? "AM" : "PM"
+    hours = parseInt(hours) > 12 ? String(parseInt(hours) - 12) : hours
+    if (hours.charAt(0) === "0") hours = hours.substring(1)
+    let minutes = time.substring(2)
+    minutes = minutes != "00" ? `:${minutes}` : ""
+    return `${hours}${minutes}${amPm}`
+  }
+
+  function truncateString(str, num) {
+    // If the length of str is less than or equal to num
+    // just return str--don't truncate it.
+    if (str.length <= num) {
+      return str
+    }
+    // Return str truncated with '...' concatenated to the end of str.
+    return str.slice(0, num) + "..."
+  }
 
   function reviewLocation() {
     if (!user) openProfile()
@@ -103,9 +92,9 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
 
         {/* {Rating Icons} */}
         {!maskRatingsCount ? (
-          "not yet rated"
+          <div style={styles.sidePadding}>not yet rated</div>
         ) : (
-          <div className="mask-rating-icons">
+          <div style={styles.sidePadding}>
             <div style={styles.ratingText}>{maskRating.toFixed(1)}</div>
             <MaskRatingIcons
               maskRating={maskRating}
@@ -113,73 +102,111 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
               styles={ratingStyles}
               widthMultiplier={30}
             />
-            <div style={styles.ratingText}>
-              <i>({maskRatingsCount})</i>
-            </div>
+            <div style={styles.ratingText}>({maskRatingsCount})</div>
           </div>
         )}
 
         {/* {Address} */}
-        <h2 style={styles.address}>{address}</h2>
+        {/* <h2 style={styles.address}>{address}</h2> */}
 
-        {/* {Phone} */}
-        <p>
-          {phone && (
-            <span style={styles.phone}>
-              ☎️{" "}
-              <a href={`tel:${phone}`} style={styles.phoneLink}>
-                {phone}
-              </a>
+        {/* {Phone, web, Hours} */}
+        <div style={styles.locationDetails}>
+          <span className="location-detail">
+            <span style={styles.iconBox}>
+              <FontAwesomeIcon
+                className="icon"
+                icon={faMapMarkerAlt}
+                style={styles.locationDetailIcon}
+              />
             </span>
-          )}
-          {website && (
-            <a href={website} target="_blank" style={styles.website}>
-              🌐 website
+            {address}
+          </span>
+          {opening_hours && opening_hours.weekday_text && (
+            <a
+              href="#"
+              className="location-detail"
+              onClick={() => {
+                alert(
+                  "Hours:\n" + opening_hours.weekday_text.map(day => `${day} `)
+                )
+              }}
+            >
+              <span style={styles.iconBox}>
+                <FontAwesomeIcon
+                  className="icon"
+                  icon={faClock}
+                  style={styles.locationDetailIcon}
+                />
+              </span>
+              {opening_hours.open_now ? (
+                "Open now: "
+              ) : (
+                <span style={{ color: "red" }}>Closed. </span>
+              )}
+              {todaysHoursText}
             </a>
           )}
-        </p>
-
-        {/* {Hours} */}
-        {opening_hours && opening_hours.weekday_text && (
-          <div style={styles.hoursContainer}>
-            <strong>🕘 Hours</strong>
-            <div style={styles.hours}>
-              {opening_hours.weekday_text.map((day, i) => (
-                <div style={{ margin: 0, padding: 0 }} key={i}>
-                  {day}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* {Mask Forcast starts here} */}
-        <hr />
-        <h2>Mask Forecast</h2>
+          {website && (
+            <a href={website} target="_blank" className="location-detail">
+              <span style={styles.iconBox}>
+                <FontAwesomeIcon
+                  className="icon"
+                  icon={faGlobeAmericas}
+                  style={styles.locationDetailIcon}
+                />
+              </span>
+              {truncateString(website, 36)}
+            </a>
+          )}
+          {phone && (
+            <a href={`tel:${phone}`} className="location-detail">
+              <span style={styles.iconBox}>
+                <FontAwesomeIcon
+                  className="icon"
+                  icon={faPhoneAlt}
+                  style={styles.locationDetailIcon}
+                />
+              </span>
+              {phone}
+            </a>
+          )}
+        </div>
 
         {/* {Reviews} */}
-        <h3>
-          Reviews
+        <h3
+          style={{
+            borderTop: "1px solid #eaeaea",
+            padding: "21px 12px 0 12px",
+            fontSize: "1.35rem",
+          }}
+        >
           <button
             className="primary"
             onClick={reviewLocation}
             style={styles.reviewButton}
           >
+            <FontAwesomeIcon
+              className="icon"
+              icon={faThumbsUp}
+              style={{ marginRight: 6 }}
+            />
+            <FontAwesomeIcon
+              className="icon"
+              icon={faThumbsDown}
+              flip="horizontal"
+              style={{ marginRight: 6 }}
+            />
             Rate &amp; Review
           </button>
+          Mask Reviews <i>({maskReviews.length})</i>
         </h3>
-        {!maskReviews || !maskReviews.length ? (
-          <span>No reviews have been posted yet.</span>
-        ) : (
-          maskReviews.map(r => {
-            if (r.review.length)
-              return (
-                <div style={{ padding: "6px 0" }}>
-                  <strong>{r.user.username}</strong> says: {r.review}
-                </div>
-              )
-          })
-        )}
+        <div style={{ borderTop: "1px solid #eaeaea" }}>
+          {!maskReviews || !maskReviews.length ? (
+            <div style={styles.padding}>No reviews have been posted yet.</div>
+          ) : (
+            maskReviews.map(MaskReview)
+          )}
+        </div>
 
         <p>
           <br />

@@ -82,7 +82,9 @@ export default function Map(props) {
   }
 
   // check for a login token
-  useEffect(checkToken, [])
+  useEffect(() => {
+    checkToken()
+  }, [])
 
   const setMarkerId = markerId => {
     if (markerId) {
@@ -110,10 +112,13 @@ export default function Map(props) {
   }, [])
 
   mapRef = React.useRef()
-  
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng })
-  }, [mapRef])
+
+  const panTo = React.useCallback(
+    ({ lat, lng }) => {
+      mapRef.current.panTo({ lat, lng })
+    },
+    [mapRef]
+  )
 
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
@@ -147,7 +152,6 @@ export default function Map(props) {
     const { selected: selectedPlace } = props.match.params
     if (selectedPlace) {
       // load place details for a marker
-      console.log({selectedPlace})
       loadSelectedMarker({
         openSelected,
         panTo,
@@ -219,7 +223,7 @@ export default function Map(props) {
         {details && (
           <SelectedPlaceSideBar
             selected={selected}
-            close={() => {              
+            close={() => {
               setDetails(null)
               setMarkerId(selected.place_id)
             }}

@@ -97,7 +97,7 @@ export default ({ close, selected, setSelected, user }) => {
     if (savedReview.error) alert(savedReview.error)
     else {
       let updatedSelected = { ...selected }
-      updatedSelected.maskReviews.push(savedReview)
+      updatedSelected.maskReviews.unshift(savedReview)
       updatedSelected.maskRatingsCount++
       const averageRating =
         (selected.maskRatingsCount * selected.maskRating) /
