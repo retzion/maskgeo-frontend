@@ -1,5 +1,5 @@
 // libraries
-import React from "react"
+import React, { useCallback } from "react"
 import { useEffect, useState } from "react"
 import { GoogleMap, useLoadScript } from "@react-google-maps/api"
 
@@ -80,7 +80,7 @@ export default function Map(props) {
   // check for a login token
   useEffect(checkToken, [])
 
-  const setMarkerId = async markerId => {
+  const setMarkerId = markerId => {
     if (markerId) {
       // load place details for a marker
       if (window.history.pushState) {
@@ -89,6 +89,21 @@ export default function Map(props) {
       }
     }
   }
+
+  const setSelectedId = selectedId => {
+    if (selectedId) {
+      // load place details for a marker
+      if (window.history.pushState) {
+        const newurl = `${window.location.protocol}//${window.location.host}/selected/${selectedId}`
+        window.history.pushState({ path: newurl }, "", newurl)
+      }
+    }
+  }
+
+  const openSelected = useCallback(selectedObject => {
+    setSelectedId(selectedObject.place_id)
+    setDetails(selectedObject)
+  }, [])
 
   mapRef = React.useRef()
   
@@ -112,7 +127,6 @@ export default function Map(props) {
     const { marker } = props.match.params
     if (marker) {
       // load place details for a marker
-      console.log(marker)
       loadSelectedMarker({
         panTo,
         placeId: marker,
@@ -120,6 +134,23 @@ export default function Map(props) {
         placesService: newPlacesService,
         pos,
         setMarkerId,
+        setMarkers,
+        setSelected,
+      })
+    }
+
+    /** Open Selected Place Sidebar if param is found */
+    const { selected: selectedPlace } = props.match.params
+    if (selectedPlace) {
+      // load place details for a marker
+      console.log({selectedPlace})
+      loadSelectedMarker({
+        openSelected,
+        panTo,
+        placeId: selectedPlace,
+        places: window.google.maps.places,
+        placesService: newPlacesService,
+        pos,
         setMarkers,
         setSelected,
       })
@@ -162,7 +193,10 @@ export default function Map(props) {
             <Marker
               key={marker["place_id"]}
               marker={marker}
-              setSelected={setSelected}
+              setSelected={s => {
+                setSelected(s)
+                setMarkerId(s.place_id)
+              }}
             />
           )
         })}
@@ -172,7 +206,7 @@ export default function Map(props) {
             place={selected}
             setSelected={setSelected}
             showDetails={() => {
-              setDetails(selected)
+              openSelected(selected)
             }}
           />
         )}
@@ -180,8 +214,9 @@ export default function Map(props) {
         {details && (
           <SelectedPlaceSideBar
             selected={selected}
-            close={() => {
+            close={() => {              
               setDetails(null)
+              setMarkerId(selected.place_id)
             }}
             user={user}
             openProfile={() => {

@@ -4,6 +4,7 @@ import { fetchReviews } from "../../util/MaskGeoApi"
 
 export default async ({
   address,
+  openSelected,
   panTo,
   placeId,
   places,
@@ -22,7 +23,7 @@ export default async ({
       const { lat, lng } = await getLatLng(result)
       geoCoordinates = { lat, lng }
       placeId = result.place_id
-      setMarkerId(placeId)
+      if (setMarkerId) setMarkerId(placeId)
     }
 
     // fetch Places data
@@ -62,6 +63,7 @@ export default async ({
           setMarkers([result])
           setSelected(result)
           panTo(geoCoordinates)
+          if (openSelected) openSelected(result)
         }
       }
     )
