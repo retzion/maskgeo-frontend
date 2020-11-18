@@ -101,7 +101,7 @@ export default ({ close, selected, setSelected, user }) => {
       updatedSelected.maskRatingsCount++
       const averageRating =
         (selected.maskRatingsCount * selected.maskRating) /
-        selected.maskRatingsCount
+        selected.maskRatingsCount || 0
       updatedSelected.maskRating =
         (averageRating * selected.maskRatingsCount + savedReview.rating) /
         updatedSelected.maskRatingsCount

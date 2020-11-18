@@ -63,7 +63,9 @@ export default ({ panTo, placesService, pos, setMarkers, setSelected }) => {
             // mask ratings
             const reducer = (accumulator, { rating }) => accumulator + rating
             const accumulatedRatings = maskReviews.reduce(reducer, 0)
-            result.maskRating = maskReviews.length ? accumulatedRatings / maskReviews.length : 0
+            result.maskRating = maskReviews.length
+              ? accumulatedRatings / maskReviews.length
+              : 0
             result.maskRatingsCount = maskReviews.length
 
             setMarkers([result])
