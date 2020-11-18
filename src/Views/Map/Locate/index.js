@@ -15,7 +15,9 @@ export default ({ panTo, setPos }) => {
             setPos(newPos)
             panTo(newPos)
           },
-          () => null
+          () => {
+            alert("Unable to get your geolocation.")
+          }
         )
       }}
     >
