@@ -1,6 +1,12 @@
 import React from "react"
 import Sidebar from "react-sidebar"
 
+// components
+import MaskRatingIcons from "../../../Components/MaskRatingIcons"
+
+// styles
+import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
+const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 const styles = {
   sidebar: {
     sidebar: {
@@ -24,10 +30,19 @@ const styles = {
     minWidth: "240px",
     padding: 12,
   },
+  icon: { height: 24, marginRight: 9 },
   title: {
     fontSize: "1.5rem",
+    marginBottom: 6,
   },
-  icon: { height: 24, marginRight: 9 },
+  ratingText: {
+    verticalAlign: "middle",
+    display: "inline-block",
+    fontSize: "1rem",
+    height: 21,
+    padding: "0 4.5px",
+    color: "#666",
+  },
   address: {
     fontSize: "1rem",
   },
@@ -37,26 +52,6 @@ const styles = {
   },
   phoneLink: {
     textDecoration: "none",
-  },
-  ratingContainer: {
-    width: 150,
-    height: 30,
-    // margin: "auto",
-    backgroundImage: "url(/mask-grey.svg)",
-    backgroundPosition: "contain",
-    backgroundRepeat: "repeat-x",
-    textAlign: "left",
-  },
-  ratingResults: {
-    height: 30,
-    margin: 0,
-    backgroundImage: "url(/mask.svg)",
-    backgroundPosition: "contain",
-    backgroundRepeat: "repeat-x",
-  },
-  ratingText: {
-    fontStyle: "italic",
-    fontSize: "0.75rem",
   },
   reviewButton: { marginLeft: 15 },
   hoursContainer: { paddingBottom: 15 },
@@ -100,11 +95,34 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
         ✖️
       </a>
       <div style={styles.container}>
+        {/* {Business info} */}
         <h1 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
         </h1>
+
+        {/* {Rating Icons} */}
+        {!maskRatingsCount ? (
+          "not yet rated"
+        ) : (
+          <div className="mask-rating-icons">
+            <div style={styles.ratingText}>{maskRating.toFixed(1)}</div>
+            <MaskRatingIcons
+              maskRating={maskRating}
+              maskRatingsCount={maskRatingsCount}
+              styles={ratingStyles}
+              widthMultiplier={30}
+            />
+            <div style={styles.ratingText}>
+              <i>({maskRatingsCount})</i>
+            </div>
+          </div>
+        )}
+
+        {/* {Address} */}
         <h2 style={styles.address}>{address}</h2>
+
+        {/* {Phone} */}
         <p>
           {phone && (
             <span style={styles.phone}>
@@ -120,6 +138,8 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
             </a>
           )}
         </p>
+
+        {/* {Hours} */}
         {opening_hours && opening_hours.weekday_text && (
           <div style={styles.hoursContainer}>
             <strong>🕘 Hours</strong>
@@ -132,25 +152,12 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
             </div>
           </div>
         )}
+
+        {/* {Mask Forcast starts here} */}
         <hr />
         <h2>Mask Forecast</h2>
-        {!maskRatingsCount ? (
-          "not yet rated"
-        ) : (
-          <React.Fragment>
-            <div style={styles.ratingContainer}>
-              <div
-                style={{
-                  ...styles.ratingResults,
-                  width: maskRating * 30,
-                }}
-              ></div>
-            </div>
-            <span style={styles.ratingText}>
-              {maskRating.toFixed(2)} / 5 masks <i>({maskRatingsCount} ratings)</i>
-            </span>
-          </React.Fragment>
-        )}
+
+        {/* {Reviews} */}
         <h3>
           Reviews
           <button
@@ -164,13 +171,19 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
         {!maskReviews || !maskReviews.length ? (
           <span>No reviews have been posted yet.</span>
         ) : (
-          maskReviews.map(r => (
-            <div style={{padding: '6px 0'}}>
-              <strong>{r.user.username}</strong> says: {r.review}
-            </div>
-          ))
+          maskReviews.map(r => {
+            if (r.review.length)
+              return (
+                <div style={{ padding: "6px 0" }}>
+                  <strong>{r.user.username}</strong> says: {r.review}
+                </div>
+              )
+          })
         )}
-        <p><br /></p>
+
+        <p>
+          <br />
+        </p>
       </div>
     </div>
   )

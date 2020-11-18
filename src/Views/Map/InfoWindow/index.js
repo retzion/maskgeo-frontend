@@ -1,5 +1,10 @@
 import React from "react"
 import { InfoWindow as GoogleInfoWindow } from "@react-google-maps/api"
+import MaskRatingIcons from "../../../Components/MaskRatingIcons"
+
+// styles
+import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
+const ratingStyles = smallRatingIconCount({ height: 30, width: 150 })
 
 export default ({
   place,
@@ -34,22 +39,6 @@ export default ({
       fontSize: "0.9rem",
       textDecoration: "none",
     },
-    ratingContainer: {
-      width: 150,
-      height: 30,
-      margin: "auto",
-      backgroundImage: "url(/mask-grey.svg)",
-      backgroundPosition: "contain",
-      backgroundRepeat: "repeat-x",
-      textAlign: "left",
-    },
-    ratingResults: {
-      height: 30,
-      margin: 0,
-      backgroundImage: "url(/mask.svg)",
-      backgroundPosition: "contain",
-      backgroundRepeat: "repeat-x",
-    },
     ratingText: {
       fontStyle: "italic",
     },
@@ -80,17 +69,20 @@ export default ({
 
         {maskRatingsCount ? (
           <React.Fragment>
-            <div style={styles.ratingContainer}>
-              <div
-                style={{
-                  ...styles.ratingResults,
-                  width: maskRating * 30,
-                }}
-              ></div>
-            </div>
-            <span style={styles.ratingText}>{maskRating.toFixed(2)} / 5 masks</span>
+            <MaskRatingIcons
+              maskRating={maskRating}
+              maskRatingsCount={maskRatingsCount}
+              styles={ratingStyles}
+              widthMultiplier={30}
+            />
+            <br />
+            <span style={styles.ratingText}>
+              {maskRating.toFixed(2)} / 5 masks
+            </span>
           </React.Fragment>
-        ) : "not yet rated"}
+        ) : (
+          "not yet rated"
+        )}
         <p>
           <a onClick={showDetails} style={styles.details}>
             view details
