@@ -1,6 +1,5 @@
 import React from "react"
 import usePlacesAutocomplete from "use-places-autocomplete"
-import { getGeocode, getLatLng } from "use-places-autocomplete"
 import {
   Combobox,
   ComboboxInput,
@@ -9,9 +8,9 @@ import {
   ComboboxOption,
 } from "@reach/combobox"
 
-import { fetchReviews } from "../../../util/MaskGeoApi"
+import loadSelectedMarker from "../loadSelectedMarker"
 
-export default ({ panTo, placesService, pos, setMarkers, setSelected }) => {
+export default ({ panTo, placesService, pos, setMarkerId, setMarkers, setSelected }) => {
   const {
     ready,
     value,
@@ -30,59 +29,25 @@ export default ({ panTo, placesService, pos, setMarkers, setSelected }) => {
     setValue(e.target.value)
   }
 
-  const handleSelect = async address => {
-    clearSuggestions()
-
-    try {
-      const results = await getGeocode({ address })
-      let result = results[0]
-      // result.name = address
-      const { lat, lng } = await getLatLng(result)
-
-      // fetch Places data
-      placesService.getDetails(
-        {
-          placeId: result.place_id,
-          /** @TODO reduce fetched data fields */
-          // fields: ["formatted_phone_number", "name", "photos", "rating" ],
-        },
-        async (placeResults, status) => {
-          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-            result = {
-              ...result,
-              ...placeResults,
-            }
-
-            // mask reviews
-            const { data: maskReviews } = await fetchReviews({
-              geoCoordinates: { lat, lng },
-              googlePlaceId: result.place_id,
-            })
-            result.maskReviews = maskReviews.filter(r => r.review.length)
-
-            // mask ratings
-            const reducer = (accumulator, { rating }) => accumulator + rating
-            const accumulatedRatings = maskReviews.reduce(reducer, 0)
-            result.maskRating = maskReviews.length
-              ? accumulatedRatings / maskReviews.length
-              : 0
-            result.maskRatingsCount = maskReviews.length
-
-            setMarkers([result])
-            setSelected(result)
-            panTo({ lat, lng })
-          }
-        }
-      )
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   return (
     <div className="search-container">
       <div className="search">
-        <Combobox onSelect={handleSelect}>
+        <Combobox
+          onSelect={address => {
+            clearSuggestions()
+
+            loadSelectedMarker({
+              address,
+              panTo,
+              places: window.google.maps.places,
+              placesService,
+              pos,
+              setMarkerId,
+              setMarkers,
+              setSelected,
+            })
+          }}
+        >
           <ComboboxInput
             value={value}
             onChange={handleInput}

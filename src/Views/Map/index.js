@@ -14,10 +14,13 @@ import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 
+// helpers
+import loadSelectedMarker from "./loadSelectedMarker"
+
 // design resources
 import "@reach/combobox/styles.css"
 import "./index.css"
-// import mapStyles from "./mapStyles"
+// import mapStyles from "./styles/mapStyles"
 
 // Set default location to Salt Lake City, Utah
 const startingPosition = { lat: 40.758701, lng: -111.876183 }
@@ -34,6 +37,7 @@ const options = {
   zoomControl: true,
   zoom: 12,
 }
+
 let mapRef
 
 export default function Map(props) {
@@ -50,33 +54,48 @@ export default function Map(props) {
   const [showPostReview, setShowPostReview] = useState(null)
   const [placesService, setPlacesService] = useState(null)
 
-  useEffect(() => {
-    // check for user data
-    ;(async () => {
-      const { token } = props.match.params
-      if (token) {
-        // check for a token
-        const validToken = await ProcessToken(token)
-        if (!validToken) {
-          setUser(null)
-          alert("Your magic login link has expired.")
-        } else {
-          setUser(validToken)
-        }
-
-        if (window.history.pushState) {
-          const newurl = `${window.location.protocol}//${window.location.host}`
-          window.history.pushState({ path: newurl }, "", newurl)
-        }
+  const checkToken = async () => {
+    const { token } = props.match.params
+    if (token) {
+      // check for a token
+      const validToken = await ProcessToken(token)
+      if (!validToken) {
+        setUser(null)
+        alert("Your magic login link has expired.")
       } else {
-        // fetch user data via JWT and get rid of localstorage method
-        const tokenResponse = await decryptToken()
-        if (tokenResponse) setUser(tokenResponse.data)
+        setUser(validToken)
       }
-    })()
-  }, [])
+
+      if (window.history.pushState) {
+        const newurl = `${window.location.protocol}//${window.location.host}`
+        window.history.pushState({ path: newurl }, "", newurl)
+      }
+    } else {
+      // fetch user data via JWT and get rid of localstorage method
+      const tokenResponse = await decryptToken()
+      if (tokenResponse) setUser(tokenResponse.data)
+    }
+  }
+
+  // check for a login token
+  useEffect(checkToken, [])
+
+  const setMarkerId = async markerId => {
+    if (markerId) {
+      // load place details for a marker
+      if (window.history.pushState) {
+        const newurl = `${window.location.protocol}//${window.location.host}/marker/${markerId}`
+        window.history.pushState({ path: newurl }, "", newurl)
+      }
+    }
+  }
 
   mapRef = React.useRef()
+  
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng })
+  }, [mapRef])
+
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
 
@@ -88,10 +107,23 @@ export default function Map(props) {
 
     const newPlacesService = new window.google.maps.places.PlacesService(map)
     setPlacesService(newPlacesService)
-  }, [])
 
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng })
+    /** Pan to Marker if param is found */
+    const { marker } = props.match.params
+    if (marker) {
+      // load place details for a marker
+      console.log(marker)
+      loadSelectedMarker({
+        panTo,
+        placeId: marker,
+        places: window.google.maps.places,
+        placesService: newPlacesService,
+        pos,
+        setMarkerId,
+        setMarkers,
+        setSelected,
+      })
+    }
   }, [])
 
   if (loadError) return "Error"
@@ -111,6 +143,7 @@ export default function Map(props) {
 
       <Search
         panTo={panTo}
+        setMarkerId={setMarkerId}
         setMarkers={setMarkers}
         setSelected={setSelected}
         placesService={placesService}
