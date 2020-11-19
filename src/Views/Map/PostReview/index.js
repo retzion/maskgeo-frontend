@@ -10,6 +10,7 @@ import Slider from "./Slider"
 import { postReview } from "../../../util/MaskGeoApi"
 
 //styles
+import "./index.css"
 const styles = {
   sidebar: {
     sidebar: {
@@ -71,6 +72,8 @@ export default ({ close, selected, setSelected, user }) => {
     formatted_phone_number: phone,
     geometry: { location },
     icon,
+    maskRating,
+    maskRatingsCount,
     name,
     place_id: googlePlaceId,
   } = selected || {}
@@ -115,18 +118,19 @@ export default ({ close, selected, setSelected, user }) => {
 
   const SidebarContent = () => (
     <div
+      className="post-review"
       style={{
         padding: 12,
       }}
     >
       <div style={styles.container}>
-        <a onClick={close} style={styles.close}>
+        <div className="close" style={styles.close}>
           <FontAwesomeIcon
-            className="icon backButton"
+            onClick={close}
+            className="close icon"
             icon={faArrowCircleLeft}
-            style={styles.locationDetailIcon}
           />
-        </a>
+        </div>
         <h1 style={{ display: "inline-block", marginTop: 0 }}>Post a Review</h1>
         <h2 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
@@ -142,8 +146,8 @@ export default ({ close, selected, setSelected, user }) => {
               submitReview()
             }}
           >
-            <h2>Rate the Wearing of Masks</h2>
-            <Slider ref={sliderRef} />
+            <h2>Rate the Wearing of Masks (0 - 5)</h2>
+            <Slider ref={sliderRef} selected={selected} />
             <hr />
             <h2>Write a Review (optional)</h2>
             <textarea
@@ -153,11 +157,19 @@ export default ({ close, selected, setSelected, user }) => {
               placeholder="Write a short review of your experience at this location"
             />
             <p>
-              <button className="primary" style={styles.button} type="submit">
+              <button
+                className="primary"
+                style={{ ...styles.button, marginRight: 12 }}
+                type="submit"
+              >
                 Post Rating &amp; Review
               </button>
-              &nbsp;
-              <button className="button" style={styles.button} type="cancel" onClick={close}>
+              <button
+                className="button"
+                style={styles.button}
+                type="cancel"
+                onClick={close}
+              >
                 cancel
               </button>
             </p>

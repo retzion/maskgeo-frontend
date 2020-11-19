@@ -14,7 +14,7 @@ export default ({ height = 21, width = 105 }) => ({
     height,
     margin: 0,
     backgroundImage: "url(/mask.svg)",
-    backgroundPosition: "contain",
+    backgroundSize: "auto 100%",
     backgroundRepeat: "repeat-x",
   },
 })
