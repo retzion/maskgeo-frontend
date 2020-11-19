@@ -38,7 +38,7 @@ const options = {
   zoom: 12,
 }
 
-let mapRef
+let bounds, mapRef
 
 export default function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
@@ -120,6 +120,25 @@ export default function Map(props) {
     [mapRef]
   )
 
+  async function createMarkersFromIds(markerIds, service) {
+    let getDetailsPromises = new Array()
+    for (let i = 0; i < markerIds.length; i++) {
+      getDetailsPromises.push(
+        new Promise((resolve, reject) => {
+          service.getDetails({ placeId: markerIds[i] }, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              bounds.extend(results.geometry.location)
+              resolve(results)
+            } else reject()
+          })
+        })
+      )
+    }
+    const resolvedDetailsPromises = await Promise.all(getDetailsPromises)
+    setMarkers(resolvedDetailsPromises)
+    mapRef.current.fitBounds(bounds)
+  }
+
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
 
@@ -132,20 +151,26 @@ export default function Map(props) {
     const newPlacesService = new window.google.maps.places.PlacesService(map)
     setPlacesService(newPlacesService)
 
+    bounds = new window.google.maps.LatLngBounds()
+
     /** Pan to Marker if param is found */
-    const { marker } = props.match.params
-    if (marker) {
-      // load place details for a marker
-      loadSelectedMarker({
-        panTo,
-        placeId: marker,
-        places: window.google.maps.places,
-        placesService: newPlacesService,
-        pos,
-        setMarkerId,
-        setMarkers,
-        setSelected,
-      })
+    let { marker: markerIds } = props.match.params
+    if (markerIds) {
+      markerIds = markerIds.split(",")
+
+      if (markerIds.length > 1)
+        createMarkersFromIds(markerIds, newPlacesService)
+      else
+        loadSelectedMarker({
+          panTo,
+          placeId: markerIds[0],
+          places: window.google.maps.places,
+          placesService: newPlacesService,
+          pos,
+          setMarkerId,
+          setMarkers,
+          setSelected,
+        })
     }
 
     /** Open Selected Place Sidebar if param is found */
