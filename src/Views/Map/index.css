@@ -24,30 +24,6 @@ h1.logo {
   }
 }
 
-.search-container {
-  position: absolute;
-  top: 72px;
-  width: 100%;
-  z-index: 1;
-}
-.search input {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1.5rem;
-}
-@media (min-width: 810px) {
-  .search-container {
-    clear: both;
-    top: 1rem;
-    left: 45%;
-    transform: translateX(-50%);
-    width: 225px;
-    max-width: 30%;
-    margin-left: 6%;
-    text-align: center;
-  }
-}
-
 .locate {
   position: absolute;
   top: 1rem;
@@ -69,13 +45,6 @@ h1.logo {
     margin-right: 0;
     margin-left: 0;
     padding: auto 0;
-  }
-}
-
-@media (max-width: 809px) {
-  .search input {
-    margin: auto;
-    width: 90%;
   }
 }
 

@@ -70,17 +70,18 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
   }
 
   const SidebarContent = () => (
-    <div>
+    <div className="selected-place-sidebar">
       {featurePhotoUrl && (
         <div
           style={{
             height: 270,
+            width: "100%",
             backgroundImage: `url(${featurePhotoUrl})`,
             backgroundSize: "cover",
           }}
         />
       )}
-      <a onClick={close} style={styles.close}>
+      <a onClick={close} className="close" style={styles.close}>
         ✖️
       </a>
       <div style={styles.container}>
@@ -215,12 +216,5 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
     </div>
   )
 
-  return (
-    <Sidebar
-      sidebar={<SidebarContent />}
-      open={true}
-      children={[]}
-      styles={styles.sidebar}
-    />
-  )
+  return <Sidebar sidebar={<SidebarContent />} open={true} children={[]} styles={styles.sidebar} />
 }

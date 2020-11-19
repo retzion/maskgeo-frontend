@@ -46,10 +46,11 @@ export default async ({
           }
       
           // mask reviews
-          const { data: maskReviews } = await fetchReviews({
+          let { data: maskReviews } = await fetchReviews({
             geoCoordinates,
             googlePlaceId: placeId,
           })
+          console.log({maskReviews})
           result.maskReviews = maskReviews.filter(r => r.review.length)
 
           // mask ratings

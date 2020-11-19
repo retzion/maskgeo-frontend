@@ -1,5 +1,7 @@
 import React, { useCallback, useRef, useState } from "react"
 import Sidebar from "react-sidebar"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons"
 
 // components
 import Slider from "./Slider"
@@ -12,16 +14,17 @@ const styles = {
   sidebar: {
     sidebar: {
       background: "white",
-      width: "99%",
+      width: "100%",
       maxWidth: 550,
     },
   },
   close: {
-    float: "right",
+    float: "left",
     cursor: "pointer",
-    margin: "0 0 12px 12px",
-    fontSize: "2rem",
-    textShadow: "2px 2px #ccc",
+    marginRight: 12,
+    fontSize: "1.8rem",
+    verticalAlign: "middle",
+    // textShadow: "2px 2px #ccc",
   },
   container: {
     fontSize: "1rem",
@@ -30,7 +33,7 @@ const styles = {
   },
   title: {
     fontSize: "1.5rem",
-    marginBottom: 0,
+    margin: 0,
   },
   icon: { height: 24, marginRight: 9 },
   address: {
@@ -101,7 +104,7 @@ export default ({ close, selected, setSelected, user }) => {
       updatedSelected.maskRatingsCount++
       const averageRating =
         (selected.maskRatingsCount * selected.maskRating) /
-        selected.maskRatingsCount || 0
+          selected.maskRatingsCount || 0
       updatedSelected.maskRating =
         (averageRating * selected.maskRatingsCount + savedReview.rating) /
         updatedSelected.maskRatingsCount
@@ -116,11 +119,15 @@ export default ({ close, selected, setSelected, user }) => {
         padding: 12,
       }}
     >
-      <a onClick={close} style={styles.close}>
-        ✖️
-      </a>
       <div style={styles.container}>
-        <h1>Post a Review</h1>
+        <a onClick={close} style={styles.close}>
+          <FontAwesomeIcon
+            className="icon backButton"
+            icon={faArrowCircleLeft}
+            style={styles.locationDetailIcon}
+          />
+        </a>
+        <h1 style={{ display: "inline-block", marginTop: 0 }}>Post a Review</h1>
         <h2 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
@@ -149,6 +156,10 @@ export default ({ close, selected, setSelected, user }) => {
               <button className="primary" style={styles.button} type="submit">
                 Post Rating &amp; Review
               </button>
+              &nbsp;
+              <button className="button" style={styles.button} type="cancel" onClick={close}>
+                cancel
+              </button>
             </p>
           </form>
         </div>
@@ -161,7 +172,6 @@ export default ({ close, selected, setSelected, user }) => {
       sidebar={<SidebarContent />}
       open={true}
       children={[]}
-      pullRight={true}
       styles={styles.sidebar}
     />
   )

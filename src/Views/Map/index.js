@@ -174,10 +174,10 @@ export default function Map(props) {
       <ProfileButton user={user} setShowProfile={setShowProfile} />
 
       <h1 className="logo">
-        Mask Forecast{" "}
         <span role="img" aria-label="tent">
           😷
-        </span>
+        </span>{" "}
+        Mask Forecast
       </h1>
 
       <Search
@@ -185,6 +185,7 @@ export default function Map(props) {
         setMarkerId={setMarkerId}
         setMarkers={setMarkers}
         setSelected={setSelected}
+        showDetails={details}
         placesService={placesService}
         pos={pos}
         setPos={setPos}

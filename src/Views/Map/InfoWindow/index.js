@@ -63,11 +63,6 @@ export default ({
           {name}
         </h1>
         <h2 style={styles.address}>{address}</h2>
-        <p>
-          <a href={`tel:${phone}`} style={styles.phone}>
-            {phone}
-          </a>
-        </p>
 
         {maskRatingsCount ? (
           <React.Fragment>

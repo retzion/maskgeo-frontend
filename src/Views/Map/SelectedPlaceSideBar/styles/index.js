@@ -1,24 +1,29 @@
 export default {
+  close: {
+    position: "absolute",
+    right: 12,
+    top: 12,
+    cursor: "pointer",
+    margin: 0,
+    fontSize: "1.5rem",
+    background: "#ddd",
+    borderRadius: 3,
+    width: 36,
+    height: 36,
+    textShadow: "2px 2px #eaeaea",
+    boxShadow: "1px 1px #666",
+  },
   sidebar: {
     sidebar: {
       background: "white",
-      width: "99%",
+      width: "96%",
       maxWidth: 550,
     },
-  },
-  close: {
-    position: "absolute",
-    right: 9,
-    top: 0,
-    cursor: "pointer",
-    margin: "0 0 12px 12px",
-    fontSize: "2rem",
-    textShadow: "2px 2px #ddd",
   },
   container: {
     fontSize: "1rem",
     textAlign: "left",
-    minWidth: "240px",
+    width: "100%",
   },
   icon: { height: 24, marginRight: 9 },
   title: {
@@ -61,8 +66,8 @@ export default {
   },
   reviewButton: {
     float: "right",
-    padding: "9px 21px",
-    fontSize: "1.2rem",
-    marginTop: -6,
+    padding: "6px 18px",
+    fontSize: "1.11rem",
+    marginTop: -3,
   },
 }

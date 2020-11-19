@@ -8,9 +8,21 @@ import {
   ComboboxOption,
 } from "@reach/combobox"
 
+// helpers
 import loadSelectedMarker from "../loadSelectedMarker"
 
-export default ({ panTo, placesService, pos, setMarkerId, setMarkers, setSelected }) => {
+// styles
+import "./index.css"
+
+export default ({
+  panTo,
+  placesService,
+  pos,
+  setMarkerId,
+  setMarkers,
+  setSelected,
+  showDetails,
+}) => {
   const {
     ready,
     value,
@@ -31,7 +43,7 @@ export default ({ panTo, placesService, pos, setMarkerId, setMarkers, setSelecte
 
   return (
     <div className="search-container">
-      <div className="search">
+      <div className={`search ${showDetails ? "selected" : ""}`}>
         <Combobox
           onSelect={address => {
             clearSuggestions()
@@ -52,7 +64,7 @@ export default ({ panTo, placesService, pos, setMarkerId, setMarkers, setSelecte
             value={value}
             onChange={handleInput}
             disabled={!ready}
-            placeholder="🔍 search"
+            placeholder="🔍 search mask forecast areas and locations"
           />
           <ComboboxPopover>
             <ComboboxList>
