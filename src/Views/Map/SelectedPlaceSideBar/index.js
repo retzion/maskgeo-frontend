@@ -101,7 +101,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
               maskRating={maskRating}
               maskRatingsCount={maskRatingsCount}
               styles={ratingStyles}
-              widthMultiplier={30}
+              widthMultiplier={21}
             />
             <div style={styles.ratingText}>({maskRatingsCount})</div>
           </div>

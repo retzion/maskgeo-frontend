@@ -64,7 +64,7 @@ export default ({
             value={value}
             onChange={handleInput}
             disabled={!ready}
-            placeholder="🔍 search mask forecast areas and locations"
+            placeholder="🔍 search locations"
           />
           <ComboboxPopover>
             <ComboboxList>

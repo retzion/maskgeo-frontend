@@ -4,13 +4,33 @@ import MaskRatingIcons from "../../../Components/MaskRatingIcons"
 
 // styles
 import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
-const ratingStyles = smallRatingIconCount({ height: 30, width: 150 })
+const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
+const styles = {
+  container: {
+    fontSize: "1rem",
+    textAlign: "center",
+    // width: "300px",
+  },
+  title: {
+    fontSize: "1.2rem",
+  },
+  icon: { height: 18, marginRight: 6 },
+  address: {
+    fontSize: "0.81rem",
+    fontWeight: 450,
+  },
+  ratingText: {
+    fontStyle: "italic",
+    fontSize: "0.81rem",
+  },
+  detailsContainer: { margin: 3, padding: 3, },
+  details: { cursor: "pointer", color: "-webkit-link" },
+}
 
 export default ({
   place,
   place: {
     formatted_address: address,
-    formatted_phone_number: phone,
     geometry,
     icon,
     maskRating,
@@ -23,29 +43,6 @@ export default ({
 }) => {
   if (!place) return null
 
-  const styles = {
-    container: {
-      fontSize: "1rem",
-      textAlign: "center",
-      minWidth: "240px",
-    },
-    title: {
-      fontSize: "1.5rem",
-    },
-    icon: { height: 24, marginRight: 9 },
-    address: {
-      fontSize: "1rem",
-    },
-    phone: {
-      fontSize: "0.9rem",
-      textDecoration: "none",
-    },
-    ratingText: {
-      fontStyle: "italic",
-    },
-    details: { cursor: "pointer", color: "-webkit-link" },
-  }
-
   return (
     <GoogleInfoWindow
       position={{
@@ -57,7 +54,7 @@ export default ({
         resetUrl()
       }}
     >
-      <div style={styles.container}>
+      <div style={styles.container}  onClick={showDetails}>
         <h1 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
@@ -70,7 +67,7 @@ export default ({
               maskRating={maskRating}
               maskRatingsCount={maskRatingsCount}
               styles={ratingStyles}
-              widthMultiplier={30}
+              widthMultiplier={21}
             />
             <br />
             <span style={styles.ratingText}>
@@ -80,8 +77,8 @@ export default ({
         ) : (
           "not yet rated"
         )}
-        <p>
-          <a onClick={showDetails} style={styles.details}>
+        <p style={styles.detailsContainer}>
+          <a style={styles.details}>
             view details
           </a>
         </p>
