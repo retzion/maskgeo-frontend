@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { createRef, useCallback, useRef, useState } from "react"
 import Sidebar from "react-sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons"
@@ -78,10 +78,17 @@ export default ({ close, selected, setSelected, user }) => {
     place_id: googlePlaceId,
   } = selected || {}
 
-  const sliderRef = React.createRef()
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(null)
+
+  const sliderRef = createRef()
   const reviewInput = useRef("")
 
-  const submitReview = React.useCallback(async () => {
+  const handleSubmitButton = () => {
+    console.log("clicked")
+    setSubmitButtonDisabled(true)
+  }
+
+  const submitReview = useCallback(async () => {
     const geoCoordinates = {
       lat: location.lat(),
       lng: location.lng(),
@@ -158,9 +165,11 @@ export default ({ close, selected, setSelected, user }) => {
             />
             <p>
               <button
-                className="primary"
+                className={`primary ${submitButtonDisabled && "disabled"}`}
                 style={{ ...styles.button, marginRight: 12 }}
                 type="submit"
+                onClick={handleSubmitButton}
+                disabled={submitButtonDisabled}
               >
                 Post Rating &amp; Review
               </button>

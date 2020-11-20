@@ -17,7 +17,8 @@ body {
   font-size: 18px;
   color: var(--color-dark-text);
 }
-button, .button {
+button,
+.button {
   border: none;
   padding: 6px 9px;
   background: #ccc;
@@ -25,21 +26,26 @@ button, .button {
   border-radius: 4.5px;
   cursor: pointer;
 }
-button:hover, .button:hover {
-  background: var(--color-light-blue);
-  color: white;
-}
-button.primary, .button.primary {
+button.primary,
+.button.primary {
   background: var(--color-blue);
   color: white;
 }
-button.primary:hover, .button.primary:hover {
+button.primary:hover,
+.button.primary:hover,
+button.primary.disabled,
+.button.primary.disabled,
+button:hover,
+.button:hover {
   background: var(--color-light-blue);
   color: white;
+}
+button.primary.disabled,
+.button.primary.disabled {
+  cursor: default;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
