@@ -71,12 +71,12 @@ export default function Map(props) {
     if (token) {
       // check for a token
       const validToken = await ProcessToken(token)
-      if (validToken.accessToken)
-        Cookies.set("accessToken", validToken.accessToken)
       if (!validToken) {
         setUser(null)
         alert("Your magic login link has expired.")
       } else {
+        if (validToken.accessToken)
+          Cookies.set("accessToken", validToken.accessToken, { expires: 7 })
         setUser(validToken.user)
       }
 
@@ -227,7 +227,7 @@ export default function Map(props) {
           onChange={e => {
             const value = e.target.value
             if (value === "1776") {
-              Cookies.set("allow-access", true)
+              Cookies.set("allow-access", true, { expires: 7 })
               document.location.reload()
             }
           }}

@@ -53,7 +53,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
     else {
       const currentEmailValue = emailInput.current.value
       const magicLinkResponse = await requestMagicLoginLink(currentEmailValue)
-      Cookies.set("email", currentEmailValue)
+      Cookies.set("email", currentEmailValue, { expires: 90 })
       if (magicLinkResponse && magicLinkResponse.status === 200)
         setLoginLinkSent(true)
       else
