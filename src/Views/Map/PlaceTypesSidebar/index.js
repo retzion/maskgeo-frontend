@@ -22,6 +22,7 @@ import {
   faUniversity,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons"
+import uniqolor from "uniqolor"
 
 //styles
 import "./styles/index.css"
@@ -99,7 +100,7 @@ export default ({
             className="icon"
             icon={faShoppingCart}
             style={{
-              background: "#188038",
+              background: uniqolor("groceries", { lightness: [45] })["color"],
             }}
           />
           <span>Groceries</span>
@@ -114,7 +115,7 @@ export default ({
             className="icon"
             icon={faUtensils}
             style={{
-              background: "#129EAF",
+              background: uniqolor("resturants", { lightness: [45] })["color"],
             }}
           />
           <span>Resturants</span>
@@ -129,7 +130,7 @@ export default ({
             className="icon"
             icon={faHamburger}
             style={{
-              background: "#C5221F",
+              background: uniqolor("takeout", { lightness: [45] })["color"],
             }}
           />
           <span>Takeout</span>
@@ -144,7 +145,7 @@ export default ({
             className="icon"
             icon={faGlassCheers}
             style={{
-              background: "rgb(219, 187, 7)",
+              background: uniqolor("bar", { lightness: [45] })["color"],
             }}
           />
           <span>Bars</span>
@@ -159,7 +160,7 @@ export default ({
             className="icon"
             icon={faCoffee}
             style={{
-              background: "rgb(17, 180, 72)",
+              background: uniqolor("cafe", { lightness: [45] })["color"],
             }}
           />
           <span>Cafes</span>
@@ -174,7 +175,7 @@ export default ({
             className="icon"
             icon={faStore}
             style={{
-              background: "rgb(51, 105, 223)",
+              background: uniqolor("drug store", { lightness: [45] })["color"],
             }}
           />
           <span>Drug Stores</span>
@@ -189,7 +190,7 @@ export default ({
             className="icon"
             icon={faDumbbell}
             style={{
-              background: "rgb(151, 31, 31)",
+              background: uniqolor("gym", { lightness: [45] })["color"],
             }}
           />
           <span>Gyms</span>
@@ -204,7 +205,7 @@ export default ({
             className="icon"
             icon={faTshirt}
             style={{
-              background: "rgb(233, 222, 65)",
+              background: uniqolor("laundry", { lightness: [45] })["color"],
             }}
           />
           <span>Laundry</span>
@@ -219,26 +220,26 @@ export default ({
             className="icon"
             icon={faTree}
             style={{
-              background: "rgb(36, 105, 54)",
+              background: uniqolor("park", { lightness: [45] })["color"],
             }}
           />
           <span>Parks</span>
         </button>
 
-<button
-  onClick={() => {
-    click("spa")
-  }}
->
-  <FontAwesomeIcon
-    className="icon"
-    icon={faSpa}
-    style={{
-      background: "#0000fa",
-    }}
-  />
-  <span>Spas</span>
-</button>
+        <button
+          onClick={() => {
+            click("spa")
+          }}
+        >
+          <FontAwesomeIcon
+            className="icon"
+            icon={faSpa}
+            style={{
+              background: uniqolor("spa", { lightness: [45] })["color"],
+            }}
+          />
+          <span>Spas</span>
+        </button>
 
         <button
           onClick={() => {
@@ -249,7 +250,7 @@ export default ({
             className="icon"
             icon={faBed}
             style={{
-              background: "#E37400",
+              background: uniqolor("hotels", { lightness: [45] })["color"],
             }}
           />
           <span>Hotels</span>
@@ -260,7 +261,13 @@ export default ({
             click("banks")
           }}
         >
-          <FontAwesomeIcon className="icon" icon={faUniversity} />
+          <FontAwesomeIcon
+            className="icon"
+            icon={faUniversity}
+            style={{
+              background: uniqolor("banks", { lightness: [45] })["color"],
+            }}
+          />
           <span>Banks</span>
         </button>
 
@@ -269,7 +276,13 @@ export default ({
             click("gas station")
           }}
         >
-          <FontAwesomeIcon className="icon" icon={faGasPump} />
+          <FontAwesomeIcon
+            className="icon"
+            icon={faGasPump}
+            style={{
+              background: uniqolor("gas station", { lightness: [45] })["color"],
+            }}
+          />
           <span>Gas</span>
         </button>
 
@@ -278,7 +291,13 @@ export default ({
             click("parking")
           }}
         >
-          <FontAwesomeIcon className="icon" icon={faParking} />
+          <FontAwesomeIcon
+            className="icon"
+            icon={faParking}
+            style={{
+              background: uniqolor("parking", { lightness: [45] })["color"],
+            }}
+          />
           <span>Parking</span>
         </button>
 
@@ -287,7 +306,13 @@ export default ({
             click("pharmacy")
           }}
         >
-          <FontAwesomeIcon className="icon" icon={faPrescriptionBottleAlt} />
+          <FontAwesomeIcon
+            className="icon"
+            icon={faPrescriptionBottleAlt}
+            style={{
+              background: uniqolor("pharmacy", { lightness: [45] })["color"],
+            }}
+          />
           <span>Pharmacy</span>
         </button>
 
@@ -296,7 +321,13 @@ export default ({
             click("post office")
           }}
         >
-          <FontAwesomeIcon className="icon" icon={faEnvelope} />
+          <FontAwesomeIcon
+            className="icon"
+            icon={faEnvelope}
+            style={{
+              background: uniqolor("post office", { lightness: [45] })["color"],
+            }}
+          />
           <span>Post Office</span>
         </button>
 
@@ -305,7 +336,13 @@ export default ({
             click("hospital")
           }}
         >
-          <FontAwesomeIcon className="icon" icon={faHSquare} />
+          <FontAwesomeIcon
+            className="icon"
+            icon={faHSquare}
+            style={{
+              background: uniqolor("hospital", { lightness: [45] })["color"],
+            }}
+          />
           <span>Hospital</span>
         </button>
       </div>
