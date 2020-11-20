@@ -71,11 +71,13 @@ export default function Map(props) {
     if (token) {
       // check for a token
       const validToken = await ProcessToken(token)
+      if (validToken.accessToken)
+        Cookies.set("accessToken", validToken.accessToken)
       if (!validToken) {
         setUser(null)
         alert("Your magic login link has expired.")
       } else {
-        setUser(validToken)
+        setUser(validToken.user)
       }
 
       resetUrl()

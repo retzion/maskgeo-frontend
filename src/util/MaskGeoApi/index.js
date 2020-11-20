@@ -6,13 +6,12 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
-const authCookie = Cookies.get("clear-mg-jwt")
-console.log({authCookie})
+const accessToken = Cookies.get("accessToken")
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
-  "Authorization": `Bearer ${authCookie}`
+  Authorization: `Bearer ${accessToken}`,
 }
 axios.defaults.withCredentials = true
 
@@ -36,7 +35,7 @@ function createUser(email, username) {
  *
  * @param {string} token A token used to log in and retrieve a JWT
  */
-function processToken(token) {
+async function processToken(token) {
   return get(`${apiUri}/jwt/${token}`).catch(console.error)
 }
 
