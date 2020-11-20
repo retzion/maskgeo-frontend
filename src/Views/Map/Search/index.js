@@ -22,6 +22,7 @@ export default ({
   setMarkers,
   setSelected,
   showDetails,
+  setShowPlaceTypesButtons,
 }) => {
   const {
     ready,
@@ -47,7 +48,7 @@ export default ({
         <Combobox
           onSelect={address => {
             clearSuggestions()
-
+            setShowPlaceTypesButtons(null)
             loadSelectedMarker({
               address,
               panTo,
@@ -65,6 +66,7 @@ export default ({
             onChange={handleInput}
             disabled={!ready}
             placeholder="🔍 search locations"
+            onFocus={() => {setShowPlaceTypesButtons(true)}}
           />
           <ComboboxPopover>
             <ComboboxList>

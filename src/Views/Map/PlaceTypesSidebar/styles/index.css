@@ -1,0 +1,72 @@
+.place-type-buttons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: white;
+  border: none;
+  z-index: 1;
+  font-size: 1rem;
+  text-align: left;
+  height: 110px;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+.place-type-buttons.expanded {
+  height: auto;
+}
+.place-type-buttons .nav {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  cursor: pointer;
+  margin: 0;
+  font-size: 0.9rem;
+  background: #ddd;
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  text-shadow: 2px 2px #eaeaea;
+  box-shadow: 1px 1px #666;
+  right: 0.75rem;
+}
+.place-type-buttons .close {
+  top: 0.75rem;
+}
+.place-type-buttons .more, .place-type-buttons .less {
+  bottom: 0.75rem;
+}
+
+.place-type-buttons .open-sidebar {
+  padding: 12px;
+}
+
+.place-type-buttons button {
+  cursor: pointer;
+  background: none;
+  text-align: center;
+  font-size: 1rem;
+}
+.place-type-buttons button .icon {
+  background: #999;
+  border-radius: 50%;
+  color: white;
+  /* padding: 18px; */
+  height: 36px;
+  width: 36px;
+  padding: 12px;
+  display: inline-block;
+}
+.place-type-buttons button span {
+  display: block;
+}
+
+
+.place-type-buttons .more-icons button {
+  font-size: 0.6rem;
+}
+.place-type-buttons .more-icons button .icon {
+  height: 21px;
+  width: 21px;
+  padding: 9px;
+}

@@ -60,8 +60,9 @@ export default async ({
             ? accumulatedRatings / maskReviews.length
             : 0
           result.maskRatingsCount = maskReviews.length
-
-          setMarkers([result])
+          
+          result.customIcon = true
+          if (setMarkers) setMarkers([result])
           setSelected(result)
           panTo(geoCoordinates)
           if (openSelected) openSelected(result)

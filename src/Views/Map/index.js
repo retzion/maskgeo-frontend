@@ -12,24 +12,28 @@ import Locate from "./Locate"
 import PostReview from "./PostReview"
 import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
-import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
+import PlaceTypesSidebar from "./PlaceTypesSidebar"
 
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
+import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 
 // design resources
 import "@reach/combobox/styles.css"
-import "./index.css"
-// import mapStyles from "./styles/mapStyles"
+import "./styles/index.css"
+// import mapStyles from "./styles/mapStylesDark"
+const mapContainerStyle = {
+  height: "100vh",
+  width: "100vw",
+}
 
 // Set default location to Salt Lake City, Utah
 const startingPosition = { lat: 40.758701, lng: -111.876183 }
 
 const libraries = ["places"]
-const mapContainerStyle = {
-  height: "100vh",
-  width: "100vw",
-}
+
+let bounds, mapRef
+
 const options = {
   center: startingPosition,
   // styles: mapStyles,
@@ -37,8 +41,6 @@ const options = {
   zoomControl: true,
   zoom: 12,
 }
-
-let bounds, mapRef
 
 export default function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
@@ -53,6 +55,7 @@ export default function Map(props) {
   const [showProfile, setShowProfile] = useState(null)
   const [showPostReview, setShowPostReview] = useState(null)
   const [placesService, setPlacesService] = useState(null)
+  const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
 
   function resetUrl() {
     if (window.history.pushState) {
@@ -135,8 +138,10 @@ export default function Map(props) {
       )
     }
     const resolvedDetailsPromises = await Promise.all(getDetailsPromises)
-    setMarkers(resolvedDetailsPromises)
-    mapRef.current.fitBounds(bounds)
+    if (resolvedDetailsPromises) {
+      setMarkers(resolvedDetailsPromises)
+      mapRef.current.fitBounds(bounds)
+    }
   }
 
   const onMapLoad = React.useCallback(map => {
@@ -146,6 +151,7 @@ export default function Map(props) {
       const center = map.getCenter()
       const newCenter = { lat: center.lat(), lng: center.lng() }
       setPos(newCenter)
+      bounds = map.getBounds()
     })
 
     const newPlacesService = new window.google.maps.places.PlacesService(map)
@@ -214,7 +220,26 @@ export default function Map(props) {
         placesService={placesService}
         pos={pos}
         setPos={setPos}
+        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
       />
+
+      {showPlaceTypesButtons && (
+        <PlaceTypesSidebar
+          bounds={bounds}
+          close={() => {
+            setShowPlaceTypesButtons(null)
+          }}
+          mapRef={mapRef}
+          panTo={panTo}
+          setMarkerId={setMarkerId}
+          setMarkers={setMarkers}
+          setSelected={setSelected}
+          showDetails={details}
+          placesService={placesService}
+          pos={pos}
+          setPos={setPos}
+        />
+      )}
 
       <GoogleMap
         id="map"
@@ -227,7 +252,17 @@ export default function Map(props) {
             <Marker
               key={marker["place_id"]}
               marker={marker}
-              setSelected={s => {
+              setSelected={async s => {
+                if (!s.reviews) {
+                  await loadSelectedMarker({
+                    panTo,
+                    placeId: s.place_id,
+                    places: window.google.maps.places,
+                    placesService,
+                    pos,
+                    setSelected,
+                  })
+                }
                 setSelected(s)
                 setMarkerId(s.place_id)
               }}

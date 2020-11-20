@@ -23,7 +23,7 @@ const styles = {
     fontStyle: "italic",
     fontSize: "0.81rem",
   },
-  detailsContainer: { margin: 3, padding: 3, },
+  detailsContainer: { margin: 3, padding: 3 },
   details: { cursor: "pointer", color: "-webkit-link" },
 }
 
@@ -54,7 +54,7 @@ export default ({
         resetUrl()
       }}
     >
-      <div style={styles.container}  onClick={showDetails}>
+      <div style={styles.container} onClick={showDetails}>
         <h1 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
@@ -74,13 +74,13 @@ export default ({
               {maskRating.toFixed(2)} / 5 masks
             </span>
           </React.Fragment>
-        ) : (
+        ) : address ? (
           "not yet rated"
+        ) : (
+          "loading..."
         )}
         <p style={styles.detailsContainer}>
-          <a style={styles.details}>
-            view details
-          </a>
+          {address && <a style={styles.details}>view details</a>}
         </p>
       </div>
     </GoogleInfoWindow>

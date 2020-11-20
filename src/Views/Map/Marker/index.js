@@ -2,9 +2,17 @@ import React from "react"
 import { Marker as GoogleMarker } from "@react-google-maps/api"
 
 export default ({ marker, setSelected }) => {
-
   if (!marker.geometry) return null
-  else
+  else {
+    const icon = marker.customIcon
+      ? {
+          origin: new window.google.maps.Point(0, 0),
+          anchor: new window.google.maps.Point(15, 15),
+          scaledSize: new window.google.maps.Size(30, 30),
+          url: `/mask.svg`,
+        }
+      : null
+
     return (
       <GoogleMarker
         position={{
@@ -14,12 +22,8 @@ export default ({ marker, setSelected }) => {
         onClick={() => {
           setSelected(marker)
         }}
-        icon={{
-          url: `/mask.svg`,
-          origin: new window.google.maps.Point(0, 0),
-          anchor: new window.google.maps.Point(15, 15),
-          scaledSize: new window.google.maps.Size(30, 30),
-        }}
+        // icon={icon}
       />
     )
+  }
 }
