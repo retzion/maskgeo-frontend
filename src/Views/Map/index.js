@@ -85,6 +85,17 @@ export default function Map(props) {
     }
   }
 
+  // check for https
+  useEffect(() => {
+    const protocol = document.location.protocol
+    const host = document.location.host
+    const pathname = document.location.pathname
+    const env = process.env["NODE_ENV"]
+
+    if (env === "production" && protocol !== "https:")
+      document.location = `https://${host}${pathname}`
+  }, [])
+
   // check for a login token
   useEffect(() => {
     checkToken()
