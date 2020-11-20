@@ -2,8 +2,6 @@ import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faBed,
-  faChevronDown,
-  faChevronUp,
   faCoffee,
   faDumbbell,
   faEnvelope,
@@ -70,26 +68,6 @@ export default ({
         <a className="nav close" onClick={close}>
           <FontAwesomeIcon icon={faTimes} />
         </a>
-
-        {/* <a
-          style={{ display: showMore ? "none" : "grid" }}
-          className="nav more"
-          onClick={() => {
-            setShowMore(true)
-          }}
-        >
-          <FontAwesomeIcon icon={faChevronDown} />
-        </a>
-
-        <a
-          style={{ display: showMore ? "grid" : "none" }}
-          className="nav less"
-          onClick={() => {
-            setShowMore(null)
-          }}
-        >
-          <FontAwesomeIcon icon={faChevronUp} />
-        </a> */}
 
         <button
           onClick={() => {

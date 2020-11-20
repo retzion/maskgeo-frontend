@@ -19,9 +19,9 @@
   display: none;
   font-size: 1.5rem;
 }
-.profile.authenticated {
+/* .profile.authenticated {
   color: var(--color-blue);
-}
+} */
 .profile.authenticated .button-text {
   display: inline-block;
   margin-right: 12px;

@@ -31,22 +31,19 @@ export default React.forwardRef((props, ref) => {
             everyone is wearing masks.
           </i>
         </p>
-      </Grid.Column>
-      <Grid.Column width={16}>
-        <Slider
-          ref={ref}
-          value={rating}
-          color="blue"
-          settings={sliderSettings}
-        />
-      </Grid.Column>
-      <Grid.Column width={16}>
-        <div style={{ textAlign: "center", paddingTop: 15 }}>
+        <div style={{ textAlign: "center" }}>
           <MaskRatingIcons
             maskRating={rating}
             maskRatingsCount={1}
             styles={ratingStyles}
             widthMultiplier={50}
+          />
+          <Slider
+            ref={ref}
+            value={rating}
+            color="blue"
+            settings={sliderSettings}
+            style={{ marginTop: 12 }}
           />
           <div className="my-rating">{rating}</div>
         </div>

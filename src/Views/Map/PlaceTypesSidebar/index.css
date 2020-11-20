@@ -62,7 +62,6 @@
   background: #999;
   border-radius: 50%;
   color: white;
-  /* padding: 18px; */
   height: 36px;
   width: 36px;
   padding: 12px;
@@ -73,10 +72,6 @@
 }
 
 @media (max-width: 720px) {
-  /* .place-type-buttons {
-    height: 150px;
-    top: 333px;
-  } */
   .place-type-buttons button {
     height: 66px;
     width: 66px;

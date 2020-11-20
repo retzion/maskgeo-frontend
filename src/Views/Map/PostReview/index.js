@@ -138,7 +138,7 @@ export default ({ close, selected, setSelected, user }) => {
         </h2>
         <h3 style={styles.address}>{address}</h3>
         <div>
-          <hr />
+          <hr color="#eaeaea" />
           <form
             style={{ display: "block" }}
             onSubmit={e => {
@@ -148,7 +148,7 @@ export default ({ close, selected, setSelected, user }) => {
           >
             <h2>Rate the Wearing of Masks (0 - 5)</h2>
             <Slider ref={sliderRef} selected={selected} />
-            <hr />
+            <hr color="#eaeaea" />
             <h2>Write a Review (optional)</h2>
             <textarea
               ref={reviewInput}

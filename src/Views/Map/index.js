@@ -150,9 +150,12 @@ export default function Map(props) {
         })
       )
     }
-    const resolvedDetailsPromises = await Promise.all(getDetailsPromises)
+    const resolvedDetailsPromises = await Promise.all(
+      getDetailsPromises.map(p => p.catch(() => undefined))
+    )
+
     if (resolvedDetailsPromises) {
-      setMarkers(resolvedDetailsPromises)
+      setMarkers(resolvedDetailsPromises.filter(m => m))
       mapRef.current.fitBounds(bounds)
     }
   }

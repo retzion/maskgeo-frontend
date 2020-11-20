@@ -1,4 +1,6 @@
 import React from "react"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 import "./index.css"
 
@@ -23,7 +25,7 @@ export default ({ panTo, setPos }) => {
         )
       }}
     >
-      🧭
+      <FontAwesomeIcon className="icon" icon={faMapMarkerAlt} />
     </button>
   )
 }

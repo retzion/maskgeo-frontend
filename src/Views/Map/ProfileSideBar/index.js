@@ -105,7 +105,9 @@ export default function ProfileSideBar({ close, logOut, user }) {
         ✖️
       </a>
       <div style={styles.container}>
-        <h1 style={styles.title}>{username}</h1>
+        <h1 style={{ ...styles.title, display: user ? "block" : "none" }}>
+          Welcome, {username}!
+        </h1>
         <h2 style={styles.address}>{email}</h2>
         <div style={{ display: loginLinkSent ? "block" : "none" }}>
           <h2>Please check your inbox for a Login Link.</h2>
