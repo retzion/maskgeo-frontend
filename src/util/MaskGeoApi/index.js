@@ -8,6 +8,7 @@ const apiUri = maskGeoApiUri()
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
 }
 axios.defaults.withCredentials = true
 
