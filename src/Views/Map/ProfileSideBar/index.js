@@ -117,48 +117,6 @@ export default function ProfileSideBar({ close, logOut, user }) {
           }}
         >
           <form
-            style={{ display: loginLinkSent ? "none" : "block" }}
-            onSubmit={e => {
-              e.preventDefault()
-            }}
-          >
-            <h2>Log In</h2>
-            <input
-              ref={emailInput}
-              name="email"
-              type="text"
-              style={styles.input}
-              placeholder="email address"
-              defaultValue={emailInput.current}
-            />
-            <p>
-              <button className="primary" style={styles.button} onClick={logIn}>
-                Send me a Login Link
-              </button>
-            </p>
-          </form>
-          <div
-            style={{
-              marginTop: 45,
-              borderTop: "1px solid #ccc",
-              textAlign: "center",
-              width: "93%",
-            }}
-          >
-            <div
-              style={{
-                marginTop: -9,
-                marginRight: "auto",
-                marginLeft: "auto",
-                backgroundColor: "white",
-                width: 45,
-                // display: 'inline-table',
-              }}
-            >
-              OR
-            </div>
-          </div>
-          <form
             style={{ display: userCreated ? "none" : "block" }}
             onSubmit={e => {
               e.preventDefault()
@@ -190,6 +148,48 @@ export default function ProfileSideBar({ close, logOut, user }) {
                 onClick={createAccount}
               >
                 Create My Account
+              </button>
+            </p>
+          </form>
+          <div
+            style={{
+              marginTop: 45,
+              borderTop: "1px solid #ccc",
+              textAlign: "center",
+              width: "93%",
+            }}
+          >
+            <div
+              style={{
+                marginTop: -9,
+                marginRight: "auto",
+                marginLeft: "auto",
+                backgroundColor: "white",
+                width: 45,
+                // display: 'inline-table',
+              }}
+            >
+              OR
+            </div>
+          </div>
+          <form
+            style={{ display: loginLinkSent ? "none" : "block" }}
+            onSubmit={e => {
+              e.preventDefault()
+            }}
+          >
+            <h2>Log In</h2>
+            <input
+              ref={emailInput}
+              name="email"
+              type="text"
+              style={styles.input}
+              placeholder="email address"
+              defaultValue={emailInput.current}
+            />
+            <p>
+              <button className="primary" style={styles.button} onClick={logIn}>
+                Send me a Login Link
               </button>
             </p>
           </form>

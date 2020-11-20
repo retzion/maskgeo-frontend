@@ -29,7 +29,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
     photos = [],
     maskRating,
     maskRatingsCount,
-    maskReviews,
+    maskReviews = [],
     website,
   } = selected || {}
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
@@ -201,7 +201,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
             />
             Rate &amp; Review
           </button>
-          Mask Reviews <i>({maskReviews.length})</i>
+          Mask Reviews <i>({maskReviews && maskReviews.length})</i>
         </h3>
         <div style={{ borderTop: "1px solid #eaeaea" }}>
           {!maskReviews || !maskReviews.length ? (

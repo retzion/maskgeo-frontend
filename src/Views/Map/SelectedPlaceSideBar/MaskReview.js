@@ -35,7 +35,7 @@ export default review => {
           {timeAgo.format(new Date(review.timestamp))}
         </i>
       </div>
-      <div style={{ margin: "12px 0 6px 0" }}>{review.review}</div>
+      <div style={{ margin: "12px 0 6px 0", borderLeft: "3px solid #ccc", paddingLeft: 9 }}>{review.review}</div>
     </div>
   )
 }
