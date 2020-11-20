@@ -45,11 +45,6 @@ button.primary.disabled,
   cursor: default;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 .nav-button {
   position: absolute;
   top: 1rem;
@@ -76,4 +71,9 @@ code {
     margin-top: 0;
     padding: auto 0;
   }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
