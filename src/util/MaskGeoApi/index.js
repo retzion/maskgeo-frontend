@@ -6,11 +6,13 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
+const authCookie = Cookies.get("clear-mg-jwt")
+console.log({authCookie})
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
-  "Authorization": `Bearer ${Cookies.get("clear-mg-jwt")}`
+  "Authorization": `Bearer ${authCookie}`
 }
 axios.defaults.withCredentials = true
 
