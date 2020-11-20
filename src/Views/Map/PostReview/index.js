@@ -85,7 +85,9 @@ export default ({ close, selected, setSelected, user }) => {
 
   const handleSubmitButton = () => {
     console.log("clicked")
-    setSubmitButtonDisabled(true)
+    setTimeout(() => {
+      setSubmitButtonDisabled(true)
+    }, 333)
   }
 
   const submitReview = useCallback(async () => {
