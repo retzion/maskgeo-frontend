@@ -60,10 +60,7 @@ function verifyToken() {
  * @dev Verify JSON Web Token and return decrypted data
  */
 function decryptToken() {
-  return get(`${apiUri}/data`).catch(c => {
-    console.error(c)
-    alert(JSON.stringify(c))
-  })
+  return get(`${apiUri}/data`).catch(console.error)
 }
 
 /**
