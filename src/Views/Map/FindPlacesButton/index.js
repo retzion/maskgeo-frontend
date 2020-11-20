@@ -7,7 +7,7 @@ import "./index.css"
 export default function ProfileButton({ setShowPlaceTypesButtons }) {
   return (
     <button
-      className="find-places"
+      className="find-places nav-button"
       title="Find Places"
       onClick={() => {
         setShowPlaceTypesButtons(true)

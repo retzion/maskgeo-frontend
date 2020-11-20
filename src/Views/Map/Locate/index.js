@@ -7,7 +7,7 @@ import "./index.css"
 export default ({ panTo, setPos }) => {
   return (
     <button
-      className="locate"
+      className="locate nav-button"
       title="Pan to your current location"
       onClick={() => {
         navigator.geolocation.getCurrentPosition(

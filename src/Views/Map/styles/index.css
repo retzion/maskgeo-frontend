@@ -13,14 +13,14 @@ h1.logo {
   color: var(--color-dark-text);
   z-index: 1;
   margin: 0;
-  padding: 6px 9px;
+  padding: 6px 0;
   cursor: default;
-  font-size: 2.1rem;
+  font-size: 1.8rem;
 }
 @media (max-width: 420px) {
   h1.logo {
     font-size: 1.5rem;
-    margin-top: 6px;
+    /* margin-top: 6px; */
   }
 }
 

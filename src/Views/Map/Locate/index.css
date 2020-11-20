@@ -1,26 +1,16 @@
-.locate {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  z-index: 1;
-  font-size: 2.1rem;
-  cursor: pointer;
-  padding: 6px 9px;
-}
-.locate .icon {
-  color: #990000;
+.nav-button .icon {
   max-height: 30px;
   cursor: pointer;
 }
+.locate {
+  right: 1rem;
+}
+.locate .icon {
+  color: #990000;
+}
 @media (max-width: 420px) {
   .locate {
-    font-size: 1.5rem;
-    margin-top: 6px;
     margin-right: 0;
     margin-left: 0;
-    padding: auto 0;
   }
 }
-

@@ -7,7 +7,7 @@ import "./index.css"
 export default function ProfileButton({ setShowProfile, user }) {
   return (
     <button
-      className={user ? "profile authenticated" : "profile"}
+      className={`profile nav-button ${user ? "authenticated" : ""}`}
       title="See account details"
       onClick={() => {
         setShowProfile(true)
