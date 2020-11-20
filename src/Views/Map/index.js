@@ -2,6 +2,7 @@
 import React, { useCallback } from "react"
 import { useEffect, useState } from "react"
 import { GoogleMap, useLoadScript } from "@react-google-maps/api"
+import Cookies from "js-cookie"
 
 // components
 import ProfileButton from "./ProfileButton"
@@ -199,37 +200,37 @@ export default function Map(props) {
   if (loadError) return "Error"
   if (!isLoaded) return "Loading..."
 
-  return (
-    <div className="map-container">
-      <Locate panTo={panTo} setPos={setPos} />
-      <ProfileButton user={user} setShowProfile={setShowProfile} />
-
-      <h1 className="logo">
-        <span role="img" aria-label="tent">
-          😷
-        </span>{" "}
-        Mask Forecast
-      </h1>
-
-      <Search
-        panTo={panTo}
-        setMarkerId={setMarkerId}
-        setMarkers={setMarkers}
-        setSelected={setSelected}
-        showDetails={details}
-        placesService={placesService}
-        pos={pos}
-        setPos={setPos}
-        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-      />
-
-      {showPlaceTypesButtons && (
-        <PlaceTypesSidebar
-          bounds={bounds}
-          close={() => {
-            setShowPlaceTypesButtons(null)
+  if (!Cookies.get("allow-access"))
+    return (
+      <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
+        <input
+          type="text"
+          placeholder="Enter passcode"
+          style={{ fontSize: "2rem" }}
+          onChange={e => {
+            const value = e.target.value
+            if (value === "1776") {
+              Cookies.set("allow-access", true)
+              document.location.reload()
+            }
           }}
-          mapRef={mapRef}
+        />
+      </div>
+    )
+  else
+    return (
+      <div className="map-container">
+        <Locate panTo={panTo} setPos={setPos} />
+        <ProfileButton user={user} setShowProfile={setShowProfile} />
+
+        <h1 className="logo">
+          <span role="img" aria-label="tent">
+            😷
+          </span>{" "}
+          Mask Forecast
+        </h1>
+
+        <Search
           panTo={panTo}
           setMarkerId={setMarkerId}
           setMarkers={setMarkers}
@@ -238,90 +239,108 @@ export default function Map(props) {
           placesService={placesService}
           pos={pos}
           setPos={setPos}
+          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
         />
-      )}
 
-      <GoogleMap
-        id="map"
-        mapContainerStyle={mapContainerStyle}
-        options={options}
-        onLoad={onMapLoad}
-      >
-        {markers.map(marker => {
-          return (
-            <Marker
-              key={marker["place_id"]}
-              marker={marker}
-              setSelected={async s => {
-                if (!s.reviews) {
-                  await loadSelectedMarker({
-                    panTo,
-                    placeId: s.place_id,
-                    places: window.google.maps.places,
-                    placesService,
-                    pos,
-                    setSelected,
-                  })
-                }
-                setSelected(s)
-                setMarkerId(s.place_id)
+        {showPlaceTypesButtons && (
+          <PlaceTypesSidebar
+            bounds={bounds}
+            close={() => {
+              setShowPlaceTypesButtons(null)
+            }}
+            mapRef={mapRef}
+            panTo={panTo}
+            setMarkerId={setMarkerId}
+            setMarkers={setMarkers}
+            setSelected={setSelected}
+            showDetails={details}
+            placesService={placesService}
+            pos={pos}
+            setPos={setPos}
+          />
+        )}
+
+        <GoogleMap
+          id="map"
+          mapContainerStyle={mapContainerStyle}
+          options={options}
+          onLoad={onMapLoad}
+        >
+          {markers.map(marker => {
+            return (
+              <Marker
+                key={marker["place_id"]}
+                marker={marker}
+                setSelected={async s => {
+                  if (!s.reviews) {
+                    await loadSelectedMarker({
+                      panTo,
+                      placeId: s.place_id,
+                      places: window.google.maps.places,
+                      placesService,
+                      pos,
+                      setSelected,
+                    })
+                  }
+                  setSelected(s)
+                  setMarkerId(s.place_id)
+                }}
+              />
+            )
+          })}
+
+          {selected && (
+            <InfoWindow
+              place={selected}
+              resetUrl={resetUrl}
+              setSelected={setSelected}
+              showDetails={() => {
+                openSelected(selected)
               }}
             />
-          )
-        })}
+          )}
 
-        {selected && (
-          <InfoWindow
-            place={selected}
-            resetUrl={resetUrl}
-            setSelected={setSelected}
-            showDetails={() => {
-              openSelected(selected)
-            }}
-          />
-        )}
+          {details && (
+            <SelectedPlaceSideBar
+              selected={selected}
+              close={() => {
+                setDetails(null)
+                setMarkerId(selected.place_id)
+              }}
+              user={user}
+              openProfile={() => {
+                setShowProfile(true)
+              }}
+              setShowPostReview={setShowPostReview}
+            />
+          )}
 
-        {details && (
-          <SelectedPlaceSideBar
-            selected={selected}
-            close={() => {
-              setDetails(null)
-              setMarkerId(selected.place_id)
-            }}
-            user={user}
-            openProfile={() => {
-              setShowProfile(true)
-            }}
-            setShowPostReview={setShowPostReview}
-          />
-        )}
+          {showProfile && (
+            <ProfileSideBar
+              user={user}
+              logOut={() => {
+                removeToken()
+                setUser(null)
+              }}
+              close={() => {
+                setShowProfile(null)
+              }}
+            />
+          )}
 
-        {showProfile && (
-          <ProfileSideBar
-            user={user}
-            logOut={() => {
-              removeToken()
-              setUser(null)
-            }}
-            close={() => {
-              setShowProfile(null)
-            }}
-          />
-        )}
-
-        {showPostReview && (
-          <PostReview
-            user={user}
-            selected={selected}
-            close={() => {
-              setShowPostReview(null)
-            }}
-            setSelected={setSelected}
-          />
-        )}
-      </GoogleMap>
-    </div>
-  )
+          {showPostReview && (
+            <PostReview
+              user={user}
+              selected={selected}
+              close={() => {
+                setShowPostReview(null)
+              }}
+              setSelected={setSelected}
+            />
+          )}
+        </GoogleMap>
+      </div>
+    )
 }
 
 async function ProcessToken(token) {
