@@ -16,7 +16,7 @@ export default {
   sidebar: {
     sidebar: {
       background: "white",
-      width: "96%",
+      width: "100%",
       maxWidth: 550,
     },
   },

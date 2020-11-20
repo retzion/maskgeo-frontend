@@ -33,7 +33,9 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
     website,
   } = selected || {}
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
-  const todaysHours = opening_hours
+
+  // parse hours
+  const todaysHours = opening_hours && opening_hours.periods
     ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
     : null
   const todaysHoursText = todaysHours
@@ -178,7 +180,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
           style={{
             borderTop: "1px solid #eaeaea",
             padding: "21px 12px 0 12px",
-            fontSize: "1.35rem",
+            fontSize: "1.23rem",
           }}
         >
           <button

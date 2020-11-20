@@ -47,8 +47,9 @@ export default ({
       <div className={`search ${showDetails ? "selected" : ""}`}>
         <Combobox
           onSelect={address => {
-            clearSuggestions()
+            setValue(address)
             setShowPlaceTypesButtons(null)
+            clearSuggestions()
             loadSelectedMarker({
               address,
               panTo,
@@ -66,7 +67,7 @@ export default ({
             onChange={handleInput}
             disabled={!ready}
             placeholder="🔍 search locations"
-            onFocus={() => {setShowPlaceTypesButtons(true)}}
+            onClick={() => {setShowPlaceTypesButtons(true)}}
           />
           <ComboboxPopover>
             <ComboboxList>
