@@ -25,7 +25,7 @@ import {
 import uniqolor from "uniqolor"
 
 //styles
-import "./styles/index.css"
+import "./index.css"
 
 export default ({
   bounds,
@@ -71,7 +71,7 @@ export default ({
           <FontAwesomeIcon icon={faTimes} />
         </a>
 
-        <a
+        {/* <a
           style={{ display: showMore ? "none" : "grid" }}
           className="nav more"
           onClick={() => {
@@ -89,7 +89,7 @@ export default ({
           }}
         >
           <FontAwesomeIcon icon={faChevronUp} />
-        </a>
+        </a> */}
 
         <button
           onClick={() => {

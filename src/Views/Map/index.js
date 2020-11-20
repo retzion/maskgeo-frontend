@@ -14,6 +14,7 @@ import PostReview from "./PostReview"
 import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import PlaceTypesSidebar from "./PlaceTypesSidebar"
+import FindPlacesButton from "./FindPlacesButton"
 
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
@@ -216,8 +217,8 @@ export default function Map(props) {
       <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
         <input
           type="text"
-          placeholder="Enter passcode"
-          style={{ fontSize: "2rem" }}
+          placeholder="Enter preview passcode"
+          style={{ fontSize: "1.8rem", margin: "0 1%", width: "90%" }}
           onChange={e => {
             const value = e.target.value
             if (value === "1776") {
@@ -233,6 +234,8 @@ export default function Map(props) {
       <div className="map-container">
         <Locate panTo={panTo} setPos={setPos} />
         <ProfileButton user={user} setShowProfile={setShowProfile} />
+        <FindPlacesButton setShowPlaceTypesButtons={setShowPlaceTypesButtons} />
+        <div />
 
         <h1 className="logo">
           <span role="img" aria-label="tent">

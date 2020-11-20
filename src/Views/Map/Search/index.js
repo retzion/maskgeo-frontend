@@ -67,7 +67,7 @@ export default ({
             onChange={handleInput}
             disabled={!ready}
             placeholder="🔍 search locations"
-            onClick={() => {setShowPlaceTypesButtons(true)}}
+            onClick={() => {setShowPlaceTypesButtons(false)}}
           />
           <ComboboxPopover>
             <ComboboxList>
