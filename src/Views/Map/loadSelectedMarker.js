@@ -44,13 +44,13 @@ export default async ({
             lat: result.geometry.location.lat(),
             lng: result.geometry.location.lng(),
           }
+          panTo(geoCoordinates)
       
           // mask reviews
           let { data: maskReviews } = await fetchReviews({
             geoCoordinates,
             googlePlaceId: placeId,
           })
-          console.log({maskReviews})
           result.maskReviews = maskReviews.filter(r => r.review.length)
 
           // mask ratings
@@ -64,7 +64,6 @@ export default async ({
           result.customIcon = true
           if (setMarkers) setMarkers([result])
           setSelected(result)
-          panTo(geoCoordinates)
           if (openSelected) openSelected(result)
         }
       }
