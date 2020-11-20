@@ -1,5 +1,6 @@
 import axios from "axios"
 import validate from "validator"
+import Cookies from "js-cookie"
 
 import { maskGeoApiUri } from "../../config"
 
@@ -9,6 +10,7 @@ const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
+  "Authorization": `Bearer ${Cookies.get("clear-mg-jwt")}`
 }
 axios.defaults.withCredentials = true
 
