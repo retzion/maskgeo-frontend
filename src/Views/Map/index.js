@@ -339,6 +339,7 @@ export default function Map(props) {
               user={user}
               logOut={() => {
                 removeToken()
+                Cookies.set("accessToken", "")
                 setUser(null)
               }}
               close={() => {
