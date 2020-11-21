@@ -148,7 +148,10 @@ export default function Map(props) {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
               bounds.extend(results.geometry.location)
               resolve(results)
-            } else reject()
+            } else {
+              console.log({ placeId: markerIds[i], status, results })
+              reject()
+            }
           })
         })
       )

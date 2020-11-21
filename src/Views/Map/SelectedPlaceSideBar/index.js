@@ -35,11 +35,12 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
   // parse hours
+  const openNow = opening_hours && opening_hours.isOpen()
   const todaysHours = opening_hours && opening_hours.periods
     ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
     : null
   const todaysHoursText = todaysHours
-    ? opening_hours.open_now
+    ? openNow
       ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(
           todaysHours.close.time
         )}`
@@ -141,7 +142,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
                   style={styles.locationDetailIcon}
                 />
               </span>
-              {opening_hours.open_now ? (
+              {openNow ? (
                 "Open now: "
               ) : (
                 <span style={{ color: "red" }}>Closed. </span>
