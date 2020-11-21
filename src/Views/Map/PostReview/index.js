@@ -87,7 +87,7 @@ export default ({ close, selected, setSelected, user }) => {
     console.log("clicked")
     setTimeout(() => {
       setSubmitButtonDisabled(true)
-    }, 333)
+    }, 666)
   }
 
   const submitReview = useCallback(async () => {
@@ -107,7 +107,9 @@ export default ({ close, selected, setSelected, user }) => {
     }
 
     // save to db
-    const savedReviewResponse = await postReview(reviewData)
+    const savedReviewResponse = await postReview(reviewData).catch(c => {
+      alert(c)
+    })
     const { data: savedReview } = savedReviewResponse
     if (savedReview.error) alert(savedReview.error)
     else {
