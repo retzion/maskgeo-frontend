@@ -78,6 +78,7 @@ export default ({ close, selected, setSelected, user }) => {
     place_id: googlePlaceId,
   } = selected || {}
 
+  const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(null)
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(null)
 
   const sliderRef = createRef()
@@ -92,6 +93,7 @@ export default ({ close, selected, setSelected, user }) => {
 
   const submitReview = useCallback(async () => {
     try {
+      setShowSubmitConfirmation(true)
       const geoCoordinates = {
         lat: location.lat(),
         lng: location.lng(),
@@ -105,6 +107,26 @@ export default ({ close, selected, setSelected, user }) => {
           _id: user._id,
           username: user.username,
         },
+      }
+
+      // fix zoom ratio and show message
+      if (
+        navigator.userAgent.match(/iPhone/i) ||
+        navigator.userAgent.match(/iPad/i)
+      ) {
+        var viewportmeta = document.querySelector('meta[name="viewport"]')
+        if (viewportmeta) {
+          viewportmeta.content =
+            "width=device-width, minimum-scale=1.0, maximum-scale=1.0"
+          document.body.addEventListener(
+            "gesturestart",
+            function () {
+              viewportmeta.content =
+                "width=device-width, minimum-scale=0.25, maximum-scale=1.6"
+            },
+            false
+          )
+        }
       }
 
       // save to db
@@ -155,7 +177,7 @@ export default ({ close, selected, setSelected, user }) => {
         <div>
           <hr color="#eaeaea" />
           <form
-            style={{ display: "block" }}
+            style={{ display: showSubmitConfirmation ? "none" : "block" }}
             onSubmit={e => {
               e.preventDefault()
               submitReview()
@@ -191,6 +213,9 @@ export default ({ close, selected, setSelected, user }) => {
               </button>
             </p>
           </form>
+          <h1 style={{ display: showSubmitConfirmation ? "block" : "none"}}>
+            Submitting Your Review...
+          </h1>
         </div>
       </div>
     </div>
