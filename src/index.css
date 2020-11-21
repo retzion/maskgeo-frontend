@@ -68,6 +68,15 @@ button.primary.disabled,
   background: none;
 }
 
+@media (max-width: 810px) {
+  .nav-button {
+    margin-top: 3px;
+  }
+  .nav-button .icon {
+    font-size: 1.62rem;
+  }
+}
+
 @media (max-width: 420px) {
   .nav-button {
     margin-top: 0;
