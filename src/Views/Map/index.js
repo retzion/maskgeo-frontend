@@ -239,8 +239,16 @@ export default function Map(props) {
     return (
       <div className="map-container">
         <span className="version">v{version}</span>
-        <Locate panTo={panTo} setPos={setPos} />
-        <ProfileButton user={user} setShowProfile={setShowProfile} />
+        <Locate
+          panTo={panTo}
+          setPos={setPos}
+          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+        />
+        <ProfileButton
+          user={user}
+          setShowProfile={setShowProfile}
+          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+        />
         <FindPlacesButton setShowPlaceTypesButtons={setShowPlaceTypesButtons} />
         <div />
 

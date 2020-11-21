@@ -1,11 +1,11 @@
 .place-type-buttons {
   height: 100%;
-  top: 72px;
+  top: 87px;
   position: absolute;
   left: 0;
   background: white;
   border: none;
-  z-index: 1;
+  z-index: 3;
   font-size: 1rem;
   text-align: left;
   width: 100%;

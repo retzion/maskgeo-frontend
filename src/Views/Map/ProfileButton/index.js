@@ -4,12 +4,13 @@ import { faUser, faUserCog } from '@fortawesome/free-solid-svg-icons'
 
 import "./index.css"
 
-export default function ProfileButton({ setShowProfile, user }) {
+export default function ProfileButton({ setShowProfile, setShowPlaceTypesButtons, user }) {
   return (
     <button
       className={`profile nav-button ${user ? "authenticated" : ""}`}
       title="See account details"
       onClick={() => {
+        setShowPlaceTypesButtons(false)
         setShowProfile(true)
       }}
     >

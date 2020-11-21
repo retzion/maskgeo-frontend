@@ -4,7 +4,7 @@ import { faBinoculars } from '@fortawesome/free-solid-svg-icons'
 
 import "./index.css"
 
-export default function ProfileButton({ setShowPlaceTypesButtons }) {
+export default function ({ setShowPlaceTypesButtons }) {
   return (
     <button
       className="find-places nav-button"

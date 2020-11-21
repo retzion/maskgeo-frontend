@@ -4,12 +4,13 @@ import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 import "./index.css"
 
-export default ({ panTo, setPos }) => {
+export default ({ panTo, setPos, setShowPlaceTypesButtons }) => {
   return (
     <button
       className="locate nav-button"
       title="Pan to your current location"
       onClick={() => {
+        setShowPlaceTypesButtons(false)
         navigator.geolocation.getCurrentPosition(
           position => {
             const newPos = {
