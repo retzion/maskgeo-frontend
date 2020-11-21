@@ -91,39 +91,43 @@ export default ({ close, selected, setSelected, user }) => {
   }
 
   const submitReview = useCallback(async () => {
-    const geoCoordinates = {
-      lat: location.lat(),
-      lng: location.lng(),
-    }
-    const reviewData = {
-      geoCoordinates,
-      googlePlaceId,
-      rating: sliderRef.current.props.value,
-      review: reviewInput.current.value,
-      user: {
-        _id: user._id,
-        username: user.username,
-      },
-    }
+    try {
+      const geoCoordinates = {
+        lat: location.lat(),
+        lng: location.lng(),
+      }
+      const reviewData = {
+        geoCoordinates,
+        googlePlaceId,
+        rating: sliderRef.current.props.value,
+        review: reviewInput.current.value,
+        user: {
+          _id: user._id,
+          username: user.username,
+        },
+      }
 
-    // save to db
-    const savedReviewResponse = await postReview(reviewData).catch(c => {
+      // save to db
+      const savedReviewResponse = await postReview(reviewData).catch(c => {
+        alert(c)
+      })
+      const { data: savedReview } = savedReviewResponse
+      if (savedReview.error) alert(savedReview.error)
+      else {
+        let updatedSelected = { ...selected }
+        updatedSelected.maskReviews.unshift(savedReview)
+        updatedSelected.maskRatingsCount++
+        const averageRating =
+          (selected.maskRatingsCount * selected.maskRating) /
+            selected.maskRatingsCount || 0
+        updatedSelected.maskRating =
+          (averageRating * selected.maskRatingsCount + savedReview.rating) /
+          updatedSelected.maskRatingsCount
+        setSelected(updatedSelected)
+        close()
+      }
+    } catch (c) {
       alert(c)
-    })
-    const { data: savedReview } = savedReviewResponse
-    if (savedReview.error) alert(savedReview.error)
-    else {
-      let updatedSelected = { ...selected }
-      updatedSelected.maskReviews.unshift(savedReview)
-      updatedSelected.maskRatingsCount++
-      const averageRating =
-        (selected.maskRatingsCount * selected.maskRating) /
-          selected.maskRatingsCount || 0
-      updatedSelected.maskRating =
-        (averageRating * selected.maskRatingsCount + savedReview.rating) /
-        updatedSelected.maskRatingsCount
-      setSelected(updatedSelected)
-      close()
     }
   }, [selected])
 
