@@ -13,7 +13,7 @@ TimeAgo.addDefaultLocale(en)
 const timeAgo = new TimeAgo("en-US")
 
 export default review => {
-  if (!review.review.length) return
+  if (!review.review || !review.review.length) return
   return (
     <div
       style={{

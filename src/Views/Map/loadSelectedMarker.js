@@ -51,7 +51,7 @@ export default async ({
             geoCoordinates,
             googlePlaceId: placeId,
           })
-          result.maskReviews = maskReviews.filter(r => r.review.length)
+          result.maskReviews = maskReviews.filter(r => r.review && r.review.length)
 
           // mask ratings
           const reducer = (accumulator, { rating }) => accumulator + rating
