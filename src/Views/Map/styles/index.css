@@ -1,6 +1,13 @@
 .map-container {
   text-align: center;
 }
+.version {
+  position: absolute;
+  z-index: 2;
+  top: 84px;
+  left: 1.2rem;
+  font-size: 0.75rem;
+}
 
 #map {
   position: absolute;
@@ -8,7 +15,7 @@
 
 h1.logo {
   position: absolute;
-  top: 1rem;
+  top: 0;
   left: 1rem;
   color: var(--color-dark-text);
   z-index: 1;
@@ -20,11 +27,19 @@ h1.logo {
 @media (max-width: 420px) {
   h1.logo {
     font-size: 1.5rem;
-    /* margin-top: 6px; */
+  }
+  .version {
+    top: 78px;
   }
 }
 
 .rating-icons img {
   width: 30px;
   height: 30px;
+}
+
+@media (min-width: 810px) {
+  .version {
+    top: 42px;
+  }
 }

@@ -1,7 +1,7 @@
 .search-container {
   position: absolute;
-  top: 66px;
-  width: 100%;
+  top: 45px;
+  width: 100vw;
   z-index: 1;
 }
 .search input {
@@ -11,10 +11,16 @@
   font-size: 1rem;
   padding: 0 7.5px;
 }
+
+@media (max-width: 420px) {
+  .search-container {
+    top: 39px;
+  }
+}
 @media (min-width: 810px) {
   .search-container {
     clear: both;
-    top: 24px;
+    top: 9px;
     left: 45%;
     transform: translateX(-50%);
     width: 225px;
@@ -25,9 +31,12 @@
 }
 
 @media (max-width: 809px) {
+  .search {
+    margin: 0 1rem;
+    text-align: left;
+  }
   .search input {
-    margin: auto;
-    width: 90%;
+    width: 96%;
   }
 }
 

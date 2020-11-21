@@ -19,6 +19,7 @@ import FindPlacesButton from "./FindPlacesButton"
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
+import { version } from "../../../package.json"
 
 // design resources
 import "@reach/combobox/styles.css"
@@ -237,6 +238,7 @@ export default function Map(props) {
   else
     return (
       <div className="map-container">
+        <span className="version">v{version}</span>
         <Locate panTo={panTo} setPos={setPos} />
         <ProfileButton user={user} setShowProfile={setShowProfile} />
         <FindPlacesButton setShowPlaceTypesButtons={setShowPlaceTypesButtons} />
