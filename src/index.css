@@ -79,10 +79,10 @@ button.primary.disabled,
 
 @media (max-width: 420px) {
   .nav-button {
-    margin-top: 0;
+    margin-top: -3px;
   }
   .nav-button .icon {
-    font-size: 1.5rem;
+    font-size: 1.44rem;
     margin-top: 0;
     padding: auto 0;
   }
