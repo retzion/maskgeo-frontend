@@ -6,12 +6,14 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
-const accessToken = Cookies.get("mg-jwt")
+const jwtCookieName = "mg-jwt"
+
+const accessToken = Cookies.get(jwtCookieName)
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
-  Authorization: `Bearer ${accessToken}`,
+  "Authorization": `Bearer ${accessToken}`,
 }
 axios.defaults.withCredentials = true
 
@@ -103,39 +105,64 @@ function fetchReviews(query) {
 async function get(url, options) {
   let headers
   if (options && options.headers) headers = options.headers
-  return axios.get(url, {
+  let res = await axios.get(url, {
     ...options,
     headers: {
       ...universalHeaders,
       ...headers,
     },
   })
+  if (res) {
+    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
+    res.apiVersion = apiVersion
+  }
+  return res
 }
 async function head(url, options) {
   let headers
   if (options && options.headers) headers = options.headers
-  return axios.head(url, {
+  let res = await axios.head(url, {
     ...options,
     headers: {
       ...universalHeaders,
       ...headers,
     },
   })
+  if (res) {
+    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
+    res.apiVersion = apiVersion
+  }
+  return res
 }
 async function post(url, data) {
-  return axios.post(url, data, {
+  let res= await axios.post(url, data, {
     headers: universalHeaders,
   })
+  if (res) {
+    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
+    res.apiVersion = apiVersion
+  }
+  return res
 }
 async function put(url, data) {
-  return axios.put(url, data, {
+  let res = await axios.put(url, data, {
     headers: universalHeaders,
   })
+  if (res) {
+    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
+    res.apiVersion = apiVersion
+  }
+  return res
 }
-function del(url) {
-  return axios.delete(url, {
+async function del(url) {
+  let res = await axios.delete(url, {
     headers: universalHeaders,
   })
+  if (res) {
+    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
+    res.apiVersion = apiVersion
+  }
+  return res
 }
 
 export {

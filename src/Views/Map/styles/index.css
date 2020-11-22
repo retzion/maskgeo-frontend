@@ -4,9 +4,11 @@
 .version {
   position: absolute;
   z-index: 2;
-  top: 84px;
-  left: 1.2rem;
+  bottom: 9px;
+  left: 50vw;
+  transform: translateX(-50%);
   font-size: 0.75rem;
+  display: inline-block;
 }
 
 #map {
@@ -27,9 +29,6 @@ h1.logo {
 @media (max-width: 420px) {
   h1.logo {
     font-size: 1.5rem;
-  }
-  .version {
-    top: 78px;
   }
 }
 

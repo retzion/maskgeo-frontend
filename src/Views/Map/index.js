@@ -67,26 +67,6 @@ export default function Map(props) {
     }
   }
 
-  const checkToken = async () => {
-    const { token } = props.match.params
-    if (token) {
-      // check for a token
-      const validToken = await ProcessToken(token)
-      if (!validToken) {
-        setUser(null)
-        alert("Your magic login link has expired.")
-      } else {
-        setUser(validToken.user)
-      }
-
-      resetUrl()
-    } else {
-      // fetch user data via JWT and get rid of localstorage method
-      const tokenResponse = await decryptToken()
-      if (tokenResponse) setUser(tokenResponse.data)
-    }
-  }
-
   // check for https
   useEffect(() => {
     const protocol = document.location.protocol
@@ -100,7 +80,25 @@ export default function Map(props) {
 
   // check for a login token
   useEffect(() => {
-    checkToken()
+    ;(async () => {
+      const { token } = props.match.params
+      if (token) {
+        // check for a token
+        const validToken = await ProcessToken(token)
+        if (!validToken) {
+          setUser(null)
+          alert("Your magic login link has expired.")
+        } else {
+          setUser(validToken.user)
+        }
+  
+        resetUrl()
+      } else {
+        // fetch user data via JWT and get rid of localstorage method
+        const tokenResponse = await decryptToken()
+        if (tokenResponse) setUser(tokenResponse.data)
+      }
+    })()
   }, [])
 
   const setMarkerId = markerId => {
@@ -239,7 +237,6 @@ export default function Map(props) {
   else
     return (
       <div className="map-container">
-        <span className="version">v{version}</span>
         <Locate
           panTo={panTo}
           setPos={setPos}
@@ -372,6 +369,7 @@ export default function Map(props) {
             />
           )}
         </GoogleMap>
+        <span className="version">app:v{version} | api:v{Cookies.get("api-version")}</span>
       </div>
     )
 }
