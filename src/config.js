@@ -1,9 +1,14 @@
-const appEnvironments = {
+export const websiteSettings = {
+  friendlyName: "Mask Forecast",
+  oneWordName: "MaskForecast",
+}
+
+export const appEnvironments = {
   local: 'local',
   production: 'production',
 }
 
-const appEnvironment = appEnvironments[process.env['REACT_APP_MG_ENV'] || 'production']
+export const appEnvironment = appEnvironments[process.env['REACT_APP_MG_ENV'] || 'production']
 
 export function maskGeoApiUri() {
   return ({

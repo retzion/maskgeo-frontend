@@ -240,7 +240,7 @@ export default function Map(props) {
           onChange={e => {
             const value = e.target.value
             if (value === "1776") {
-              const expires = (new Date()).addDays(7)
+              const expires = new Date().addDays(7)
               Cookies.set("allow-access", true, { expires, path: "/" })
               document.location.reload()
             }
@@ -378,7 +378,7 @@ export default function Map(props) {
           )}
         </GoogleMap>
         <span className="version">
-          app:v{version} | api:v{Cookies.get("api-version")}
+          app:v{version} | api:v{storage.getData("apiVersion")}
         </span>
       </div>
     )

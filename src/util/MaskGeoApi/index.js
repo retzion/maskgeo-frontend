@@ -59,8 +59,10 @@ function verifyToken() {
  * @title GET Token Data
  * @dev Verify JSON Web Token and return decrypted data
  */
-function decryptToken() {
-  return get(`${apiUri}/data`).catch(console.error)
+async function decryptToken() {
+  const response = await get(`${apiUri}/data`).catch(r => r)
+  if (response && response.data && response.data["apiVersion"])
+    storage.setData("apiVersion", response.data["apiVersion"])
 }
 
 /**
