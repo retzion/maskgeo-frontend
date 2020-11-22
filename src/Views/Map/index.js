@@ -18,6 +18,7 @@ import FindPlacesButton from "./FindPlacesButton"
 
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
+import storage from "../../util/LocalStorage"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 import { version } from "../../../package.json"
 
@@ -82,22 +83,25 @@ export default function Map(props) {
   useEffect(() => {
     ;(async () => {
       const { token } = props.match.params
+      let response
       if (token) {
         // check for a token
-        const validToken = await ProcessToken(token)
-        if (!validToken) {
+        response = await ProcessToken(token)
+        if (!response) {
           setUser(null)
           alert("Your magic login link has expired.")
         } else {
-          setUser(validToken.user)
+          setUser(response.user)
         }
-  
         resetUrl()
       } else {
-        // fetch user data via JWT and get rid of localstorage method
-        const tokenResponse = await decryptToken()
-        if (tokenResponse) setUser(tokenResponse.data)
+        response = await decryptToken()
+        response = response.data
+        console.log(response)
+        if (response && response.user) setUser(response.user)
       }
+      storage.setData("accessToken", response.accessToken)
+      storage.setData("refreshToken", response.refreshToken)
     })()
   }, [])
 
@@ -347,7 +351,6 @@ export default function Map(props) {
               user={user}
               logOut={() => {
                 removeToken()
-                Cookies.set("accessToken", "")
                 Cookies.set("mg-jwt", "")
                 Cookies.set("mg-refresh-jwt", "")
                 setUser(null)
@@ -369,7 +372,9 @@ export default function Map(props) {
             />
           )}
         </GoogleMap>
-        <span className="version">app:v{version} | api:v{Cookies.get("api-version")}</span>
+        <span className="version">
+          app:v{version} | api:v{Cookies.get("api-version")}
+        </span>
       </div>
     )
 }

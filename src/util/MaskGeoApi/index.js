@@ -3,12 +3,11 @@ import validate from "validator"
 import Cookies from "js-cookie"
 
 import { maskGeoApiUri } from "../../config"
+import storage from "../../util/LocalStorage"
 
 const apiUri = maskGeoApiUri()
 
-const jwtCookieName = "mg-jwt"
-
-const accessToken = Cookies.get(jwtCookieName)
+const accessToken = storage.getData("accessToken")
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",

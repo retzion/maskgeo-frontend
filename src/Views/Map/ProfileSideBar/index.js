@@ -88,7 +88,10 @@ export default function ProfileSideBar({ close, logOut, user }) {
         "There was a problem creating an account with this information. Please check your username and email address and try again."
       )
     else if (response.error) alert(response.error)
-    else if (createUserResponse.status === 200) setLoginLinkSent(true)
+    else if (createUserResponse.status === 200) {
+      setLoginLinkSent(true)
+      console.log({createUserResponse})
+    }
     else
       alert(
         "There was a problem creating an account with this information. Please check your username and email address and try again."
