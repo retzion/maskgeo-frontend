@@ -1,18 +1,4 @@
 export default {
-  close: {
-    position: "absolute",
-    right: 12,
-    top: 12,
-    cursor: "pointer",
-    margin: 0,
-    fontSize: "1.5rem",
-    background: "#ddd",
-    borderRadius: 3,
-    width: 36,
-    height: 36,
-    textShadow: "2px 2px #eaeaea",
-    boxShadow: "1px 1px #666",
-  },
   sidebar: {
     sidebar: {
       background: "white",

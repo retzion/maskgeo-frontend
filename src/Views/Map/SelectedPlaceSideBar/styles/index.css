@@ -11,6 +11,18 @@
 .selected-place-sidebar .close {
   display: grid;
   place-items: center;
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  cursor: pointer;
+  margin: 0;
+  font-size: 1.5rem;
+  background: #ddd;
+  border-radius: 3px;
+  width: 36px;
+  height: 36px;
+  text-shadow: 2px 2px #eaeaea;
+  box-shadow: 1px 1px #666;
 }
 
 .location-detail {

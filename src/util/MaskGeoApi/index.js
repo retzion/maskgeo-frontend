@@ -6,7 +6,7 @@ import { maskGeoApiUri } from "../../config"
 
 const apiUri = maskGeoApiUri()
 
-const accessToken = Cookies.get("accessToken")
+const accessToken = Cookies.get("mg-jwt")
 const universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",

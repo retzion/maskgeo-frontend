@@ -76,8 +76,6 @@ export default function Map(props) {
         setUser(null)
         alert("Your magic login link has expired.")
       } else {
-        if (validToken.accessToken)
-          Cookies.set("accessToken", validToken.accessToken, { expires: 7 })
         setUser(validToken.user)
       }
 
