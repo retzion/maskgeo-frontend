@@ -2,7 +2,7 @@
 import React, { useCallback } from "react"
 import { useEffect, useState } from "react"
 import { GoogleMap, useLoadScript } from "@react-google-maps/api"
-import Cookies from "js-cookie"
+import UniversalCookie from "universal-cookie"
 
 // components
 import ProfileButton from "./ProfileButton"
@@ -30,6 +30,8 @@ const mapContainerStyle = {
   height: "100vh",
   width: "100vw",
 }
+
+const Cookies = new UniversalCookie()
 
 // Set default location to Salt Lake City, Utah
 const startingPosition = { lat: 40.758701, lng: -111.876183 }
@@ -99,7 +101,8 @@ export default function Map(props) {
         response = response ? response.data : null
         if (response && response.user) setUser(response.user)
       }
-      if (response && response.accessToken) storage.setData("accessToken", response.accessToken)
+      if (response && response.accessToken)
+        storage.setData("accessToken", response.accessToken)
     })()
   }, [])
 
@@ -218,8 +221,8 @@ export default function Map(props) {
 
   async function logOut() {
     await removeToken()
-    Cookies.set("mg-jwt", "", { expires: new Date() })
-    Cookies.set("mg-refresh-jwt", "", { expires: new Date() })
+    Cookies.remove("mg-jwt", { httpOnly: true, path: "/" })
+    Cookies.remove("mg-refresh-jwt", { httpOnly: true, path: "/" })
     storage.clearStorage()
     setUser(null)
   }
@@ -237,7 +240,8 @@ export default function Map(props) {
           onChange={e => {
             const value = e.target.value
             if (value === "1776") {
-              Cookies.set("allow-access", true, { expires: 7 })
+              const expires = (new Date()).addDays(7)
+              Cookies.set("allow-access", true, { expires, path: "/" })
               document.location.reload()
             }
           }}

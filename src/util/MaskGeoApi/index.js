@@ -1,6 +1,5 @@
 import axios from "axios"
 import validate from "validator"
-import Cookies from "js-cookie"
 
 import { maskGeoApiUri } from "../../config"
 import storage from "../../util/LocalStorage"

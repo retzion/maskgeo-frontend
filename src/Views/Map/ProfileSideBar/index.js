@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import Sidebar from "react-sidebar"
 import validate from "validator"
-import Cookies from "js-cookie"
+import UniversalCookie from "universal-cookie"
 
 import { createUser, requestMagicLoginLink } from "../../../util/MaskGeoApi"
 
@@ -36,6 +36,8 @@ const styles = {
   button: { padding: "15px 21px", fontSize: "1rem" },
 }
 
+const Cookies = new UniversalCookie()
+
 export default function ProfileSideBar({ close, logOut, user }) {
   const { email, username } = user || {}
 
@@ -53,7 +55,8 @@ export default function ProfileSideBar({ close, logOut, user }) {
     else {
       const currentEmailValue = emailInput.current.value
       const magicLinkResponse = await requestMagicLoginLink(currentEmailValue)
-      Cookies.set("email", currentEmailValue, { expires: 90 })
+      const expires = (new Date()).addDays(90)
+      Cookies.set("email", currentEmailValue, { expires, path: "/" })
       if (magicLinkResponse && magicLinkResponse.status === 200)
         setLoginLinkSent(true)
       else
@@ -90,9 +93,8 @@ export default function ProfileSideBar({ close, logOut, user }) {
     else if (response.error) alert(response.error)
     else if (createUserResponse.status === 200) {
       setLoginLinkSent(true)
-      console.log({createUserResponse})
-    }
-    else
+      console.log({ createUserResponse })
+    } else
       alert(
         "There was a problem creating an account with this information. Please check your username and email address and try again."
       )
