@@ -6,6 +6,10 @@
   --color-dark-text: #3b2121;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: beige;
   margin: 0;
