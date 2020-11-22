@@ -36,7 +36,10 @@ function createUser(email, username) {
  * @param {string} token A token used to log in and retrieve a JWT
  */
 async function processToken(token) {
-  return get(`${apiUri}/jwt/${token}`).catch(console.error)
+  const response = await get(`${apiUri}/jwt/${token}`).catch(r => r)
+  if (response && response.data && response.data["apiVersion"])
+    storage.setData("apiVersion", response.data["apiVersion"])
+  return response
 }
 
 /**
@@ -63,6 +66,7 @@ async function decryptToken() {
   const response = await get(`${apiUri}/data`).catch(r => r)
   if (response && response.data && response.data["apiVersion"])
     storage.setData("apiVersion", response.data["apiVersion"])
+  return response
 }
 
 /**

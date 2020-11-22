@@ -100,6 +100,7 @@ export default function Map(props) {
         response = await decryptToken()
         response = response ? response.data : null
         if (response && response.user) setUser(response.user)
+        else logOut()
       }
       if (response && response.accessToken)
         storage.setData("accessToken", response.accessToken)
