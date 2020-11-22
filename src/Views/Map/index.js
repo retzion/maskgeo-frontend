@@ -351,6 +351,8 @@ export default function Map(props) {
               logOut={() => {
                 removeToken()
                 Cookies.set("accessToken", "")
+                Cookies.set("mg-jwt", "")
+                Cookies.set("mg-refresh-jwt", "")
                 setUser(null)
               }}
               close={() => {
