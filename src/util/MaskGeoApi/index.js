@@ -8,12 +8,12 @@ import storage from "../../util/LocalStorage"
 const apiUri = maskGeoApiUri()
 
 const accessToken = storage.getData("accessToken")
-const universalHeaders = {
+let universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
-  "Authorization": `Bearer ${accessToken}`,
 }
+if (accessToken) universalHeaders["Authorization"] = `Bearer ${accessToken}`
 axios.defaults.withCredentials = true
 
 /**

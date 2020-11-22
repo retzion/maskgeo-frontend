@@ -79,7 +79,7 @@ export default function Map(props) {
       document.location = `https://${host}${pathname}`
   }, [])
 
-  // check for a login token
+  // check authentication
   useEffect(() => {
     ;(async () => {
       const { token } = props.match.params
@@ -96,12 +96,10 @@ export default function Map(props) {
         resetUrl()
       } else {
         response = await decryptToken()
-        response = response.data
-        console.log(response)
+        response = response ? response.data : null
         if (response && response.user) setUser(response.user)
       }
-      storage.setData("accessToken", response.accessToken)
-      storage.setData("refreshToken", response.refreshToken)
+      if (response && response.accessToken) storage.setData("accessToken", response.accessToken)
     })()
   }, [])
 
@@ -217,6 +215,14 @@ export default function Map(props) {
       })
     }
   }, [])
+
+  async function logOut() {
+    await removeToken()
+    Cookies.set("mg-jwt", "", { expires: new Date() })
+    Cookies.set("mg-refresh-jwt", "", { expires: new Date() })
+    storage.clearStorage()
+    setUser(null)
+  }
 
   if (loadError) return "Error"
   if (!isLoaded) return "Loading..."
@@ -349,12 +355,7 @@ export default function Map(props) {
           {showProfile && (
             <ProfileSideBar
               user={user}
-              logOut={() => {
-                removeToken()
-                Cookies.set("mg-jwt", "")
-                Cookies.set("mg-refresh-jwt", "")
-                setUser(null)
-              }}
+              logOut={logOut}
               close={() => {
                 setShowProfile(null)
               }}

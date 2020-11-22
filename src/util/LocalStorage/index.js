@@ -12,8 +12,10 @@ const lsFromJson = (_key, data) =>
     : null
 
 export default class {
-  static async clearStorage(_key) {
-    await this.setData(_key)
+  static clearStorage(_key) {
+    for (const [key, value] of Object.entries(window.localStorage)) {
+      window.localStorage.removeItem(key)
+    }    
   }
 
   static getData(_key) {

@@ -20,8 +20,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
   color: var(--color-dark-text);
-overflow-y: scroll;
--webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 button,
 .button {
