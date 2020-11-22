@@ -105,64 +105,39 @@ function fetchReviews(query) {
 async function get(url, options) {
   let headers
   if (options && options.headers) headers = options.headers
-  let res = await axios.get(url, {
+  return axios.get(url, {
     ...options,
     headers: {
       ...universalHeaders,
       ...headers,
     },
   })
-  if (res) {
-    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
-    res.apiVersion = apiVersion
-  }
-  return res
 }
 async function head(url, options) {
   let headers
   if (options && options.headers) headers = options.headers
-  let res = await axios.head(url, {
+  return axios.head(url, {
     ...options,
     headers: {
       ...universalHeaders,
       ...headers,
     },
   })
-  if (res) {
-    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
-    res.apiVersion = apiVersion
-  }
-  return res
 }
 async function post(url, data) {
-  let res= await axios.post(url, data, {
+  return axios.post(url, data, {
     headers: universalHeaders,
   })
-  if (res) {
-    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
-    res.apiVersion = apiVersion
-  }
-  return res
 }
 async function put(url, data) {
-  let res = await axios.put(url, data, {
+  return axios.put(url, data, {
     headers: universalHeaders,
   })
-  if (res) {
-    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
-    res.apiVersion = apiVersion
-  }
-  return res
 }
-async function del(url) {
-  let res = await axios.delete(url, {
+function del(url) {
+  return axios.delete(url, {
     headers: universalHeaders,
   })
-  if (res) {
-    const { headers: { ["x-mg-backend-version"] : apiVersion }} = res
-    res.apiVersion = apiVersion
-  }
-  return res
 }
 
 export {
