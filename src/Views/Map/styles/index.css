@@ -1,5 +1,6 @@
 .map-container {
   text-align: center;
+  height: 100vh;
 }
 .version {
   position: absolute;
@@ -36,10 +37,4 @@ h1.logo {
 .rating-icons img {
   width: 30px;
   height: 30px;
-}
-
-@media (min-width: 810px) {
-  .version {
-    top: 42px;
-  }
 }
