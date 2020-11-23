@@ -4,13 +4,9 @@ import MaskRatingIcons from "../../../Components/MaskRatingIcons"
 
 // styles
 import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
+import "./index.css"
 const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 const styles = {
-  container: {
-    fontSize: "1rem",
-    textAlign: "center",
-    // width: "300px",
-  },
   title: {
     fontSize: "1.2rem",
   },
@@ -54,7 +50,7 @@ export default ({
         resetUrl()
       }}
     >
-      <div style={styles.container} onClick={showDetails}>
+      <div className="info-window-container" onClick={showDetails}>
         <h1 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}

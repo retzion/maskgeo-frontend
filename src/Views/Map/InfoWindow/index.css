@@ -1,0 +1,13 @@
+.info-window-container {
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.gm-style-iw-a button {
+  right: 6px !important;
+}
+.gm-style-iw-a button img {
+  width: 24px !important;
+  height: 24px !important;
+}
