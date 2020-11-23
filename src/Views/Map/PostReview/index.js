@@ -80,6 +80,7 @@ export default ({ close, selected, setSelected, user }) => {
 
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(null)
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(null)
+  const [submitError, setSubmitError] = useState(null)
 
   const sliderRef = createRef()
   const reviewInput = useRef("")
@@ -129,23 +130,38 @@ export default ({ close, selected, setSelected, user }) => {
       }
 
       // save to db
-      const savedReviewResponse = await postReview(reviewData).catch(c => {
-        alert(c)
-      })
-      const { data: savedReview } = savedReviewResponse
-      if (savedReview.error) alert(savedReview.error)
+      const savedReviewResponse = await postReview(reviewData).catch(c => c)
+      console.log(savedReviewResponse)
+      if (
+        !savedReviewResponse ||
+        !savedReviewResponse.data ||
+        savedReviewResponse.data.error ||
+        savedReviewResponse.data.status && savedReviewResponse.data.status !== "200"
+      ) {
+        console.log(
+          !savedReviewResponse,
+        !savedReviewResponse.data,
+        savedReviewResponse.data.error,
+        savedReviewResponse.data.status && savedReviewResponse.data.status !== "200"
+        )
+        setSubmitError(JSON.stringify(savedReviewResponse.data))
+      }
       else {
-        let updatedSelected = { ...selected }
-        updatedSelected.maskReviews.unshift(savedReview)
-        updatedSelected.maskRatingsCount++
-        const averageRating =
-          (selected.maskRatingsCount * selected.maskRating) /
-            selected.maskRatingsCount || 0
-        updatedSelected.maskRating =
-          (averageRating * selected.maskRatingsCount + savedReview.rating) /
-          updatedSelected.maskRatingsCount
-        setSelected(updatedSelected)
-        close()
+        const { data: savedReview } = savedReviewResponse
+        if (savedReview.error) alert(savedReview.error)
+        else {
+          let updatedSelected = { ...selected }
+          updatedSelected.maskReviews.unshift(savedReview)
+          updatedSelected.maskRatingsCount++
+          const averageRating =
+            (selected.maskRatingsCount * selected.maskRating) /
+              selected.maskRatingsCount || 0
+          updatedSelected.maskRating =
+            (averageRating * selected.maskRatingsCount + savedReview.rating) /
+            updatedSelected.maskRatingsCount
+          setSelected(updatedSelected)
+          close()
+        }
       }
     } catch (c) {
       alert(c)
@@ -212,9 +228,9 @@ export default ({ close, selected, setSelected, user }) => {
               </button>
             </p>
           </form>
-          <h1 style={{ display: showSubmitConfirmation ? "block" : "none"}}>
-            Submitting Your Review...
-          </h1>
+          
+            {submitError || <h1 style={{ display: showSubmitConfirmation ? "block" : "none" }}>Submitting Your Review...</h1>}
+          
         </div>
       </div>
     </div>
