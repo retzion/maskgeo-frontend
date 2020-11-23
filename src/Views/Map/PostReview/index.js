@@ -92,7 +92,7 @@ export default ({ close, selected, setSelected, user }) => {
   }
 
   const submitReview = useCallback(async () => {
-    try {
+    // try {
       setShowSubmitConfirmation(true)
       const geoCoordinates = {
         lat: location.lat(),
@@ -136,17 +136,21 @@ export default ({ close, selected, setSelected, user }) => {
         !savedReviewResponse ||
         !savedReviewResponse.data ||
         savedReviewResponse.data.error ||
-        savedReviewResponse.data.status && savedReviewResponse.data.status !== "200"
+        (savedReviewResponse.data.status &&
+          savedReviewResponse.data.status !== "200")
       ) {
-        console.log(
-          !savedReviewResponse,
-        !savedReviewResponse.data,
-        savedReviewResponse.data.error,
-        savedReviewResponse.data.status && savedReviewResponse.data.status !== "200"
-        )
-        setSubmitError(JSON.stringify(savedReviewResponse.data))
-      }
-      else {
+        // console.log(
+        //   !savedReviewResponse,
+        //   !savedReviewResponse.data,
+        //   savedReviewResponse.data.error,
+        //   savedReviewResponse.data.status &&
+        //     savedReviewResponse.data.status !== "200"
+        // )
+        setSubmitError(JSON.stringify(savedReviewResponse && savedReviewResponse.data ? savedReviewResponse.data : {
+          error: "Request to POST /review has failed without a response",
+          status: 400
+        }))
+      } else {
         const { data: savedReview } = savedReviewResponse
         if (savedReview.error) alert(savedReview.error)
         else {
@@ -163,9 +167,9 @@ export default ({ close, selected, setSelected, user }) => {
           close()
         }
       }
-    } catch (c) {
-      alert(c)
-    }
+    // } catch (c) {
+    //   alert(c)
+    // }
   }, [selected])
 
   const SidebarContent = () => (
@@ -228,9 +232,12 @@ export default ({ close, selected, setSelected, user }) => {
               </button>
             </p>
           </form>
-          
-            {submitError || <h1 style={{ display: showSubmitConfirmation ? "block" : "none" }}>Submitting Your Review...</h1>}
-          
+
+          {submitError || (
+            <h1 style={{ display: showSubmitConfirmation ? "block" : "none" }}>
+              Submitting Your Review...
+            </h1>
+          )}
         </div>
       </div>
     </div>
