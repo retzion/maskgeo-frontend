@@ -3,12 +3,13 @@
 }
 .version {
   position: absolute;
-  z-index: 2;
+  z-index: 1;
   bottom: 9px;
   left: 50vw;
   transform: translateX(-50%);
   font-size: 0.75rem;
   display: inline-block;
+  height: 1.5.rem;
 }
 
 #map {

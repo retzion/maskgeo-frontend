@@ -20,7 +20,11 @@ import {
   faUniversity,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons"
+import { Input } from "semantic-ui-react"
 import uniqolor from "uniqolor"
+
+// components
+import Button from "./Button"
 
 //styles
 import "./index.css"
@@ -35,8 +39,6 @@ export default ({
   setMarkers,
   setSelected,
 }) => {
-  const [showMore, setShowMore] = React.useState(null)
-
   function click(placeType) {
     setSelected(null)
     bounds = new window.google.maps.LatLngBounds()
@@ -62,267 +64,49 @@ export default ({
     )
   }
 
+  function handleSearchTextKeyUp(event) {
+    var key = event.keyCode
+    if (key === 13) click(event.target.value)
+  }
+
   return (
-    <div className={`place-type-buttons ${showMore ? "expanded" : ""}`}>
+    <div className={`place-type-buttons`}>
       <div className="open-sidebar">
         <a className="nav close" onClick={close}>
           <FontAwesomeIcon icon={faTimes} />
         </a>
 
-        <button
-          onClick={() => {
-            click("groceries")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faShoppingCart}
-            style={{
-              background: uniqolor("groceries", { lightness: [45] })["color"],
-            }}
+        <div className="keyword-search-container">
+          <Input
+            placeholder="search for keyword"
+            className="keyword-search"
+            onKeyUp={handleSearchTextKeyUp}
           />
-          <span>Groceries</span>
-        </button>
+        </div>
 
-        <button
-          onClick={() => {
-            click("resturants")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faUtensils}
-            style={{
-              background: uniqolor("resturants", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Resturants</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("takeout")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faHamburger}
-            style={{
-              background: uniqolor("takeout", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Takeout</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("bar")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faGlassCheers}
-            style={{
-              background: uniqolor("bar", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Bars</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("cafe")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faCoffee}
-            style={{
-              background: uniqolor("cafe", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Cafes</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("drug store")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faStore}
-            style={{
-              background: uniqolor("drug store", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Drug Stores</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("gym")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faDumbbell}
-            style={{
-              background: uniqolor("gym", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Gyms</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("laundry")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faTshirt}
-            style={{
-              background: uniqolor("laundry", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Laundry</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("park")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faTree}
-            style={{
-              background: uniqolor("park", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Parks</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("spa")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faSpa}
-            style={{
-              background: uniqolor("spa", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Spas</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("hotels")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faBed}
-            style={{
-              background: uniqolor("hotels", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Hotels</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("banks")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faUniversity}
-            style={{
-              background: uniqolor("banks", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Banks</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("gas station")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faGasPump}
-            style={{
-              background: uniqolor("gas station", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Gas</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("parking")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faParking}
-            style={{
-              background: uniqolor("parking", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Parking</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("pharmacy")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
+        <div className="keyword-buttons">
+          <Button keyword="Groceries" icon={faShoppingCart} click={click} />
+          <Button keyword="Resturants" icon={faUtensils} click={click} />
+          <Button keyword="Takeout" icon={faHamburger} click={click} />
+          <Button keyword="Bars" icon={faGlassCheers} click={click} />
+          <Button keyword="Cafes" icon={faCoffee} click={click} />
+          <Button keyword="Drug Stores" icon={faStore} click={click} />
+          <Button keyword="Gyms" icon={faDumbbell} click={click} />
+          <Button keyword="Laundry" icon={faTshirt} click={click} />
+          <Button keyword="Parks" icon={faTree} click={click} />
+          <Button keyword="Spas" icon={faSpa} click={click} />
+          <Button keyword="Hotels" icon={faBed} click={click} />
+          <Button keyword="Banks" icon={faUniversity} click={click} />
+          <Button keyword="Gas" icon={faGasPump} click={click} />
+          <Button keyword="Parking" icon={faParking} click={click} />
+          <Button
+            keyword="Pharmacy"
             icon={faPrescriptionBottleAlt}
-            style={{
-              background: uniqolor("pharmacy", { lightness: [45] })["color"],
-            }}
+            click={click}
           />
-          <span>Pharmacy</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("post office")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faEnvelope}
-            style={{
-              background: uniqolor("post office", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Post Office</span>
-        </button>
-
-        <button
-          onClick={() => {
-            click("hospital")
-          }}
-        >
-          <FontAwesomeIcon
-            className="icon"
-            icon={faHSquare}
-            style={{
-              background: uniqolor("hospital", { lightness: [45] })["color"],
-            }}
-          />
-          <span>Hospital</span>
-        </button>
+          <Button keyword="Post Office" icon={faEnvelope} click={click} />
+          <Button keyword="Hospital" icon={faHSquare} click={click} />
+        </div>
       </div>
     </div>
   )

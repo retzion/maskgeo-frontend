@@ -1,6 +1,6 @@
 .place-type-buttons {
   height: 100%;
-  top: 87px;
+  top: 45px;
   position: absolute;
   left: 0;
   background: white;
@@ -9,13 +9,12 @@
   font-size: 1rem;
   text-align: left;
   width: 100%;
-  padding: 0;
   overflow: hidden;
 }
 .place-type-buttons.expanded {
   height: auto;
 }
-.place-type-buttons .nav {
+.place-type-buttons .close {
   display: grid;
   place-items: center;
   position: absolute;
@@ -28,10 +27,11 @@
   height: 24px;
   text-shadow: 2px 2px #eaeaea;
   box-shadow: 1px 1px #666;
-  right: 0.75rem;
+  right: 21px;
+  z-index: 3;
 }
 .place-type-buttons .close {
-  top: 0.75rem;
+  top: 21px;
 }
 .place-type-buttons .more,
 .place-type-buttons .less {
@@ -39,26 +39,32 @@
 }
 
 .place-type-buttons .open-sidebar {
-  padding: 12px;
-  display: grid;
+  padding: 9px;
+  /* display: grid;
   grid-gap: 0.5%;
-  grid-template-columns: repeat(auto-fit, minmax(12%, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12%, 1fr)); */
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
 }
 
-.place-type-buttons button {
+.keyword-buttons {
+  padding-top: 57px;
+}
+.keyword-buttons button {
   height: 96px;
-  width: 96px;
+  width: 120px;
   cursor: pointer;
   background: none;
   text-align: center;
   font-size: 1rem;
   align-self: start;
 }
-.place-type-buttons button:hover {
+.keyword-buttons button:hover {
   background: #eaeaea;
   color: #666;
 }
-.place-type-buttons button .icon {
+.keyword-buttons button .icon {
   background: #999;
   border-radius: 50%;
   color: white;
@@ -67,22 +73,51 @@
   padding: 12px;
   display: inline-block;
 }
-.place-type-buttons button span {
+.keyword-buttons button span {
   display: block;
 }
 
+/** Search box */
+.place-type-buttons .keyword-search-container {
+  position: absolute;
+  padding: 0;
+  width: 90%;
+}
+.place-type-buttons .keyword-search-container input,
+.place-type-buttons .keyword-search {
+  min-width: 100%;
+  font-size: 1.5rem;
+  margin: 6px;
+}
+
 @media (max-width: 720px) {
-  .place-type-buttons button {
+  .place-type-buttons {
+    top: 39px;
+  }
+  .keyword-buttons {
+    padding-top: 42px;
+  }
+  .keyword-buttons button {
     height: 66px;
     width: 66px;
     font-size: 0.6rem;
   }
-  .place-type-buttons button .icon {
+  .keyword-buttons button .icon {
     height: 21px;
     width: 21px;
     padding: 9px;
   }
   .place-type-buttons .open-sidebar {
     grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
+  }
+
+  /** Search box */
+  .place-type-buttons .keyword-search-container {
+    width: 75%;
+  }
+  .place-type-buttons .keyword-search-container input,
+  .place-type-buttons .keyword-search {
+    font-size: 1rem;
+    margin: 6px;
   }
 }
