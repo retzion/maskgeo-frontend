@@ -18,6 +18,7 @@ import MaskReview from "./MaskReview"
 // styles
 import styles from "./styles"
 import "./styles/index.css"
+import "./styles/label.css"
 import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
 const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 
