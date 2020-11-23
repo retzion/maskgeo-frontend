@@ -17,13 +17,46 @@
   cursor: pointer;
   margin: 0;
   font-size: 1.5rem;
-  background: #ddd;
   border-radius: 3px;
   width: 36px;
   height: 36px;
+}
+.selected-place-sidebar .copy-url {
+  display: inline-block;
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  cursor: pointer;
+  margin: 0;
+  font-size: 0.81rem;
+  border-radius: 3px;
+  width: auto;
+  height: 36px;
+}
+.selected-place-sidebar .copied {
+  position: absolute;
+  left: 96px;
+  top: 4.5px;
+}
+.selected-place-sidebar .top-button {
+  background: rgba(221,221,221,0.75);
   text-shadow: 2px 2px #eaeaea;
   box-shadow: 1px 1px #666;
 }
+.selected-place-sidebar .top-button:hover {
+  background: rgba(221,221,221,1);
+  color: black;
+}
+.selected-place-sidebar .copy-url .icon-container {
+  margin-left: 9px;
+}
+.selected-place-sidebar .copied .label {
+  color: white;
+  background: var(--color-blue);
+  text-shadow: none;
+  box-shadow: 1px 1px #fff;
+}
+
 
 .location-detail {
   display: block;

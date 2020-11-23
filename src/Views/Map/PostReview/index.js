@@ -85,7 +85,6 @@ export default ({ close, selected, setSelected, user }) => {
   const reviewInput = useRef("")
 
   const handleSubmitButton = () => {
-    console.log("clicked")
     setTimeout(() => {
       setSubmitButtonDisabled(true)
     }, 666)

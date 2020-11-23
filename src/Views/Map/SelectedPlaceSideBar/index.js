@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import Sidebar from "react-sidebar"
+import { Label } from "semantic-ui-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faClock,
   faGlobeAmericas,
+  faLink,
   faMapMarkerAlt,
   faPhoneAlt,
 } from "@fortawesome/free-solid-svg-icons"
@@ -34,11 +36,29 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
   } = selected || {}
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
+  const [copied, setCopied] = useState(null)
+
+  const copyToClipboard = e => {
+    e.preventDefault()
+    navigator.clipboard
+      .writeText(document.location)
+      .then(() => {
+        setCopied(true)
+        setTimeout(() => {
+          setCopied(null)
+        }, 3000)
+      })
+      .catch(() => {
+        alert("Your browser does not support this")
+      })
+  }
+
   // parse hours
   const openNow = opening_hours && opening_hours.isOpen()
-  const todaysHours = opening_hours && opening_hours.periods
-    ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
-    : null
+  const todaysHours =
+    opening_hours && opening_hours.periods
+      ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
+      : null
   const todaysHoursText = todaysHours
     ? openNow
       ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(
@@ -84,9 +104,20 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
           }}
         />
       )}
-      <a onClick={close} className="close" style={styles.close}>
+      <a onClick={close} className="top-button close">
         ✖️
       </a>
+      <button onClick={copyToClipboard} className="top-button copy-url">
+        <span>Copy URL</span>
+        <span className="icon-container">
+          <FontAwesomeIcon className="icon" icon={faLink} />
+        </span>
+        {copied && (
+          <span className="copied">
+            <Label pointing="left" content="copied!" />
+          </span>
+        )}
+      </button>
       <div style={styles.container}>
         {/* {Business info} */}
         <h1 style={styles.title}>
@@ -219,5 +250,12 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
     </div>
   )
 
-  return <Sidebar sidebar={<SidebarContent />} open={true} children={[]} styles={styles.sidebar} />
+  return (
+    <Sidebar
+      sidebar={<SidebarContent />}
+      open={true}
+      children={[]}
+      styles={styles.sidebar}
+    />
+  )
 }

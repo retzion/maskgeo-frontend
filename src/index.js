@@ -4,6 +4,8 @@ import ReactDOM from "react-dom"
 import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { version } from "../package.json"
+
+import 'semantic-ui-css/semantic.min.css'
 import "./index.css"
 
 console.log(
