@@ -2,6 +2,10 @@ import React from "react"
 import { Marker as GoogleMarker } from "@react-google-maps/api"
 
 export default ({ marker, setSelected }) => {
+  React.useEffect(() => {
+    if (marker.selectOnLoad) setSelected(marker)
+  }, [])
+  
   if (!marker.geometry) return null
   else {
     const icon = marker.customIcon

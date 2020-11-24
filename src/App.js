@@ -12,6 +12,7 @@ export default function App() {
         <Switch>
           <Route path="/" component={Map} exact />
           <Route path="/marker/:marker" component={Map} exact />
+          <Route path="/search/:keyword/:locationZoom/selected/:selected" component={Map} exact />
           <Route path="/search/:keyword/:locationZoom" component={Map} exact />
           <Route path="/selected/:selected" component={Map} exact />
           <Route path="/token/:token" component={Map} exact />

@@ -55,23 +55,30 @@ export default ({
   }
 
   function nearbySearch(options) {
-    const { keyword, location, rankBy, zoom } = options
+    const { keyword, location, rankBy, selected: selectedId, zoom } = options
     placesService.nearbySearch(
       options,
       (results, status) => {
         if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+          let selected
           for (let i = 0; i < results.length; i++) {
+            if (results[i]["reference"] === selectedId) {
+              selected = results[i]
+              results[i]['selectOnLoad'] = true
+            }
             bounds.extend(results[i].geometry.location)
           }
 
           mapRef.current.fitBounds(bounds)
           setMarkers(results)
           setKeywordSearchUrl({
-            location,
-            rankBy,
             keyword,
+            location,
+            selected: selectedId,
+            rankBy,
             zoom: zoom || mapRef.current.getZoom(),
           })
+          if (selected) setSelected(selected)
           close()
         }
       }

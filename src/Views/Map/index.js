@@ -110,20 +110,28 @@ export default function Map(props) {
 
   const setMarkerId = markerId => {
     if (markerId) {
-      // load place details for a marker
+      // set URL for a selected marker
       if (window.history.pushState) {
-        const newurl = `${window.location.protocol}//${window.location.host}/marker/${markerId}`
+        const indexOfSelected = window.location.href.indexOf("/selected/")
+        const href =
+          indexOfSelected > 0
+            ? window.location.href.substring(0, indexOfSelected)
+            : window.location.href
+        const newurl = window.location.pathname.startsWith("/search/")
+          ? `${href}/selected/${markerId}`
+          : `${window.location.protocol}//${window.location.host}/marker/${markerId}`
         window.history.pushState({ path: newurl }, "", newurl)
       }
     }
   }
 
   const setKeywordSearchUrl = params => {
-    const { keyword, location, rankBy, zoom = "12" } = params
+    const { keyword, location, selected, zoom = "12" } = params
     if (keyword && location) {
-      // load place details for a marker
+      // load markerss for a nearby search
       if (window.history.pushState) {
-        const newurl = `${window.location.protocol}//${window.location.host}/search/${keyword}/@${location.lat},${location.lng},${zoom}z`
+        let newurl = `${window.location.protocol}//${window.location.host}/search/${keyword}/@${location.lat},${location.lng},${zoom}z`
+        if (selected) newurl += `/selected/${selected}`
         window.history.pushState({ path: newurl }, "", newurl)
       }
     }
@@ -179,23 +187,16 @@ export default function Map(props) {
     }
   }
 
-  const onMapLoad = React.useCallback(map => {
-    mapRef.current = map
-
-    map.addListener("center_changed", () => {
-      const center = map.getCenter()
-      const newCenter = { lat: center.lat(), lng: center.lng() }
-      setPos(newCenter)
-      bounds = map.getBounds()
-    })
-
-    const newPlacesService = new window.google.maps.places.PlacesService(map)
-    setPlacesService(newPlacesService)
-
-    bounds = new window.google.maps.LatLngBounds()
+  function evalParams(newPlacesService) {
+    let { marker: markerIds } = props.match.params
+    const { keyword, selected: selectedPlace } = props.match.params
+    const { locationZoom, selected } = props.match.params
+    const {
+      location: { search },
+    } = props
+    const { r: rankBy } = search
 
     /** Pan to Marker if param is found */
-    let { marker: markerIds } = props.match.params
     if (markerIds) {
       markerIds = markerIds.split(",")
 
@@ -215,8 +216,7 @@ export default function Map(props) {
     }
 
     /** Open Selected Place Sidebar if param is found */
-    const { selected: selectedPlace } = props.match.params
-    if (selectedPlace) {
+    if (!keyword && selectedPlace) {
       // load place details for a marker
       loadSelectedMarker({
         openSelected,
@@ -231,22 +231,36 @@ export default function Map(props) {
     }
 
     /** Open Keyword search results if param is found */
-    const { keyword, locationZoom } = props.match.params
-    const {
-      location: { search },
-    } = props
-    const { r: rankBy } = search
     if (keyword && locationZoom) {
       let [lat, lng, zoom = 12] = locationZoom.split(",")
       lat = lat.replace("@", "")
       setKeywordSearchOptions({
         keyword,
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
-        rankBy: window.google.maps.places.RankBy.DISTANCE,
+        rankBy: rankBy || window.google.maps.places.RankBy.DISTANCE,
+        selected,
         zoom,
       })
       setShowPlaceTypesButtons(true)
     }
+  }
+
+  const onMapLoad = React.useCallback(map => {
+    mapRef.current = map
+
+    map.addListener("center_changed", () => {
+      const center = map.getCenter()
+      const newCenter = { lat: center.lat(), lng: center.lng() }
+      setPos(newCenter)
+      bounds = map.getBounds()
+    })
+
+    const newPlacesService = new window.google.maps.places.PlacesService(map)
+    setPlacesService(newPlacesService)
+
+    bounds = new window.google.maps.LatLngBounds()
+
+    evalParams(newPlacesService)
   }, [])
 
   async function logOut() {
@@ -330,7 +344,6 @@ export default function Map(props) {
             setKeywordSearchUrl={setKeywordSearchUrl}
             setMarkers={setMarkers}
             setSelected={setSelected}
-            showDetails={details}
             setPos={setPos}
           />
         )}
