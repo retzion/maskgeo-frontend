@@ -139,13 +139,6 @@ export default ({ close, selected, setSelected, user }) => {
         (savedReviewResponse.data.status &&
           savedReviewResponse.data.status !== "200")
       ) {
-        // console.log(
-        //   !savedReviewResponse,
-        //   !savedReviewResponse.data,
-        //   savedReviewResponse.data.error,
-        //   savedReviewResponse.data.status &&
-        //     savedReviewResponse.data.status !== "200"
-        // )
         setSubmitError(JSON.stringify(savedReviewResponse && savedReviewResponse.data ? savedReviewResponse.data : {
           error: "Request to POST /review has failed without a response",
           status: 400

@@ -56,6 +56,7 @@ export default function Map(props) {
   const [markers, setMarkers] = useState([])
   const [selected, setSelected] = useState(null)
   const [details, setDetails] = useState(null)
+  const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
   const [pos, setPos] = useState(startingPosition)
   const [user, setUser] = useState(null)
   const [showProfile, setShowProfile] = useState(null)
@@ -117,6 +118,17 @@ export default function Map(props) {
     }
   }
 
+  const setKeywordSearchUrl = params => {
+    const { keyword, location, rankBy, zoom = "12" } = params
+    if (keyword && location) {
+      // load place details for a marker
+      if (window.history.pushState) {
+        const newurl = `${window.location.protocol}//${window.location.host}/search/${keyword}/@${location.lat},${location.lng},${zoom}z`
+        window.history.pushState({ path: newurl }, "", newurl)
+      }
+    }
+  }
+
   const setSelectedId = selectedId => {
     if (selectedId) {
       // load place details for a marker
@@ -151,7 +163,6 @@ export default function Map(props) {
               bounds.extend(results.geometry.location)
               resolve(results)
             } else {
-              console.log({ placeId: markerIds[i], status, results })
               reject()
             }
           })
@@ -218,6 +229,24 @@ export default function Map(props) {
         setSelected,
       })
     }
+
+    /** Open Keyword search results if param is found */
+    const { keyword, locationZoom } = props.match.params
+    const {
+      location: { search },
+    } = props
+    const { r: rankBy } = search
+    if (keyword && locationZoom) {
+      let [lat, lng, zoom = 12] = locationZoom.split(",")
+      lat = lat.replace("@", "")
+      setKeywordSearchOptions({
+        keyword,
+        location: { lat: parseFloat(lat), lng: parseFloat(lng) },
+        rankBy: window.google.maps.places.RankBy.DISTANCE,
+        zoom,
+      })
+      setShowPlaceTypesButtons(true)
+    }
   }, [])
 
   async function logOut() {
@@ -262,7 +291,10 @@ export default function Map(props) {
           setShowProfile={setShowProfile}
           setShowPlaceTypesButtons={setShowPlaceTypesButtons}
         />
-        <FindPlacesButton setShowPlaceTypesButtons={setShowPlaceTypesButtons} />
+        <FindPlacesButton
+          setKeywordSearchOptions={setKeywordSearchOptions}
+          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+        />
         <div />
 
         <h1 className="logo">
@@ -290,14 +322,15 @@ export default function Map(props) {
             close={() => {
               setShowPlaceTypesButtons(null)
             }}
+            keywordSearchOptions={keywordSearchOptions}
             mapRef={mapRef}
             panTo={panTo}
-            setMarkerId={setMarkerId}
+            placesService={placesService}
+            pos={pos}
+            setKeywordSearchUrl={setKeywordSearchUrl}
             setMarkers={setMarkers}
             setSelected={setSelected}
             showDetails={details}
-            placesService={placesService}
-            pos={pos}
             setPos={setPos}
           />
         )}

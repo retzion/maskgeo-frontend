@@ -21,7 +21,6 @@ import {
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons"
 import { Input } from "semantic-ui-react"
-import uniqolor from "uniqolor"
 
 // components
 import Button from "./Button"
@@ -32,23 +31,33 @@ import "./index.css"
 export default ({
   bounds,
   close,
+  keywordSearchOptions,
   mapRef,
   placesService,
   pos,
-  setMarkerId,
+  setKeywordSearchUrl,
   setMarkers,
   setSelected,
 }) => {
+
+  React.useEffect(() => {
+    if (keywordSearchOptions) nearbySearch(keywordSearchOptions)
+  }, [])
+
   function click(placeType) {
     setSelected(null)
     bounds = new window.google.maps.LatLngBounds()
+    nearbySearch({
+      location: pos,
+      rankBy: window.google.maps.places.RankBy.DISTANCE,
+      keyword: placeType,
+    })
+  }
 
+  function nearbySearch(options) {
+    const { keyword, location, rankBy, zoom } = options
     placesService.nearbySearch(
-      {
-        location: pos,
-        rankBy: window.google.maps.places.RankBy.DISTANCE,
-        keyword: placeType,
-      },
+      options,
       (results, status) => {
         if (status == window.google.maps.places.PlacesServiceStatus.OK) {
           for (let i = 0; i < results.length; i++) {
@@ -57,7 +66,12 @@ export default ({
 
           mapRef.current.fitBounds(bounds)
           setMarkers(results)
-          setMarkerId(results.map(r => r.place_id))
+          setKeywordSearchUrl({
+            location,
+            rankBy,
+            keyword,
+            zoom: zoom || mapRef.current.getZoom(),
+          })
           close()
         }
       }
