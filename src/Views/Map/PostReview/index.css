@@ -1,3 +1,24 @@
 .post-review .close {
-  color: var(--color-blue);
+  display: grid;
+  place-items: center;
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  cursor: pointer;
+  margin: 0;
+  font-size: 1.5rem;
+  border-radius: 3px;
+  width: 36px;
+  height: 36px;
 }
+
+/* 
+.post-review .close {
+  color: var(--color-blue);
+  float: right;
+  cursor: pointer;
+  margin-right: 12px;
+  font-size: 1.8rem;
+  vertical-align: middle;
+  text-shadow: 2px 2px #ccc;
+} */

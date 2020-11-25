@@ -1,7 +1,7 @@
 import React, { createRef, useCallback, useRef, useState } from "react"
 import Sidebar from "react-sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 // components
 import Slider from "./Slider"
@@ -18,14 +18,6 @@ const styles = {
       width: "100%",
       maxWidth: 550,
     },
-  },
-  close: {
-    float: "left",
-    cursor: "pointer",
-    marginRight: 12,
-    fontSize: "1.8rem",
-    verticalAlign: "middle",
-    // textShadow: "2px 2px #ccc",
   },
   container: {
     fontSize: "1rem",
@@ -93,73 +85,79 @@ export default ({ close, selected, setSelected, user }) => {
 
   const submitReview = useCallback(async () => {
     // try {
-      setShowSubmitConfirmation(true)
-      const geoCoordinates = {
-        lat: location.lat(),
-        lng: location.lng(),
-      }
-      const reviewData = {
-        geoCoordinates,
-        googlePlaceId,
-        rating: sliderRef.current.props.value,
-        review: reviewInput.current.value,
-        user: {
-          _id: user._id,
-          username: user.username,
-        },
-      }
+    setShowSubmitConfirmation(true)
+    const geoCoordinates = {
+      lat: location.lat(),
+      lng: location.lng(),
+    }
+    const reviewData = {
+      geoCoordinates,
+      googlePlaceId,
+      rating: sliderRef.current.props.value,
+      review: reviewInput.current.value,
+      user: {
+        _id: user._id,
+        username: user.username,
+      },
+    }
 
-      // fix zoom ratio and show message
-      if (
-        navigator.userAgent.match(/iPhone/i) ||
-        navigator.userAgent.match(/iPad/i)
-      ) {
-        var viewportmeta = document.querySelector('meta[name="viewport"]')
-        if (viewportmeta) {
-          viewportmeta.content =
-            "width=device-width, minimum-scale=1.0, maximum-scale=1.0"
-          document.body.addEventListener(
-            "gesturestart",
-            function () {
-              viewportmeta.content =
-                "width=device-width, minimum-scale=0.25, maximum-scale=1.6"
-            },
-            false
-          )
-        }
+    // fix zoom ratio and show message
+    if (
+      navigator.userAgent.match(/iPhone/i) ||
+      navigator.userAgent.match(/iPad/i)
+    ) {
+      var viewportmeta = document.querySelector('meta[name="viewport"]')
+      if (viewportmeta) {
+        viewportmeta.content =
+          "width=device-width, minimum-scale=1.0, maximum-scale=1.0"
+        document.body.addEventListener(
+          "gesturestart",
+          function () {
+            viewportmeta.content =
+              "width=device-width, minimum-scale=0.25, maximum-scale=1.6"
+          },
+          false
+        )
       }
+    }
 
-      // save to db
-      const savedReviewResponse = await postReview(reviewData).catch(c => c)
-      console.log(savedReviewResponse)
-      if (
-        !savedReviewResponse ||
-        !savedReviewResponse.data ||
-        savedReviewResponse.data.error ||
-        (savedReviewResponse.data.status &&
-          savedReviewResponse.data.status !== "200")
-      ) {
-        setSubmitError(JSON.stringify(savedReviewResponse && savedReviewResponse.data ? savedReviewResponse.data : {
-          error: "Request to POST /review has failed without a response",
-          status: 400
-        }))
-      } else {
-        const { data: savedReview } = savedReviewResponse
-        if (savedReview.error) alert(savedReview.error)
-        else {
-          let updatedSelected = { ...selected }
-          updatedSelected.maskReviews.unshift(savedReview)
-          updatedSelected.maskRatingsCount++
-          const averageRating =
-            (selected.maskRatingsCount * selected.maskRating) /
-              selected.maskRatingsCount || 0
-          updatedSelected.maskRating =
-            (averageRating * selected.maskRatingsCount + savedReview.rating) /
-            updatedSelected.maskRatingsCount
-          setSelected(updatedSelected)
-          close()
-        }
+    // save to db
+    const savedReviewResponse = await postReview(reviewData).catch(c => c)
+    console.log(savedReviewResponse)
+    if (
+      !savedReviewResponse ||
+      !savedReviewResponse.data ||
+      savedReviewResponse.data.error ||
+      (savedReviewResponse.data.status &&
+        savedReviewResponse.data.status !== "200")
+    ) {
+      setSubmitError(
+        JSON.stringify(
+          savedReviewResponse && savedReviewResponse.data
+            ? savedReviewResponse.data
+            : {
+                error: "Request to POST /review has failed without a response",
+                status: 400,
+              }
+        )
+      )
+    } else {
+      const { data: savedReview } = savedReviewResponse
+      if (savedReview.error) alert(savedReview.error)
+      else {
+        let updatedSelected = { ...selected }
+        updatedSelected.maskReviews.unshift(savedReview)
+        updatedSelected.maskRatingsCount++
+        const averageRating =
+          (selected.maskRatingsCount * selected.maskRating) /
+            selected.maskRatingsCount || 0
+        updatedSelected.maskRating =
+          (averageRating * selected.maskRatingsCount + savedReview.rating) /
+          updatedSelected.maskRatingsCount
+        setSelected(updatedSelected)
+        close()
       }
+    }
     // } catch (c) {
     //   alert(c)
     // }
@@ -173,13 +171,9 @@ export default ({ close, selected, setSelected, user }) => {
       }}
     >
       <div style={styles.container}>
-        <div className="close" style={styles.close}>
-          <FontAwesomeIcon
-            onClick={close}
-            className="close icon"
-            icon={faArrowCircleLeft}
-          />
-        </div>
+        <a onClick={close} className="top-button close">
+          ✖️
+        </a>
         <h1 style={{ display: "inline-block", marginTop: 0 }}>Post a Review</h1>
         <h2 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
