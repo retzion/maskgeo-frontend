@@ -13,28 +13,13 @@ const Cookies = new UniversalCookie()
 export default () => (
   <div className="splash-page">
     <div>
-      <h1>Welcome to Mask Forecast</h1>
+      <h2>Welcome to Mask Forecast</h2>
       {/* <p>Your resource for knowing the mask situation of locations you plan to visit.</p> */}
-      <p>Check the forecast for masks before you go out. Leave ratings and reviews on locations based on your experience with mask wearing.</p>
+      <p>
+        Check the forecast for masks before you go out. Leave ratings and
+        reviews on locations based on your experience with mask wearing.
+      </p>
     </div>
-    <input
-      type="text"
-      placeholder="Enter preview passcode"
-      style={{
-        fontSize: "1.5rem",
-        margin: "0 1%",
-        width: "90%",
-        textAlign: "center",
-      }}
-      onChange={e => {
-        const value = e.target.value
-        if (value === "1776") {
-          const expires = new Date().addDays(1)
-          Cookies.set("allow-access", true, { expires, path: "/" })
-          document.location.reload()
-        }
-      }}
-    />
     <div>
       <h2>Help Support Us</h2>
       {/* <p>We need server space and more human resources. Please help us stay alive by sending some change.</p> */}
@@ -64,5 +49,30 @@ export default () => (
         </div>
       </div>
     </div>
+    <div>
+      <h3>Cookies Notification</h3>
+      <p>
+        By using this site, you consent to allowing cookies to be used in your
+        browser.
+      </p>
+    </div>
+    <input
+      type="text"
+      placeholder="Enter preview passcode"
+      style={{
+        fontSize: "1.5rem",
+        margin: "0 1%",
+        width: "90%",
+        textAlign: "center",
+      }}
+      onChange={e => {
+        const value = e.target.value
+        if (value === "1776") {
+          const expires = new Date().addDays(1)
+          Cookies.set("allow-access", true, { expires, path: "/" })
+          document.location.reload()
+        }
+      }}
+    />
   </div>
 )
