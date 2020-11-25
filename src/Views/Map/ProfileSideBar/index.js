@@ -9,7 +9,7 @@ const styles = {
   sidebar: {
     sidebar: {
       background: "white",
-      width: "99%",
+      width: "100%",
       maxWidth: 550,
     },
   },

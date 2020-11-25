@@ -101,54 +101,62 @@ export default function Map(props) {
         response = await decryptToken()
         response = response ? response.data : null
         if (response && response.user) setUser(response.user)
-        else logOut()
       }
       if (response && response.accessToken)
         storage.setData("accessToken", response.accessToken)
     })()
   }, [])
 
-  const setMarkerId = markerId => {
-    if (markerId) {
-      // set URL for a selected marker
-      if (window.history.pushState) {
-        const indexOfSelected = window.location.href.indexOf("/selected/")
-        const href =
-          indexOfSelected > 0
-            ? window.location.href.substring(0, indexOfSelected)
-            : window.location.href
-        const newurl = window.location.pathname.startsWith("/search/")
-          ? `${href}/selected/${markerId}`
-          : `${window.location.protocol}//${window.location.host}/marker/${markerId}`
-        window.history.pushState({ path: newurl }, "", newurl)
+  // URL handlers
+  const urlHandler ={
+    setMarkerId: markerId => {
+      if (markerId) {
+        // set URL for a selected marker
+        if (window.history.pushState) {
+          const indexOfSelected = window.location.href.indexOf("/selected/")
+          const href =
+            indexOfSelected > 0
+              ? window.location.href.substring(0, indexOfSelected)
+              : window.location.href
+          const newurl = window.location.pathname.startsWith("/search/")
+            ? `${href}/selected/${markerId}`
+            : `${window.location.protocol}//${window.location.host}/marker/${markerId}`
+          window.history.pushState({ path: newurl }, "", newurl)
+        }
       }
-    }
-  }
-
-  const setKeywordSearchUrl = params => {
-    const { keyword, location, selected, zoom = "12" } = params
-    if (keyword && location) {
-      // load markerss for a nearby search
-      if (window.history.pushState) {
-        let newurl = `${window.location.protocol}//${window.location.host}/search/${keyword}/@${location.lat},${location.lng},${zoom}z`
-        if (selected) newurl += `/selected/${selected}`
-        window.history.pushState({ path: newurl }, "", newurl)
+    },
+    setKeywordSearchUrl: params => {
+      const { keyword, location, selected, zoom = "12z" } = params
+      if (keyword && location) {
+        // load markerss for a nearby search
+        if (window.history.pushState) {
+          let newurl = `${window.location.protocol}//${window.location.host}/search/${keyword}/@${location.lat},${location.lng},${zoom}`
+          if (selected) newurl += `/selected/${selected}`
+          window.history.pushState({ path: newurl }, "", newurl)
+        }
       }
-    }
-  }
-
-  const setSelectedId = selectedId => {
-    if (selectedId) {
-      // load place details for a marker
+    },
+    setSelectedId: selectedId => {
+      if (selectedId) {
+        // load place details for a marker
+        if (window.history.pushState) {
+          const newurl = `${window.location.protocol}//${window.location.host}/selected/${selectedId}`
+          window.history.pushState({ path: newurl }, "", newurl)
+        }
+      }
+    },
+    setProfileQueryParam: show => {
+      // set URL
       if (window.history.pushState) {
-        const newurl = `${window.location.protocol}//${window.location.host}/selected/${selectedId}`
+        const href = window.location.href.replace("?profile", "")
+        const newurl = show ? `${href}?profile` : href
         window.history.pushState({ path: newurl }, "", newurl)
       }
     }
   }
 
   const openSelected = useCallback(selectedObject => {
-    setSelectedId(selectedObject.place_id)
+    urlHandler.setSelectedId(selectedObject.place_id)
     setDetails(selectedObject)
   }, [])
 
@@ -192,10 +200,13 @@ export default function Map(props) {
     const { keyword, selected: selectedPlace } = props.match.params
     const { locationZoom, selected } = props.match.params
     const {
-      location: { search },
+      location: {
+        search,
+      },
     } = props
-    const { r: rankBy } = search
-
+    const profile = search.includes("profile")
+    console.log({profile})
+  
     /** Pan to Marker if param is found */
     if (markerIds) {
       markerIds = markerIds.split(",")
@@ -209,7 +220,7 @@ export default function Map(props) {
           places: window.google.maps.places,
           placesService: newPlacesService,
           pos,
-          setMarkerId,
+          setMarkerId: urlHandler.setMarkerId,
           setMarkers,
           setSelected,
         })
@@ -232,18 +243,21 @@ export default function Map(props) {
 
     /** Open Keyword search results if param is found */
     if (keyword && locationZoom) {
-      let [lat, lng, zoom = 12] = locationZoom.split(",")
+      let [lat, lng, zoom = "12z"] = locationZoom.split(",")
       lat = lat.replace("@", "")
       setKeywordSearchOptions({
         keyword,
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
-        rankBy: rankBy || window.google.maps.places.RankBy.DISTANCE,
+        rankBy: window.google.maps.places.RankBy.DISTANCE,
         selected,
         zoom,
       })
       setShowPlaceTypesButtons(true)
     }
-  }
+
+    /** Open profile sidebar if query param is found */
+    if (search.match("profile")) setShowProfile(true)
+}
 
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
@@ -304,6 +318,7 @@ export default function Map(props) {
           user={user}
           setShowProfile={setShowProfile}
           setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+          setProfileQueryParam={urlHandler.setProfileQueryParam}
         />
         <FindPlacesButton
           setKeywordSearchOptions={setKeywordSearchOptions}
@@ -320,7 +335,7 @@ export default function Map(props) {
 
         <Search
           panTo={panTo}
-          setMarkerId={setMarkerId}
+          setMarkerId={urlHandler.setMarkerId}
           setMarkers={setMarkers}
           setSelected={setSelected}
           showDetails={details}
@@ -341,7 +356,8 @@ export default function Map(props) {
             panTo={panTo}
             placesService={placesService}
             pos={pos}
-            setKeywordSearchUrl={setKeywordSearchUrl}
+            showProfile={showProfile}
+            setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
             setMarkers={setMarkers}
             setSelected={setSelected}
             setPos={setPos}
@@ -371,7 +387,7 @@ export default function Map(props) {
                     })
                   }
                   setSelected(s)
-                  setMarkerId(s.place_id)
+                  urlHandler.setMarkerId(s.place_id)
                 }}
               />
             )
@@ -393,7 +409,7 @@ export default function Map(props) {
               selected={selected}
               close={() => {
                 setDetails(null)
-                setMarkerId(selected.place_id)
+                urlHandler.setMarkerId(selected.place_id)
               }}
               user={user}
               openProfile={() => {
@@ -409,6 +425,7 @@ export default function Map(props) {
               logOut={logOut}
               close={() => {
                 setShowProfile(null)
+                urlHandler.setProfileQueryParam(null)
               }}
             />
           )}

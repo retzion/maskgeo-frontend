@@ -32,20 +32,12 @@
   border-radius: 3px;
   width: auto;
   height: 36px;
+  text-shadow: 1px 1px #eaeaea;
 }
 .selected-place-sidebar .copied {
   position: absolute;
   left: 102px;
   top: 4.5px;
-}
-.selected-place-sidebar .top-button {
-  background: rgba(221,221,221,0.75);
-  text-shadow: 2px 2px #eaeaea;
-  box-shadow: 1px 1px #666;
-}
-.selected-place-sidebar .top-button:hover {
-  background: rgba(221,221,221,1);
-  color: black;
 }
 .selected-place-sidebar .copy-url .icon-container {
   margin-left: 9px;

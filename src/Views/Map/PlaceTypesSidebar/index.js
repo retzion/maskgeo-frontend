@@ -35,6 +35,7 @@ export default ({
   mapRef,
   placesService,
   pos,
+  showProfile,
   setKeywordSearchUrl,
   setMarkers,
   setSelected,
@@ -71,7 +72,7 @@ export default ({
 
           mapRef.current.fitBounds(bounds)
           setMarkers(results)
-          setKeywordSearchUrl({
+          if (!showProfile) setKeywordSearchUrl({
             keyword,
             location,
             selected: selectedId,
