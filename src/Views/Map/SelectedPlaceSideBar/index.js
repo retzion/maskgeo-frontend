@@ -119,6 +119,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
           </span>
         )}
       </button>
+      {!featurePhotoUrl && <h3>&nbsp;</h3>}
       <div style={styles.container}>
         {/* {Business info} */}
         <h1 style={styles.title}>
@@ -126,21 +127,43 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
           {name}
         </h1>
 
-        {/* {Rating Icons} */}
-        {!maskRatingsCount ? (
-          <div style={styles.sidePadding}>not yet rated</div>
-        ) : (
-          <div style={styles.sidePadding}>
-            <div style={styles.ratingText}>{maskRating.toFixed(1)}</div>
-            <MaskRatingIcons
-              maskRating={maskRating}
-              maskRatingsCount={maskRatingsCount}
-              styles={ratingStyles}
-              widthMultiplier={21}
+          {/* Ratings / Leave Review */}
+        <div className="mask-rating-icons-row">
+          {/* {Rating Icons} */}
+          {!maskRatingsCount ? (
+            <div className="mask-ratings" style={styles.sidePadding}>
+              <i>not yet rated</i>
+            </div>
+          ) : (
+            <div className="mask-ratings" style={styles.sidePadding}>
+              <div style={styles.ratingText}>{maskRating.toFixed(1)}</div>
+              <MaskRatingIcons
+                maskRating={maskRating}
+                maskRatingsCount={maskRatingsCount}
+                styles={ratingStyles}
+                widthMultiplier={21}
+              />
+              <div style={styles.ratingText}>({maskRatingsCount})</div>
+            </div>
+          )}
+
+          {/* Leave Review */}
+          <button className="primary float-right" onClick={reviewLocation}>
+            {/* <FontAwesomeIcon
+              className="icon"
+              icon={faThumbsUp}
+              style={{ marginRight: 6 }}
             />
-            <div style={styles.ratingText}>({maskRatingsCount})</div>
-          </div>
-        )}
+            <FontAwesomeIcon
+              className="icon"
+              icon={faThumbsDown}
+              flip="horizontal"
+              style={{ marginRight: 6 }}
+            /> */}
+            Rate &amp; Review
+          </button>
+
+        </div>
 
         {/* {Address} */}
         {/* <h2 style={styles.address}>{address}</h2> */}
@@ -216,24 +239,6 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
             fontSize: "1.23rem",
           }}
         >
-          <button
-            className="primary"
-            onClick={reviewLocation}
-            style={styles.reviewButton}
-          >
-            <FontAwesomeIcon
-              className="icon"
-              icon={faThumbsUp}
-              style={{ marginRight: 6 }}
-            />
-            <FontAwesomeIcon
-              className="icon"
-              icon={faThumbsDown}
-              flip="horizontal"
-              style={{ marginRight: 6 }}
-            />
-            Rate &amp; Review
-          </button>
           Mask Reviews <i>({maskReviews && maskReviews.length})</i>
         </h3>
         <div style={{ borderTop: "1px solid #eaeaea" }}>

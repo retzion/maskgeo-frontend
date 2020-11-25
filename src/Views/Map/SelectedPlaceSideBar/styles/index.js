@@ -50,10 +50,4 @@ export default {
     marginRight: 9,
     color: "#666",
   },
-  reviewButton: {
-    float: "right",
-    padding: "6px 18px",
-    fontSize: "1.11rem",
-    marginTop: -3,
-  },
 }

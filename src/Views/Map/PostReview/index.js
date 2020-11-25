@@ -123,7 +123,6 @@ export default ({ close, selected, setSelected, user }) => {
 
     // save to db
     const savedReviewResponse = await postReview(reviewData).catch(c => c)
-    console.log(savedReviewResponse)
     if (
       !savedReviewResponse ||
       !savedReviewResponse.data ||
@@ -146,7 +145,7 @@ export default ({ close, selected, setSelected, user }) => {
       if (savedReview.error) alert(savedReview.error)
       else {
         let updatedSelected = { ...selected }
-        updatedSelected.maskReviews.unshift(savedReview)
+        if (savedReview.review && savedReview.review.length) updatedSelected.maskReviews.unshift(savedReview)
         updatedSelected.maskRatingsCount++
         const averageRating =
           (selected.maskRatingsCount * selected.maskRating) /

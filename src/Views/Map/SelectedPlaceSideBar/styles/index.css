@@ -49,6 +49,19 @@
   box-shadow: 1px 1px #fff;
 }
 
+.selected-place-sidebar .mask-rating-icons-row {
+  height: auto;
+  display: grid;
+  place-items: center;
+  grid-template-columns: minmax(210px, 25%) 1fr;
+  margin-top: 21px;
+}
+.selected-place-sidebar button.float-right {
+  padding: 6px 18px;
+  margin: 3px;
+  font-size: 0.9rem;
+}
+
 
 .location-detail {
   display: block;
