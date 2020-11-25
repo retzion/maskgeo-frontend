@@ -6,7 +6,7 @@ import storage from "../../util/LocalStorage"
 
 const apiUri = maskGeoApiUri()
 
-const accessToken = storage.getData("accessToken")
+let accessToken = storage.getData("accessToken")
 let universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
@@ -39,6 +39,11 @@ async function processToken(token) {
   const response = await get(`${apiUri}/jwt/${token}`).catch(r => r)
   if (response && response.data && response.data["apiVersion"])
     storage.setData("apiVersion", response.data["apiVersion"])
+  if (response && response.data && response.data["accessToken"]) {
+    storage.setData("accessToken", response.data["accessToken"])
+    accessToken = response.data["accessToken"]
+    universalHeaders["Authorization"] = `Bearer ${response.data["accessToken"]}`
+  }
   return response
 }
 
@@ -66,6 +71,13 @@ async function decryptToken() {
   const response = await get(`${apiUri}/data`).catch(r => r)
   if (response && response.data && response.data["apiVersion"])
     storage.setData("apiVersion", response.data["apiVersion"])
+  if (response && response.data && response.data["error"])
+    storage.clearStorage("accessToken")
+  if (response && response.data && response.data["accessToken"]) {
+    storage.setData("accessToken", response.data["accessToken"])
+    accessToken = response.data["accessToken"]
+    universalHeaders["Authorization"] = `Bearer ${response.data["accessToken"]}`
+  }
   return response
 }
 

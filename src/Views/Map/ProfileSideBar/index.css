@@ -1,0 +1,7 @@
+.authenticate {
+  padding: 12px;
+}
+.authenticate button, .authenticate .button {
+  padding: 15px 21px;
+  font-size: 1rem;
+}

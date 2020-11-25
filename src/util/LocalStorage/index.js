@@ -13,7 +13,8 @@ const lsFromJson = (_key, data) =>
 
 export default class {
   static clearStorage(_key) {
-    for (const [key, value] of Object.entries(window.localStorage)) {
+    if (_key) window.localStorage.removeItem(_key)
+    else for (const [key] of Object.entries(window.localStorage)) {
       window.localStorage.removeItem(key)
     }    
   }
