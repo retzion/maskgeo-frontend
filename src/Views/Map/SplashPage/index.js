@@ -13,7 +13,7 @@ const Cookies = new UniversalCookie()
 export default () => (
   <div className="splash-page">
     <div>
-      <h2>Welcome to Mask Forecast</h2>
+      <h3>Welcome to Mask Forecast</h3>
       {/* <p>Your resource for knowing the mask situation of locations you plan to visit.</p> */}
       <p>
         Check the forecast for masks before you go out. Leave ratings and
@@ -21,7 +21,7 @@ export default () => (
       </p>
     </div>
     <div>
-      <h2>Help Support Us</h2>
+      <h3>Help Support Us</h3>
       {/* <p>We need server space and more human resources. Please help us stay alive by sending some change.</p> */}
       <p>Please help this web app thrive by sending some change.</p>
       <div className="donate">
@@ -33,10 +33,10 @@ export default () => (
           />
           <img
             src={btcQr}
-            alt="38JNvdDbuVweQuMawf8F3cPNyAmK8nPzT9"
+            alt="3FTMoRZ1RyUPWBedobFNTKH4n1iWTGchnp"
             style={{ maxWidth: 66 }}
           />
-          <div>38JNvdDbuVweQuMawf8F3cPNyAmK8nPzT9</div>
+          <div>3FTMoRZ1RyUPWBedobFNTKH4n1iWTGchnp</div>
         </div>
         <div>
           <img src={payPalLogo} alt="PayPal" style={{ maxWidth: 90 }} />
