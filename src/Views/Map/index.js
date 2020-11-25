@@ -206,7 +206,6 @@ export default function Map(props) {
       },
     } = props
     const profile = search.includes("profile")
-    console.log({profile})
   
     /** Pan to Marker if param is found */
     if (markerIds) {
