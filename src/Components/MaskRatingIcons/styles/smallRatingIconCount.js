@@ -5,7 +5,7 @@ export default ({ height = 21, width = 105 }) => ({
     verticalAlign: "middle",
     display: "inline-block",
     margin: 0,
-    backgroundImage: "url(/mask-grey.svg)",
+    backgroundImage: "url(/img/mask-grey.svg)",
     backgroundPosition: "contain",
     backgroundRepeat: "repeat-x",
     textAlign: "left",
@@ -13,7 +13,7 @@ export default ({ height = 21, width = 105 }) => ({
   ratingResults: {
     height,
     margin: 0,
-    backgroundImage: "url(/mask.svg)",
+    backgroundImage: "url(/img/mask.svg)",
     backgroundSize: "auto 100%",
     backgroundRepeat: "repeat-x",
   },

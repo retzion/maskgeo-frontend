@@ -1,0 +1,19 @@
+.splash-page {
+  height: 94vh;
+  width: 94vw;
+  display: grid;
+  place-items: center;
+  margin: 3vh 3vw;
+  background: white;
+  border-radius: 9px;
+}
+.splash-page > div {
+  width: 90vw;
+  text-align: center;
+}
+.splash-page .donate {
+  height: auto;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, 1fr);
+}

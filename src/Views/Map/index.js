@@ -15,6 +15,7 @@ import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import PlaceTypesSidebar from "./PlaceTypesSidebar"
 import FindPlacesButton from "./FindPlacesButton"
+import SplashPage from "./SplashPage"
 
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
@@ -53,16 +54,16 @@ export default function Map(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   })
-  const [markers, setMarkers] = useState([])
-  const [selected, setSelected] = useState(null)
   const [details, setDetails] = useState(null)
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
+  const [markers, setMarkers] = useState([])
+  const [placesService, setPlacesService] = useState(null)
   const [pos, setPos] = useState(startingPosition)
-  const [user, setUser] = useState(null)
+  const [selected, setSelected] = useState(null)
   const [showProfile, setShowProfile] = useState(null)
   const [showPostReview, setShowPostReview] = useState(null)
-  const [placesService, setPlacesService] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
+  const [user, setUser] = useState(null)
 
   function resetUrl() {
     if (window.history.pushState) {
@@ -126,7 +127,7 @@ export default function Map(props) {
       }
     },
     setKeywordSearchUrl: params => {
-      const { keyword, location, selected, zoom = "12z" } = params
+      const { keyword, location, selected, zoom = 12 } = params
       if (keyword && location) {
         // load markerss for a nearby search
         if (window.history.pushState) {
@@ -243,7 +244,7 @@ export default function Map(props) {
 
     /** Open Keyword search results if param is found */
     if (keyword && locationZoom) {
-      let [lat, lng, zoom = "12z"] = locationZoom.split(",")
+      let [lat, lng, zoom = 12] = locationZoom.split(",")
       lat = lat.replace("@", "")
       setKeywordSearchOptions({
         keyword,
@@ -290,21 +291,7 @@ export default function Map(props) {
 
   if (!Cookies.get("allow-access"))
     return (
-      <div style={{ height: "100vh", display: "grid", placeItems: "center" }}>
-        <input
-          type="text"
-          placeholder="Enter preview passcode"
-          style={{ fontSize: "1.8rem", margin: "0 1%", width: "90%" }}
-          onChange={e => {
-            const value = e.target.value
-            if (value === "1776") {
-              const expires = new Date().addDays(7)
-              Cookies.set("allow-access", true, { expires, path: "/" })
-              document.location.reload()
-            }
-          }}
-        />
-      </div>
+      <SplashPage />
     )
   else
     return (

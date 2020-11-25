@@ -1,6 +1,6 @@
 {
   "name": "maskgeo-frontend",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "private": true,
   "engines": {
     "node": "15.2.0",
