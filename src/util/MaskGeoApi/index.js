@@ -4,6 +4,8 @@ import validate from "validator"
 import { maskGeoApiUri } from "../../config"
 import storage from "../../util/LocalStorage"
 
+import { version as appVersion } from "../../../package.json"
+
 const apiUri = maskGeoApiUri()
 
 let accessToken = storage.getData("accessToken")
@@ -11,6 +13,7 @@ let universalHeaders = {
   "API-KEY": process.env["REACT_APP_MASKGEO_API_KEY"],
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
+  "X-App-Version": appVersion,
 }
 if (accessToken) universalHeaders["Authorization"] = `Bearer ${accessToken}`
 axios.defaults.withCredentials = true
