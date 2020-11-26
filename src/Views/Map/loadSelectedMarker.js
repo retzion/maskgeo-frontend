@@ -1,6 +1,7 @@
 import { getGeocode, getLatLng } from "use-places-autocomplete"
 
 import { fetchReviews } from "../../util/MaskGeoApi"
+import calculateMaskRating from "../../util/calculateMaskRating"
 
 export default async ({
   address,
@@ -51,16 +52,13 @@ export default async ({
             geoCoordinates,
             googlePlaceId: placeId,
           })
-          result.maskReviews = maskReviews.filter(r => r.review && r.review.length)
+          if (!maskReviews) return alert("Problem fetching results.")
 
-          // mask ratings
-          const reducer = (accumulator, { rating }) => accumulator + rating
-          const accumulatedRatings = maskReviews.reduce(reducer, 0)
-          result.maskRating = maskReviews.length
-            ? accumulatedRatings / maskReviews.length
-            : 0
-          result.maskRatingsCount = maskReviews.length
-          
+          result.maskReviews = maskReviews
+          result.maskReviewsCount = maskReviews.filter(r => r.review && r.review.length).length
+
+          calculateMaskRating(result)          
+
           result.customIcon = true
           if (setMarkers) setMarkers([result])
           setSelected(result)

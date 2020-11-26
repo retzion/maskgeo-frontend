@@ -6,8 +6,9 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons"
 // components
 import Slider from "./Slider"
 
-// helper
+// helpers
 import { postReview } from "../../../util/MaskGeoApi"
+import calculateMaskRating from "../../../util/calculateMaskRating"
 
 //styles
 import "./index.css"
@@ -66,14 +67,16 @@ export default ({ close, selected, setSelected, user }) => {
     icon,
     maskRating,
     maskRatingsCount,
+    maskReviews,
+    maskReviewsCount,
     name,
     place_id: googlePlaceId,
   } = selected || {}
 
   const userIdMatch =
-    user && selected.maskReviews
-      ? selected.maskReviews.find(r => {
-          return r.user_id === user._id
+    user && maskReviews && maskReviews.length
+      ? maskReviews.find(r => {
+          return r.user && r.user._id === user._id
         })
       : null
 
@@ -135,32 +138,29 @@ export default ({ close, selected, setSelected, user }) => {
         savedReviewResponse.data.status !== "200")
     ) {
       setSubmitError(
-        JSON.stringify(
-          savedReviewResponse && savedReviewResponse.data
-            ? savedReviewResponse.data
-            : {
-                error: "Request to POST /review has failed without a response",
-                status: 400,
-              }
-        )
+        // JSON.stringify(
+        savedReviewResponse && savedReviewResponse.data
+          ? savedReviewResponse.data.error
+          : "Request has failed without a response. Please check your internet connection and try again."
+        // )
       )
     } else {
       const { data: savedReview } = savedReviewResponse
-      if (savedReview.error) alert(savedReview.error)
-      else {
-        let updatedSelected = { ...selected }
-        if (savedReview.review && savedReview.review.length)
-          updatedSelected.maskReviews.unshift(savedReview)
-        updatedSelected.maskRatingsCount++
-        const averageRating =
-          (selected.maskRatingsCount * selected.maskRating) /
-            selected.maskRatingsCount || 0
-        updatedSelected.maskRating =
-          (averageRating * selected.maskRatingsCount + savedReview.rating) /
-          updatedSelected.maskRatingsCount
-        setSelected(updatedSelected)
-        close()
+      let updatedSelected = {
+        ...selected,
+        maskReviews: maskReviews.filter(r => r.user._id != user._id),
+        maskRatingsCount: userIdMatch ? maskRatingsCount : maskRatingsCount - 1,
+        maskReviewsCount: userIdMatch ? maskReviewsCount : maskReviewsCount - 1,
       }
+
+      // insert this review at the top of the list
+      updatedSelected.maskReviews.unshift(savedReview)
+
+      // recalculate the rating
+      updatedSelected = calculateMaskRating(updatedSelected)
+
+      setSelected(updatedSelected)
+      close()
     }
   }, [selected])
 
@@ -175,7 +175,9 @@ export default ({ close, selected, setSelected, user }) => {
         <a onClick={close} className="top-button close">
           ✖️
         </a>
-        <h1 style={{ display: "inline-block", marginTop: 0 }}>{userIdMatch ? "Edit Your" : "Post a"} Review</h1>
+        <h1 style={{ display: "inline-block", marginTop: 0 }}>
+          {userIdMatch ? "Edit Your" : "Post a"} Review
+        </h1>
         <h2 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
@@ -227,7 +229,11 @@ export default ({ close, selected, setSelected, user }) => {
             </p>
           </form>
 
-          {submitError || (
+          {(submitError && (
+            <div style={{ fontSize: "1.2rem", color: "red" }}>
+              {submitError}
+            </div>
+          )) || (
             <h1 style={{ display: showSubmitConfirmation ? "block" : "none" }}>
               Submitting Your Review...
             </h1>
