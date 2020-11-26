@@ -166,7 +166,7 @@ export default ({ close, selected, setSelected, user }) => {
 
   const SidebarContent = () => (
     <div
-      className="post-review"
+      className="post-review open-sidebar"
       style={{
         padding: 12,
       }}

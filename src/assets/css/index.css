@@ -24,6 +24,11 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.open-sidebar {
+  overflow-y: scroll;
+  max-height: 100vh;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

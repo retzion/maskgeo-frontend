@@ -95,7 +95,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
   }
 
   const SidebarContent = () => (
-    <div className="selected-place-sidebar">
+    <div className="selected-place-sidebar open-sidebar">
       {featurePhotoUrl && (
         <div
           style={{

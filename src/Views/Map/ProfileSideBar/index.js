@@ -124,7 +124,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
   }
 
   const SidebarContent = () => (
-    <div className="authenticate">
+    <div className="authenticate open-sidebar">
       <a onClick={close} style={styles.close}>
         ✖️
       </a>
