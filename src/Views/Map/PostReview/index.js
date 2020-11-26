@@ -25,16 +25,16 @@ const styles = {
     minWidth: "240px",
   },
   title: {
-    fontSize: "1.5rem",
+    fontSize: "1.2rem",
     margin: 0,
   },
   icon: { height: 24, marginRight: 9 },
   address: {
     marginTop: 12,
     fontSize: "0.9rem",
+    fontWeight: 450,
     fontStyle: "italic",
   },
-  textarea: { padding: 9, width: "90%", height: 90, marginBottom: 6 },
   button: { padding: "15px 21px", fontSize: "1rem" },
   ratingContainer: {
     width: 150,
@@ -70,6 +70,13 @@ export default ({ close, selected, setSelected, user }) => {
     place_id: googlePlaceId,
   } = selected || {}
 
+  const userIdMatch =
+    user && selected.maskReviews
+      ? selected.maskReviews.find(r => {
+          return r.user_id === user._id
+        })
+      : null
+
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(null)
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(null)
   const [submitError, setSubmitError] = useState(null)
@@ -95,10 +102,7 @@ export default ({ close, selected, setSelected, user }) => {
       googlePlaceId,
       rating: sliderRef.current.props.value,
       review: reviewInput.current.value,
-      user: {
-        _id: user._id,
-        username: user.username,
-      },
+      user,
     }
 
     // fix zoom ratio and show message
@@ -145,7 +149,8 @@ export default ({ close, selected, setSelected, user }) => {
       if (savedReview.error) alert(savedReview.error)
       else {
         let updatedSelected = { ...selected }
-        if (savedReview.review && savedReview.review.length) updatedSelected.maskReviews.unshift(savedReview)
+        if (savedReview.review && savedReview.review.length)
+          updatedSelected.maskReviews.unshift(savedReview)
         updatedSelected.maskRatingsCount++
         const averageRating =
           (selected.maskRatingsCount * selected.maskRating) /
@@ -157,9 +162,6 @@ export default ({ close, selected, setSelected, user }) => {
         close()
       }
     }
-    // } catch (c) {
-    //   alert(c)
-    // }
   }, [selected])
 
   const SidebarContent = () => (
@@ -173,7 +175,7 @@ export default ({ close, selected, setSelected, user }) => {
         <a onClick={close} className="top-button close">
           ✖️
         </a>
-        <h1 style={{ display: "inline-block", marginTop: 0 }}>Post a Review</h1>
+        <h1 style={{ display: "inline-block", marginTop: 0 }}>{userIdMatch ? "Edit Your" : "Post a"} Review</h1>
         <h2 style={styles.title}>
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
@@ -188,14 +190,20 @@ export default ({ close, selected, setSelected, user }) => {
               submitReview()
             }}
           >
-            <h2>Rate the Wearing of Masks (0 - 5)</h2>
-            <Slider ref={sliderRef} selected={selected} />
+            <h3>Rate the Wearing of Masks (0 - 5)</h3>
+            <Slider
+              ref={sliderRef}
+              selected={selected}
+              user={user}
+              userIdMatch={userIdMatch}
+            />
             <hr color="#eaeaea" />
-            <h2>Write a Review (optional)</h2>
+            <h3>{userIdMatch ? "Edit Your" : "Write a"} Review (optional)</h3>
             <textarea
               ref={reviewInput}
               name="review"
-              style={styles.textarea}
+              defaultValue={userIdMatch ? userIdMatch.review : ""}
+              className={styles.textarea}
               placeholder="Write a short review of your experience at this location"
             />
             <p>

@@ -8,13 +8,15 @@ import MaskRatingIcons from "../../../../Components/MaskRatingIcons"
 // styles
 import "./index.css"
 import smallRatingIconCount from "../../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
-const ratingStyles = smallRatingIconCount({ height: 50, width: 250 })
+const ratingStyles = smallRatingIconCount({ height: 45, width: 225 })
 
-export default React.forwardRef((props, ref) => {
-  const [rating, setRating] = useState(2.5)
+export default React.forwardRef(({ userIdMatch }, ref) => {
+  const initialRating = userIdMatch ? userIdMatch.rating : 2.5
+
+  const [rating, setRating] = useState(initialRating)
 
   const sliderSettings = {
-    start: 2.5,
+    start: initialRating,
     min: 0,
     max: 5,
     step: 0.5,
@@ -24,7 +26,7 @@ export default React.forwardRef((props, ref) => {
   return (
     <Grid>
       <Grid.Column width={16}>
-        <p>
+        <p style={{ fontSize: "0.9rem" }}>
           <i>
             Use the slider below to rate the amount of masks you see at this
             location. 0 would mean no one is wearing masks. 5 would mean
@@ -36,7 +38,7 @@ export default React.forwardRef((props, ref) => {
             maskRating={rating}
             maskRatingsCount={1}
             styles={ratingStyles}
-            widthMultiplier={50}
+            widthMultiplier={45}
           />
           <Slider
             ref={ref}

@@ -11,3 +11,9 @@
   width: 36px;
   height: 36px;
 }
+.post-review textarea {
+  padding: 9px;
+  width: 90%;
+  height: 90px;
+  margin-bottom: 6px;
+}

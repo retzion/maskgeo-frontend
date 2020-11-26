@@ -18,3 +18,16 @@
   grid-gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
 }
+.splash-page .donate .donate-bitcoin {
+  font-size: 0.45rem;
+}
+.splash-page .donate .donate-bitcoin .bitcoin-icon {
+  max-width: 33px;
+  margin-top: 12px;
+  margin-left: -36px;
+  position: absolute;
+  /* 
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%); */
+}

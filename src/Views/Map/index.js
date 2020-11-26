@@ -5,16 +5,16 @@ import { GoogleMap, useLoadScript } from "@react-google-maps/api"
 import UniversalCookie from "universal-cookie"
 
 // components
-import ProfileButton from "./ProfileButton"
-import ProfileSideBar from "./ProfileSideBar"
-import Marker from "./Marker"
+import FindPlacesButton from "./FindPlacesButton"
 import InfoWindow from "./InfoWindow"
 import Locate from "./Locate"
+import Marker from "./Marker"
+import PlaceTypesSidebar from "./PlaceTypesSidebar"
 import PostReview from "./PostReview"
+import ProfileButton from "./ProfileButton"
+import ProfileSideBar from "./ProfileSideBar"
 import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
-import PlaceTypesSidebar from "./PlaceTypesSidebar"
-import FindPlacesButton from "./FindPlacesButton"
 import SplashPage from "./SplashPage"
 
 // helpers
@@ -54,6 +54,7 @@ export default function Map(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   })
+  const [allowAccess, setAllowAccess] = useState(Cookies.get("allow-access"))
   const [details, setDetails] = useState(null)
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
   const [markers, setMarkers] = useState([])
@@ -288,9 +289,9 @@ export default function Map(props) {
   if (loadError) return "Error"
   if (!isLoaded) return "Loading..."
 
-  if (!Cookies.get("allow-access"))
+  if (!allowAccess)
     return (
-      <SplashPage />
+      <SplashPage setAllowAccess={setAllowAccess} />
     )
   else
     return (

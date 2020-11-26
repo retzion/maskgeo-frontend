@@ -3,10 +3,10 @@ import TimeAgo from "javascript-time-ago"
 import en from "javascript-time-ago/locale/en"
 
 // components
-import MaskRatingIcons from "../../../Components/MaskRatingIcons"
+import MaskRatingIcons from "../../../../Components/MaskRatingIcons"
 
 // styles
-import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
+import smallRatingIconCount from "../../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
 const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 
 TimeAgo.addDefaultLocale(en)
@@ -22,7 +22,7 @@ export default review => {
       }}
     >
       <div style={{ fontWeight: "bold", fontSize: "1.11rem", marginBottom: 9 }}>
-        {review.user.username}
+        {review.user && review.user.username}
       </div>
       <div>
         <MaskRatingIcons

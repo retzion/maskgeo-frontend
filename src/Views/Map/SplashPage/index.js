@@ -10,7 +10,7 @@ import "./index.css"
 
 const Cookies = new UniversalCookie()
 
-export default () => (
+export default ({setAllowAccess}) => (
   <div className="splash-page">
     <div>
       <h3>Welcome to Mask Forecast</h3>
@@ -25,11 +25,11 @@ export default () => (
       {/* <p>We need server space and more human resources. Please help us stay alive by sending some change.</p> */}
       <p>Please help this web app thrive by sending some change.</p>
       <div className="donate">
-        <div style={{ fontSize: "0.45rem" }}>
+        <div className="donate-bitcoin">
           <img
             src={bitcoinLogo}
             alt="Donate with Bitcoin"
-            style={{ maxWidth: 33, position: "absolute", left: 30 }}
+            className="bitcoin-icon"
           />
           <img
             src={btcQr}
@@ -56,6 +56,16 @@ export default () => (
         browser.
       </p>
     </div>
+    {/* <button
+      className="primary big"
+      onClick={() => {
+        const expires = new Date().addDays(1)
+        Cookies.set("allow-access", true, { expires, path: "/" })
+        setAllowAccess(true)
+      }}
+    >
+      I Agree
+    </button> */}
     <input
       type="text"
       placeholder="Enter preview passcode"
@@ -70,7 +80,7 @@ export default () => (
         if (value === "1776") {
           const expires = new Date().addDays(1)
           Cookies.set("allow-access", true, { expires, path: "/" })
-          document.location.reload()
+          setAllowAccess(true)
         }
       }}
     />

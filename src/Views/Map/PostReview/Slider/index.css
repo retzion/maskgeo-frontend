@@ -1,11 +1,11 @@
-.my-rating {
-  margin: 12px 0 36px 0;
-  font-size: 1.5rem;
+.post-review .my-rating {
+  margin: 9px 0 12px 0;
+  font-size: 1.2rem;
   color: white;
   background-color: var(--color-blue);
-  padding: 6px 12px;
+  padding: 3px 6px;
   border-radius: 4.5px;
-  min-width: 90px;
+  min-width: 72px;
   text-align: center;
   display: inline-block;
   vertical-align: middle;

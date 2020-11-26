@@ -5,7 +5,7 @@ import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { version } from "../package.json"
 
-import "./index.css"
+import "./assets/css/index.css"
 
 console.log(
   `Running version ${version} in ${process.env["NODE_ENV"]} environment`

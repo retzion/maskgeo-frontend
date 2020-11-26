@@ -1,0 +1,32 @@
+/* Reusable variables */
+:root {
+  --color-blue: #2172b4;
+  --color-light-blue: #71b7f0;
+  --color-dark-grey: rgb(90, 90, 90);
+  --color-dark-text: #3b2121;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-light-blue);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 18px;
+  color: var(--color-dark-text);
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+@import "button.css";
