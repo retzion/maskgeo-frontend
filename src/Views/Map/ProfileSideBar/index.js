@@ -3,6 +3,8 @@ import Sidebar from "react-sidebar"
 import validate from "validator"
 import UniversalCookie from "universal-cookie"
 
+// helpers
+import {cookieNames} from "../../../config"
 import { createUser, requestMagicLoginLink } from "../../../util/MaskGeoApi"
 
 // styles
@@ -52,14 +54,14 @@ export default function ProfileSideBar({ close, logOut, user }) {
   const newUserEmailInput = useRef()
 
   React.useEffect(() => {
-    const emailValue = Cookies.get("email")
+    const emailValue = Cookies.get(cookieNames.email)
     emailInput.current.value = emailValue
     if (email != emailValue) setEmailState(emailValue)
     if (emailValue && emailValue.length) setShowLogin(true)
   }, [])
 
   function setEmail(inputValue) {
-    const cookieValue = Cookies.get("email")
+    const cookieValue = Cookies.get(cookieNames.email)
     console.log({
       email,
       inputValue,
@@ -68,7 +70,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
 
     const expires = new Date().addDays(90)
     if (inputValue != cookieValue)
-      Cookies.set("email", inputValue, { expires, path: "/" })
+      Cookies.set(cookieNames.email, inputValue, { expires, path: "/" })
     if (inputValue != email) setEmailState(inputValue)
     if (inputValue && inputValue.length) setShowLogin(true)
   }

@@ -21,6 +21,7 @@ import SplashPage from "./SplashPage"
 import loadSelectedMarker from "./loadSelectedMarker"
 import storage from "../../util/LocalStorage"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
+import { cookieNames } from "../../config"
 import { version } from "../../../package.json"
 
 // design resources
@@ -35,7 +36,10 @@ const mapContainerStyle = {
 const Cookies = new UniversalCookie()
 
 // Set default location to cookie value or Salt Lake City, Utah
-const startingPosition = Cookies.get("position") || { lat: 40.758701, lng: -111.876183 }
+const startingPosition = Cookies.get(cookieNames.position) || {
+  lat: 40.758701,
+  lng: -111.876183,
+}
 
 const libraries = ["places"]
 
@@ -54,7 +58,7 @@ export default function Map(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   })
-  const [allowAccess, setAllowAccess] = useState(Cookies.get("allow-cookies"))
+  const [allowAccess, setAllowAccess] = useState(Cookies.get(cookieNames.allowCookies))
   const [details, setDetails] = useState(null)
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
   const [markers, setMarkers] = useState([])
@@ -68,7 +72,7 @@ export default function Map(props) {
 
   function setPos(positionJson) {
     setPosState(positionJson)
-    Cookies.set("position", positionJson)
+    Cookies.set(cookieNames.position, positionJson)
   }
 
   function resetUrl() {
@@ -283,8 +287,10 @@ export default function Map(props) {
 
   async function logOut() {
     await removeToken()
-    Cookies.remove("mg-jwt", { httpOnly: true, path: "/" })
-    Cookies.remove("mg-refresh-jwt", { httpOnly: true, path: "/" })
+    Cookies.remove(cookieNames.jwtAccessToken, { httpOnly: true, path: "/" })
+    Cookies.remove(cookieNames.jwtRefreshToken, { httpOnly: true, path: "/" })
+    Cookies.remove(cookieNames.allowCookies, { path: "/" })
+    Cookies.remove(cookieNames.position, { path: "/" })
     storage.clearStorage()
     setUser(null)
   }

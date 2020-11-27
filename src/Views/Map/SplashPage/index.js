@@ -1,6 +1,9 @@
 import React from "react"
 import UniversalCookie from "universal-cookie"
 
+// helpers
+import {cookieNames} from "../../../config"
+
 // styles and images
 import bitcoinLogo from "../../../assets/img/bitcoin-logo.png"
 import btcQr from "../../../assets/img/bitcoin-qr.png"
@@ -62,7 +65,7 @@ export default ({ setAllowAccess }) => (
         className="primary big"
         onClick={() => {
           const expires = new Date().addDays(1)
-          Cookies.set("allow-cookies", true, { expires, path: "/" })
+          Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
           setAllowAccess(true)
         }}
       >
@@ -81,7 +84,7 @@ export default ({ setAllowAccess }) => (
         const value = e.target.value
         if (value === "1776") {
           const expires = new Date().addDays(1)
-          Cookies.set("allow-cookies", true, { expires, path: "/" })
+          Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
           setAllowAccess(true)
         }
       }}

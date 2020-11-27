@@ -19,4 +19,12 @@ export function maskGeoApiUri() {
   })[appEnvironment]
 }
 
+export const cookieNames = {
+  allowCookies: "allow-cookies",
+  email: "email",
+  jwtAccessToken: "mg-jwt",
+  jwtRefreshToken: "mg-refresh-jwt",
+  position: "position",
+}
+
 export const frontendUrl = process.env["REACT_APP_FRONTEND_URL"] || "http://localhost:3000"
