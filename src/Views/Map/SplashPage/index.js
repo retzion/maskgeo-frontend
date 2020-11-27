@@ -60,7 +60,7 @@ export default ({setAllowAccess}) => (
       className="primary big"
       onClick={() => {
         const expires = new Date().addDays(1)
-        Cookies.set("allow-access", true, { expires, path: "/" })
+        Cookies.set("allow-cookies", true, { expires, path: "/" })
         setAllowAccess(true)
       }}
     >
@@ -79,7 +79,7 @@ export default ({setAllowAccess}) => (
         const value = e.target.value
         if (value === "1776") {
           const expires = new Date().addDays(1)
-          Cookies.set("allow-access", true, { expires, path: "/" })
+          Cookies.set("allow-cookies", true, { expires, path: "/" })
           setAllowAccess(true)
         }
       }}

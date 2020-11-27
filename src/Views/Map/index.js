@@ -54,7 +54,7 @@ export default function Map(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   })
-  const [allowAccess, setAllowAccess] = useState(Cookies.get("allow-access"))
+  const [allowAccess, setAllowAccess] = useState(Cookies.get("allow-cookies"))
   const [details, setDetails] = useState(null)
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
   const [markers, setMarkers] = useState([])
