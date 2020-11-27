@@ -56,7 +56,7 @@ export default ({setAllowAccess}) => (
         browser.
       </p>
     </div>
-    {/* <button
+    <button
       className="primary big"
       onClick={() => {
         const expires = new Date().addDays(1)
@@ -65,8 +65,8 @@ export default ({setAllowAccess}) => (
       }}
     >
       I Agree
-    </button> */}
-    <input
+    </button>
+    {/* <input
       type="text"
       placeholder="Enter preview passcode"
       style={{
@@ -83,6 +83,6 @@ export default ({setAllowAccess}) => (
           setAllowAccess(true)
         }
       }}
-    />
+    /> */}
   </div>
 )
