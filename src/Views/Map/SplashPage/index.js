@@ -5,6 +5,7 @@ import UniversalCookie from "universal-cookie"
 import bitcoinLogo from "../../../assets/img/bitcoin-logo.png"
 import btcQr from "../../../assets/img/bitcoin-qr.png"
 import donatePayPal from "../../../assets/img/donate-paypal.gif"
+import mask from "../../../assets/img/mask.png"
 import payPalLogo from "../../../assets/img/paypal-logo.png"
 import "./index.css"
 
@@ -13,14 +14,14 @@ const Cookies = new UniversalCookie()
 export default ({setAllowAccess}) => (
   <div className="splash-page">
     <div>
-      <h3>Welcome to Mask Forecast</h3>
+      <h2 className="welcome">Welcome to Mask Forecast <img src={mask} alt="MaskForecast" /></h2>
       {/* <p>Your resource for knowing the mask situation of locations you plan to visit.</p> */}
       <p>
         Check the forecast for masks before you go out. Leave ratings and
-        reviews on locations based on your experience with mask wearing.
+        reviews on locations based on your experience with masks.
       </p>
     </div>
-    <div>
+    <div className="disabled">
       <h3>Help Support Us</h3>
       {/* <p>We need server space and more human resources. Please help us stay alive by sending some change.</p> */}
       <p>Please help this web app thrive by sending some change.</p>
