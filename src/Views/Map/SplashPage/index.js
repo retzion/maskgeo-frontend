@@ -11,10 +11,12 @@ import "./index.css"
 
 const Cookies = new UniversalCookie()
 
-export default ({setAllowAccess}) => (
+export default ({ setAllowAccess }) => (
   <div className="splash-page">
     <div>
-      <h2 className="welcome">Welcome to Mask Forecast <img src={mask} alt="MaskForecast" /></h2>
+      <h2 className="welcome">
+        Welcome to Mask Forecast <img src={mask} alt="MaskForecast" />
+      </h2>
       {/* <p>Your resource for knowing the mask situation of locations you plan to visit.</p> */}
       <p>
         Check the forecast for masks before you go out. Leave ratings and
@@ -56,18 +58,17 @@ export default ({setAllowAccess}) => (
         By using this site, you consent to allowing cookies to be used in your
         browser.
       </p>
-    </div>
-    <button
-      className="primary big"
-      onClick={() => {
-        const expires = new Date().addDays(1)
-        Cookies.set("allow-cookies", true, { expires, path: "/" })
-        setAllowAccess(true)
-      }}
-    >
-      I Agree
-    </button>
-    {/* <input
+      <button
+        className="primary big"
+        onClick={() => {
+          const expires = new Date().addDays(1)
+          Cookies.set("allow-cookies", true, { expires, path: "/" })
+          setAllowAccess(true)
+        }}
+      >
+        I Agree
+      </button>
+      {/* <input
       type="text"
       placeholder="Enter preview passcode"
       style={{
@@ -85,5 +86,6 @@ export default ({setAllowAccess}) => (
         }
       }}
     /> */}
+    </div>
   </div>
 )
