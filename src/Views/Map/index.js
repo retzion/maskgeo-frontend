@@ -34,8 +34,8 @@ const mapContainerStyle = {
 
 const Cookies = new UniversalCookie()
 
-// Set default location to Salt Lake City, Utah
-const startingPosition = { lat: 40.758701, lng: -111.876183 }
+// Set default location to cookie value or Salt Lake City, Utah
+const startingPosition = Cookies.get("position") || { lat: 40.758701, lng: -111.876183 }
 
 const libraries = ["places"]
 
@@ -59,12 +59,17 @@ export default function Map(props) {
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
   const [markers, setMarkers] = useState([])
   const [placesService, setPlacesService] = useState(null)
-  const [pos, setPos] = useState(startingPosition)
+  const [pos, setPosState] = useState(startingPosition)
   const [selected, setSelected] = useState(null)
   const [showProfile, setShowProfile] = useState(null)
   const [showPostReview, setShowPostReview] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
   const [user, setUser] = useState(null)
+
+  function setPos(positionJson) {
+    setPosState(positionJson)
+    Cookies.set("position", positionJson)
+  }
 
   function resetUrl() {
     if (window.history.pushState) {
@@ -110,7 +115,7 @@ export default function Map(props) {
   }, [])
 
   // URL handlers
-  const urlHandler ={
+  const urlHandler = {
     setMarkerId: markerId => {
       if (markerId) {
         // set URL for a selected marker
@@ -154,7 +159,7 @@ export default function Map(props) {
         const newurl = show ? `${href}?profile` : href
         window.history.pushState({ path: newurl }, "", newurl)
       }
-    }
+    },
   }
 
   const openSelected = useCallback(selectedObject => {
@@ -202,12 +207,10 @@ export default function Map(props) {
     const { keyword, selected: selectedPlace } = props.match.params
     const { locationZoom, selected } = props.match.params
     const {
-      location: {
-        search,
-      },
+      location: { search },
     } = props
     const profile = search.includes("profile")
-  
+
     /** Pan to Marker if param is found */
     if (markerIds) {
       markerIds = markerIds.split(",")
@@ -258,7 +261,7 @@ export default function Map(props) {
 
     /** Open profile sidebar if query param is found */
     if (search.match("profile")) setShowProfile(true)
-}
+  }
 
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
@@ -289,10 +292,7 @@ export default function Map(props) {
   if (loadError) return "Error"
   if (!isLoaded) return "Loading..."
 
-  if (!allowAccess)
-    return (
-      <SplashPage setAllowAccess={setAllowAccess} />
-    )
+  if (!allowAccess) return <SplashPage setAllowAccess={setAllowAccess} />
   else
     return (
       <div className="map-container">
