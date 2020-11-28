@@ -42,7 +42,11 @@ export default function (props) {
       >
         <Modal.Header>{ModalHeader}</Modal.Header>
         <Modal.Content>{ModalContent}</Modal.Content>
-        <Modal.Actions>{ModalControls}</Modal.Actions>
+        {ModalControls && (
+          <Modal.Actions style={{ textAlign: props.alignControls || "right" }}>
+            {ModalControls}
+          </Modal.Actions>
+        )}
       </Modal>
     </div>
   )

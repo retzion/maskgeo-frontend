@@ -14,10 +14,11 @@
   height: 100vh;
 }
 
-#map {
+/* #map {
   position: absolute;
   height: 100vh;
-}
+  opacity: 0.15;
+} */
 
 h1.logo {
   position: absolute;

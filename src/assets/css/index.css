@@ -34,7 +34,7 @@ html {
 body {
   background-color: var(--color-light-blue);
   margin: 0;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   -webkit-overflow-scrolling: touch;
 }
 

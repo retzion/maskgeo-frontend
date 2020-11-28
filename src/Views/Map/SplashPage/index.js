@@ -19,8 +19,14 @@ const Cookies = new UniversalCookie()
 
 export default ({ setAllowAccess }) => (
   <Modal
-    startOpen={true}
+    alignControls="center"
     closeOnDimmerClick={false}
+    startOpen={true}
+    ModalHeader={
+      <span className="splash-page-welcome">
+        Welcome to Mask Forecast <img src={mask} alt="MaskForecast" />
+      </span>
+    }
     ModalContent={
       <div className="splash-page">
         <div>
@@ -29,10 +35,9 @@ export default ({ setAllowAccess }) => (
             reviews on locations based on your experience with masks.
           </p>
         </div>
-        <div className="disabled">
-          <h3>Help Support Us</h3>
-          <p>Please help this web app thrive by sending some change.</p>
-          <div className="donate">
+        <div className="donate disabled">
+          <h3>Donate</h3>
+          <div className="donate-options">
             <div className="donate-bitcoin">
               <img
                 src={bitcoinLogo}
@@ -64,42 +69,55 @@ export default ({ setAllowAccess }) => (
             your browser.
           </p>
         </div>
+        <Input
+          type="text"
+          placeholder="Enter preview passcode"
+          style={{
+            marginTop: "21px",
+          }}
+          onChange={e => {
+            const value = e.target.value
+            if (value === "1776") {
+              const expires = new Date().addDays(1)
+              Cookies.set(cookieNames.allowCookies, true, {
+                expires,
+                path: "/",
+              })
+              setAllowAccess(true)
+            }
+          }}
+        />
       </div>
     }
-    ModalControls={[
-      <Input
-        type="text"
-        placeholder="Enter preview passcode"
-        style={{
-          marginBottom: "2%",
-        }}
-        onChange={e => {
-          const value = e.target.value
-          if (value === "1776") {
-            const expires = new Date().addDays(1)
-            Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
-            setAllowAccess(true)
-          }
-        }}
-      />,
-      // <Button
-      //   className="primary big"
-      //   onClick={() => {
-      //     const expires = new Date().addDays(1)
-      //     Cookies.set(cookieNames.allowCookies, true, {
-      //       expires,
-      //       path: "/",
-      //     })
-      //     setAllowAccess(true)
-      //   }}
-      // >
-      //   I Agree
-      // </Button>,
-    ]}
-    ModalHeader={
-      <span className="splash-page-welcome">
-        Welcome to Mask Forecast <img src={mask} alt="MaskForecast" />
-      </span>
-    }
+    // ModalControls={[
+    //   <Input
+    //     type="text"
+    //     placeholder="Enter preview passcode"
+    //     style={{
+    //       marginBottom: "2%",
+    //     }}
+    //     onChange={e => {
+    //       const value = e.target.value
+    //       if (value === "1776") {
+    //         const expires = new Date().addDays(1)
+    //         Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
+    //         setAllowAccess(true)
+    //       }
+    //     }}
+    //   />,
+    //   <Button
+    //     className="primary big"
+    //     onClick={() => {
+    //       const expires = new Date().addDays(1)
+    //       Cookies.set(cookieNames.allowCookies, true, {
+    //         expires,
+    //         path: "/",
+    //       })
+    //       setAllowAccess(true)
+    //     }}
+    //   >
+    //     I Agree
+    //   </Button>,
+    // ]}
   />
 )
