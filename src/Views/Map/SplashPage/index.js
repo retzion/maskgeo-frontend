@@ -1,8 +1,11 @@
 import React from "react"
 import UniversalCookie from "universal-cookie"
+import { Button, Input } from "semantic-ui-react"
+
+import Modal from "../../../Components/Modal"
 
 // helpers
-import {cookieNames} from "../../../config"
+import { cookieNames } from "../../../config"
 
 // styles and images
 import bitcoinLogo from "../../../assets/img/bitcoin-logo.png"
@@ -15,80 +18,88 @@ import "./index.css"
 const Cookies = new UniversalCookie()
 
 export default ({ setAllowAccess }) => (
-  <div className="splash-page">
-    <div>
-      <h2 className="welcome">
-        Welcome to Mask Forecast <img src={mask} alt="MaskForecast" />
-      </h2>
-      {/* <p>Your resource for knowing the mask situation of locations you plan to visit.</p> */}
-      <p>
-        Check the forecast for masks before you go out. Leave ratings and
-        reviews on locations based on your experience with masks.
-      </p>
-    </div>
-    <div className="disabled">
-      <h3>Help Support Us</h3>
-      {/* <p>We need server space and more human resources. Please help us stay alive by sending some change.</p> */}
-      <p>Please help this web app thrive by sending some change.</p>
-      <div className="donate">
-        <div className="donate-bitcoin">
-          <img
-            src={bitcoinLogo}
-            alt="Donate with Bitcoin"
-            className="bitcoin-icon"
-          />
-          <img
-            src={btcQr}
-            alt="3FTMoRZ1RyUPWBedobFNTKH4n1iWTGchnp"
-            style={{ maxWidth: 66 }}
-          />
-          <div>3FTMoRZ1RyUPWBedobFNTKH4n1iWTGchnp</div>
+  <Modal
+    startOpen={true}
+    closeOnDimmerClick={false}
+    ModalContent={
+      <div className="splash-page">
+        <div>
+          <p>
+            Check the forecast for masks before you go out. Leave ratings and
+            reviews on locations based on your experience with masks.
+          </p>
+        </div>
+        <div className="disabled">
+          <h3>Help Support Us</h3>
+          <p>Please help this web app thrive by sending some change.</p>
+          <div className="donate">
+            <div className="donate-bitcoin">
+              <img
+                src={bitcoinLogo}
+                alt="Donate with Bitcoin"
+                className="bitcoin-icon"
+              />
+              <img
+                src={btcQr}
+                alt="3FTMoRZ1RyUPWBedobFNTKH4n1iWTGchnp"
+                style={{ maxWidth: 66 }}
+              />
+              <div>3FTMoRZ1RyUPWBedobFNTKH4n1iWTGchnp</div>
+            </div>
+            <div>
+              <img src={payPalLogo} alt="PayPal" style={{ maxWidth: 90 }} />
+              <br />
+              <img
+                src={donatePayPal}
+                alt="Donate with PayPal"
+                style={{ maxWidth: 90 }}
+              />
+            </div>
+          </div>
         </div>
         <div>
-          <img src={payPalLogo} alt="PayPal" style={{ maxWidth: 90 }} />
-          <br />
-          <img
-            src={donatePayPal}
-            alt="Donate with PayPal"
-            style={{ maxWidth: 90 }}
-          />
+          <h3>Cookies Notification</h3>
+          <p>
+            By using this site, you consent to allowing cookies to be used in
+            your browser.
+          </p>
         </div>
       </div>
-    </div>
-    <div>
-      <h3>Cookies Notification</h3>
-      <p>
-        By using this site, you consent to allowing cookies to be used in your
-        browser.
-      </p>
-      <button
-        className="primary big"
-        onClick={() => {
-          const expires = new Date().addDays(1)
-          Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
-          setAllowAccess(true)
+    }
+    ModalControls={[
+      <Input
+        type="text"
+        placeholder="Enter preview passcode"
+        style={{
+          marginBottom: "2%",
         }}
-      >
-        I Agree
-      </button>
-      {/* <input
-      type="text"
-      placeholder="Enter preview passcode"
-      style={{
-        fontSize: "1.5rem",
-        margin: "0 1%",
-        width: "90%",
-        textAlign: "center",
-      }}
-      onChange={e => {
-        const value = e.target.value
-        if (value === "1776") {
-          const expires = new Date().addDays(1)
-          Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
-          setAllowAccess(true)
-        }
-      }}
-    /> */}
-    </div>
-  </div>
+        onChange={e => {
+          const value = e.target.value
+          if (value === "1776") {
+            const expires = new Date().addDays(1)
+            Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
+            setAllowAccess(true)
+          }
+        }}
+      />,
+      // <Button
+      //   className="primary big"
+      //   onClick={() => {
+      //     const expires = new Date().addDays(1)
+      //     Cookies.set(cookieNames.allowCookies, true, {
+      //       expires,
+      //       path: "/",
+      //     })
+      //     setAllowAccess(true)
+      //   }}
+      // >
+      //   I Agree
+      // </Button>,
+    ]}
+    ModalHeader={
+      <span className="splash-page-welcome">
+        Welcome to Mask Forecast <img src={mask} alt="MaskForecast" />
+      </span>
+    }
+  />
 )

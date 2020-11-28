@@ -6,6 +6,27 @@
   --color-dark-text: #3b2121;
 }
 
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  font-size: 18px;
+  color: var(--color-dark-text);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -13,13 +34,6 @@ html {
 body {
   background-color: var(--color-light-blue);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-size: 18px;
-  color: var(--color-dark-text);
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }

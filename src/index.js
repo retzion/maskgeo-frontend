@@ -5,16 +5,18 @@ import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { version } from "../package.json"
 
+// global styles
+import "semantic-ui-css/semantic.min.css"
 import "./assets/css/index.css"
 
 console.log(
   `Running version ${version} in ${process.env["NODE_ENV"]} environment`
 )
 
-Date.prototype.addDays = function(days) {
-  var date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
+Date.prototype.addDays = function (days) {
+  var date = new Date(this.valueOf())
+  date.setDate(date.getDate() + days)
+  return date
 }
 
 ReactDOM.render(

@@ -58,7 +58,9 @@ export default function Map(props) {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   })
-  const [allowAccess, setAllowAccess] = useState(Cookies.get(cookieNames.allowCookies))
+  const [allowAccess, setAllowAccess] = useState(
+    Cookies.get(cookieNames.allowCookies)
+  )
   const [details, setDetails] = useState(null)
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
   const [markers, setMarkers] = useState([])
@@ -298,147 +300,148 @@ export default function Map(props) {
   if (loadError) return "Error"
   if (!isLoaded) return "Loading..."
 
-  if (!allowAccess) return <SplashPage setAllowAccess={setAllowAccess} />
-  else
-    return (
-      <div className="map-container">
-        <Locate
-          panTo={panTo}
-          setPos={setPos}
-          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-        />
-        <ProfileButton
-          user={user}
-          setShowProfile={setShowProfile}
-          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-          setProfileQueryParam={urlHandler.setProfileQueryParam}
-        />
-        <FindPlacesButton
-          setKeywordSearchOptions={setKeywordSearchOptions}
-          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-        />
-        <div />
+  return (
+    <div className="map-container">
+      {!allowAccess && <SplashPage setAllowAccess={setAllowAccess} />}
 
-        <h1 className="logo">
-          <span role="img" aria-label="tent">
-            😷
-          </span>{" "}
-          Mask Forecast
-        </h1>
+      <Locate
+        panTo={panTo}
+        setPos={setPos}
+        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+      />
 
-        <Search
+      <ProfileButton
+        user={user}
+        setShowProfile={setShowProfile}
+        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+        setProfileQueryParam={urlHandler.setProfileQueryParam}
+      />
+      <FindPlacesButton
+        setKeywordSearchOptions={setKeywordSearchOptions}
+        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+      />
+      <div />
+
+      <h1 className="logo">
+        <span role="img" aria-label="tent">
+          😷
+        </span>{" "}
+        Mask Forecast
+      </h1>
+
+      <Search
+        panTo={panTo}
+        setMarkerId={urlHandler.setMarkerId}
+        setMarkers={setMarkers}
+        setSelected={setSelected}
+        showDetails={details}
+        placesService={placesService}
+        pos={pos}
+        setPos={setPos}
+        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
+      />
+
+      {showPlaceTypesButtons && (
+        <PlaceTypesSidebar
+          bounds={bounds}
+          close={() => {
+            setShowPlaceTypesButtons(null)
+          }}
+          keywordSearchOptions={keywordSearchOptions}
+          mapRef={mapRef}
           panTo={panTo}
-          setMarkerId={urlHandler.setMarkerId}
-          setMarkers={setMarkers}
-          setSelected={setSelected}
-          showDetails={details}
           placesService={placesService}
           pos={pos}
+          showProfile={showProfile}
+          setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
+          setMarkers={setMarkers}
+          setSelected={setSelected}
           setPos={setPos}
-          setShowPlaceTypesButtons={setShowPlaceTypesButtons}
         />
+      )}
 
-        {showPlaceTypesButtons && (
-          <PlaceTypesSidebar
-            bounds={bounds}
-            close={() => {
-              setShowPlaceTypesButtons(null)
-            }}
-            keywordSearchOptions={keywordSearchOptions}
-            mapRef={mapRef}
-            panTo={panTo}
-            placesService={placesService}
-            pos={pos}
-            showProfile={showProfile}
-            setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
-            setMarkers={setMarkers}
+      <GoogleMap
+        id="map"
+        mapContainerStyle={mapContainerStyle}
+        options={options}
+        onLoad={onMapLoad}
+      >
+        {markers.map(marker => {
+          return (
+            <Marker
+              key={marker["place_id"]}
+              marker={marker}
+              setSelected={async s => {
+                if (!s.reviews) {
+                  await loadSelectedMarker({
+                    panTo,
+                    placeId: s.place_id,
+                    places: window.google.maps.places,
+                    placesService,
+                    pos,
+                    setSelected,
+                  })
+                }
+                setSelected(s)
+                urlHandler.setMarkerId(s.place_id)
+              }}
+            />
+          )
+        })}
+
+        {selected && (
+          <InfoWindow
+            place={selected}
+            resetUrl={resetUrl}
             setSelected={setSelected}
-            setPos={setPos}
+            showDetails={() => {
+              openSelected(selected)
+            }}
           />
         )}
 
-        <GoogleMap
-          id="map"
-          mapContainerStyle={mapContainerStyle}
-          options={options}
-          onLoad={onMapLoad}
-        >
-          {markers.map(marker => {
-            return (
-              <Marker
-                key={marker["place_id"]}
-                marker={marker}
-                setSelected={async s => {
-                  if (!s.reviews) {
-                    await loadSelectedMarker({
-                      panTo,
-                      placeId: s.place_id,
-                      places: window.google.maps.places,
-                      placesService,
-                      pos,
-                      setSelected,
-                    })
-                  }
-                  setSelected(s)
-                  urlHandler.setMarkerId(s.place_id)
-                }}
-              />
-            )
-          })}
+        {details && (
+          <SelectedPlaceSideBar
+            selected={selected}
+            close={() => {
+              setDetails(null)
+              urlHandler.setMarkerId(selected.place_id)
+            }}
+            user={user}
+            openProfile={() => {
+              setShowProfile(true)
+            }}
+            setShowPostReview={setShowPostReview}
+          />
+        )}
 
-          {selected && (
-            <InfoWindow
-              place={selected}
-              resetUrl={resetUrl}
-              setSelected={setSelected}
-              showDetails={() => {
-                openSelected(selected)
-              }}
-            />
-          )}
+        {showProfile && (
+          <ProfileSideBar
+            user={user}
+            logOut={logOut}
+            close={() => {
+              setShowProfile(null)
+              urlHandler.setProfileQueryParam(null)
+            }}
+          />
+        )}
 
-          {details && (
-            <SelectedPlaceSideBar
-              selected={selected}
-              close={() => {
-                setDetails(null)
-                urlHandler.setMarkerId(selected.place_id)
-              }}
-              user={user}
-              openProfile={() => {
-                setShowProfile(true)
-              }}
-              setShowPostReview={setShowPostReview}
-            />
-          )}
-
-          {showProfile && (
-            <ProfileSideBar
-              user={user}
-              logOut={logOut}
-              close={() => {
-                setShowProfile(null)
-                urlHandler.setProfileQueryParam(null)
-              }}
-            />
-          )}
-
-          {showPostReview && (
-            <PostReview
-              user={user}
-              selected={selected}
-              close={() => {
-                setShowPostReview(null)
-              }}
-              setSelected={setSelected}
-            />
-          )}
-        </GoogleMap>
-        <span className="version">
-          app:v{version} | api:v{storage.getData("apiVersion")}
-        </span>
-      </div>
-    )
+        {showPostReview && (
+          <PostReview
+            user={user}
+            selected={selected}
+            close={() => {
+              setShowPostReview(null)
+            }}
+            setSelected={setSelected}
+          />
+        )}
+      </GoogleMap>
+      <span className="version">
+        app:v{version} | api:v{storage.getData("apiVersion")}
+      </span>
+    </div>
+  )
 }
 
 async function ProcessToken(token) {

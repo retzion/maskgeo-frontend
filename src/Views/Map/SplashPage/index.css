@@ -1,19 +1,19 @@
 .splash-page {
-  height: 94vh;
-  width: 94vw;
+  min-height: 60vh;
+  width: 94%;
   display: grid;
   place-items: center;
-  margin: 3vh 3vw;
+  margin: 3% 3%;
   background: white;
   border-radius: 9px;
   font-size: 0.9rem;
 }
-.splash-page .welcome img {
+.splash-page-welcome img {
   width: 30px;
   vertical-align: middle;
 }
 .splash-page > div {
-  width: 90vw;
+  width: 90%;
   text-align: center;
 }
 .splash-page .donate {
@@ -24,12 +24,13 @@
 }
 .splash-page .disabled::before {
   content: "";
-  width: 90vw;
+  width: 90%;
   height: 200px;
   position: absolute;
-  left: 5vw;
+  left: 5%;
   z-index: 99;
-  background: rgba(0,0,0,0.33);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px dashed #ccc;
   cursor: not-allowed;
 }
 .splash-page .donate .donate-bitcoin {
