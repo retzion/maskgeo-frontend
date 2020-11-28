@@ -92,7 +92,7 @@ export default ({
   }
 
   return (
-    <div className={`place-type-buttons`}>
+    <div className={`keyword-search-buttons`}>
       <div className="open-sidebar">
         <a className="nav close" onClick={close}>
           <FontAwesomeIcon icon={faTimes} />

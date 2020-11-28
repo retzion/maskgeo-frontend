@@ -9,7 +9,7 @@ import FindPlacesButton from "./FindPlacesButton"
 import InfoWindow from "./InfoWindow"
 import Locate from "./Locate"
 import Marker from "./Marker"
-import PlaceTypesSidebar from "./PlaceTypesSidebar"
+import KeywordSearchPanel from "./KeywordSearchPanel"
 import PostReview from "./PostReview"
 import ProfileButton from "./ProfileButton"
 import ProfileSideBar from "./ProfileSideBar"
@@ -342,7 +342,7 @@ export default function Map(props) {
       />
 
       {showPlaceTypesButtons && (
-        <PlaceTypesSidebar
+        <KeywordSearchPanel
           bounds={bounds}
           close={() => {
             setShowPlaceTypesButtons(null)

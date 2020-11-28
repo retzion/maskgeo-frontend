@@ -2,6 +2,8 @@ import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import uniqolor from "uniqolor"
 
+import "./index.css"
+
 export default ({ click, keyword, icon }) => {
   return (
     <button

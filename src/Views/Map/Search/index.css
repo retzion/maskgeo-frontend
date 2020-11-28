@@ -1,6 +1,6 @@
 .search-container {
   position: absolute;
-  top: 45px;
+  top: 51px;
   width: 100vw;
   z-index: 1;
 }
@@ -14,7 +14,7 @@
 
 @media (max-width: 420px) {
   .search-container {
-    top: 39px;
+    top: 45px;
   }
 }
 @media (min-width: 810px) {
@@ -36,7 +36,7 @@
     text-align: left;
   }
   .search input {
-    width: 96%;
+    width: 99%;
   }
 }
 

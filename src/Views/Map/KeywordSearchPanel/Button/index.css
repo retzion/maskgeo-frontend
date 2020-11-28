@@ -1,0 +1,38 @@
+.keyword-buttons button {
+  height: 96px;
+  width: 120px;
+  cursor: pointer;
+  background: none;
+  text-align: center;
+  font-size: 1rem;
+  align-self: start;
+}
+.keyword-buttons button:hover {
+  background: #eaeaea;
+  color: #666;
+}
+.keyword-buttons button .icon {
+  background: #999;
+  border-radius: 50%;
+  color: white;
+  height: 60px;
+  width: 60px;
+  padding: 12px;
+  display: inline-block;
+}
+.keyword-buttons button span {
+  display: block;
+}
+
+@media (max-width: 720px) {
+  .keyword-buttons button {
+    height: 66px;
+    width: 66px;
+    font-size: 0.6rem;
+  }
+  .keyword-buttons button .icon {
+    height: 45px;
+    width: 45px;
+    padding: 9px;
+  }
+}
