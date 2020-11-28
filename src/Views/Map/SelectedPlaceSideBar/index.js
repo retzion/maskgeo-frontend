@@ -123,7 +123,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
       {!featurePhotoUrl && <h3>&nbsp;</h3>}
       <div style={styles.container}>
         {/* {Business info} */}
-        <h1 style={styles.title}>
+        <h1 className="place-name-header">
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
         </h1>

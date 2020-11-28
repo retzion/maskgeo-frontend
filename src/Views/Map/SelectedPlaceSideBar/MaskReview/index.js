@@ -16,6 +16,8 @@ export default review => {
   if (!review.review || !review.review.length) return
   return (
     <div
+      id={`review_${review._id}`}
+      key={review._id}
       style={{
         padding: 12,
         borderBottom: "1px solid #eaeaea",
@@ -35,7 +37,15 @@ export default review => {
           {timeAgo.format(new Date(review.timestamp))}
         </i>
       </div>
-      <div style={{ margin: "12px 0 6px 0", borderLeft: "3px solid #ccc", paddingLeft: 9 }}>{review.review}</div>
+      <div
+        style={{
+          margin: "12px 0 6px 0",
+          borderLeft: "3px solid #ccc",
+          paddingLeft: 9,
+        }}
+      >
+        {review.review}
+      </div>
     </div>
   )
 }

@@ -12,11 +12,6 @@ export default {
     width: "100%",
   },
   icon: { height: 24, marginRight: 9 },
-  title: {
-    fontSize: "1.5rem",
-    marginBottom: 6,
-    padding: "0 12px",
-  },
   padding: {
     padding: 12,
   },
