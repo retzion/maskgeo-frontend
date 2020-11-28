@@ -1,7 +1,3 @@
-.map-container {
-  text-align: center;
-  height: 100vh;
-}
 .version {
   position: absolute;
   z-index: 1;
@@ -13,24 +9,30 @@
   height: 1.5rem;
 }
 
+.map-container {
+  text-align: center;
+  height: 100vh;
+}
+
 #map {
   position: absolute;
+  height: 100vh;
 }
 
 h1.logo {
   position: absolute;
-  top: 0;
+  top: 4.5px;
   left: 1rem;
   color: var(--color-dark-text);
   z-index: 1;
   margin: 0;
   padding: 6px 0;
   cursor: default;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 @media (max-width: 420px) {
   h1.logo {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 }
 

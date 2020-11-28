@@ -1,5 +1,5 @@
 .profile {
-  right: 7.2rem;
+  right: 108px;
 }
 .profile .icon {
   color: var(--color-blue);
@@ -7,7 +7,7 @@
 .profile .button-text {
   color: var(--color-blue);
   display: none;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 /* .profile.authenticated {
   color: var(--color-blue);
@@ -19,7 +19,7 @@
 
 @media (max-width: 420px) {
   .profile {
-    right: 5.4rem;
+    right: 90px;
   }
 }
 @media (max-width: 630px) {

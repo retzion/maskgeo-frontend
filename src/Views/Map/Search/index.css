@@ -21,7 +21,7 @@
   .search-container {
     clear: both;
     top: 9px;
-    left: 45%;
+    left: 39%;
     transform: translateX(-50%);
     width: 225px;
     max-width: 30%;
@@ -34,9 +34,6 @@
   .search {
     margin: 0 1rem;
     text-align: left;
-  }
-  .search input {
-    width: 99%;
   }
 }
 

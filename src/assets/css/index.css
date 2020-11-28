@@ -39,8 +39,7 @@ body {
 }
 
 .open-sidebar {
-  overflow-y: scroll;
-  max-height: 100vh;
+  height: 100vh;
 }
 
 code {
