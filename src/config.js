@@ -12,10 +12,8 @@ export const appEnvironment = appEnvironments[process.env['REACT_APP_MG_ENV'] ||
 
 export function maskGeoApiUri() {
   return ({
-    production: 'https://maskgeo-backend.herokuapp.com',
-    // production: 'http://api.maskforecast.com',
+    production: 'https://api.maskforecast.com',
     local: 'http://localhost:3001',
-    // local: 'http://127.0.0.1:3001',
   })[appEnvironment]
 }
 
