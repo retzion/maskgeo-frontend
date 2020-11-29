@@ -1,6 +1,6 @@
 import React from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearchLocation } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import "./index.css"
 
@@ -14,7 +14,7 @@ export default function ({ setKeywordSearchOptions, setShowPlaceTypesButtons }) 
         setShowPlaceTypesButtons(true)
       }}
     >
-      <FontAwesomeIcon className="icon" icon={faSearchLocation} />
+      <FontAwesomeIcon className="icon" icon={faSearch} />
     </button>
   )
 }
