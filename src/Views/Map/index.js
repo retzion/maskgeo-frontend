@@ -300,7 +300,7 @@ export default function Map(props) {
   }
 
   if (loadError) return "Error"
-  if (!isLoaded) return "Loading..."
+  if (!isLoaded) return <Loader />
 
   return (
     <div className="map-container">
