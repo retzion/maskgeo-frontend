@@ -310,6 +310,7 @@ export default function Map(props) {
       <Locate
         panTo={panTo}
         setPos={setPos}
+        setShowLoader={setShowLoader}
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
       />
 
@@ -319,10 +320,12 @@ export default function Map(props) {
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
         setProfileQueryParam={urlHandler.setProfileQueryParam}
       />
+
       <FindPlacesButton
         setKeywordSearchOptions={setKeywordSearchOptions}
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
       />
+
       <div />
 
       <h1 className="logo">
