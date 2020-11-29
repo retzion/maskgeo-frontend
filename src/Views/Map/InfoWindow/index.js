@@ -7,18 +7,7 @@ import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/sma
 import "./index.css"
 const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 const styles = {
-  title: {
-    fontSize: "1.2rem",
-  },
   icon: { height: 18, marginRight: 6 },
-  address: {
-    fontSize: "0.81rem",
-    fontWeight: 450,
-  },
-  ratingText: {
-    fontStyle: "italic",
-    fontSize: "0.81rem",
-  },
   detailsContainer: { margin: 3, padding: 3 },
   details: { cursor: "pointer", color: "-webkit-link" },
 }
@@ -51,11 +40,11 @@ export default ({
       }}
     >
       <div className="info-window-container" onClick={showDetails}>
-        <h1 style={styles.title}>
+        <h1 className="title">
           {icon && <img src={icon} alt="" style={styles.icon} />}
           {name}
         </h1>
-        <h2 style={styles.address}>{address}</h2>
+        <h2 className="address">{address}</h2>
 
         {maskRatingsCount ? (
           <React.Fragment>
@@ -66,14 +55,14 @@ export default ({
               widthMultiplier={21}
             />
             <br />
-            <span style={styles.ratingText}>
+            <span className="rating-text">
               {maskRating.toFixed(2)} / 5 masks
             </span>
           </React.Fragment>
         ) : address ? (
-          "not yet rated"
+          <span className="rating-text">not yet rated</span>
         ) : (
-          "loading..."
+          <span className="rating-text">loading...</span>
         )}
         <p style={styles.detailsContainer}>
           {address && <a style={styles.details}>view details</a>}
