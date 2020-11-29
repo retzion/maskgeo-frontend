@@ -100,7 +100,7 @@ export default ({
 
         <div className="keyword-search-container">
           <Input
-            placeholder="search for keyword"
+            placeholder="search for places"
             className="keyword-search"
             onKeyUp={handleSearchTextKeyUp}
           />

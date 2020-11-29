@@ -2,10 +2,10 @@
   right: 108px;
 }
 .profile .icon {
-  color: var(--color-blue);
+  /* color: var(--color-blue); */
 }
 .profile .button-text {
-  color: var(--color-blue);
+  /* color: var(--color-blue); */
   display: none;
   font-size: 1.2rem;
 }

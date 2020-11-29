@@ -329,7 +329,7 @@ export default function Map(props) {
         Mask Forecast
       </h1>
 
-      <Search
+      {/* <Search
         panTo={panTo}
         setMarkerId={urlHandler.setMarkerId}
         setMarkers={setMarkers}
@@ -339,7 +339,7 @@ export default function Map(props) {
         pos={pos}
         setPos={setPos}
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-      />
+      /> */}
 
       {showPlaceTypesButtons && (
         <KeywordSearchPanel

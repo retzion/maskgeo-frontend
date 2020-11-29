@@ -25,6 +25,7 @@ html,
 body {
   font-size: 18px;
   color: var(--color-dark-text);
+  height: 100%;
 }
 
 html {

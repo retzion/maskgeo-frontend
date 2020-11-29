@@ -2,7 +2,7 @@
   right: 1rem;
 }
 .locate .icon {
-  color: #990000;
+  /* color: #990000; */
 }
 @media (max-width: 420px) {
   .locate {
