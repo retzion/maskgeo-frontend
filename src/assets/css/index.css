@@ -25,6 +25,7 @@ html,
 body {
   font-size: 18px;
   color: var(--color-dark-text);
+  background-color: rgb(229, 227, 223);
   height: 100%;
 }
 
@@ -33,9 +34,7 @@ html {
 }
 
 body {
-  background-color: var(--color-light-blue);
   margin: 0;
-  /* overflow-y: scroll; */
   -webkit-overflow-scrolling: touch;
 }
 

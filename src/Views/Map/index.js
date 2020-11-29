@@ -16,6 +16,7 @@ import ProfileSideBar from "./ProfileSideBar"
 import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import SplashPage from "./SplashPage"
+import Loader from "../../Components/Loader"
 
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
@@ -67,6 +68,7 @@ export default function Map(props) {
   const [placesService, setPlacesService] = useState(null)
   const [pos, setPosState] = useState(startingPosition)
   const [selected, setSelected] = useState(null)
+  const [showLoader, setShowLoader] = useState(false)
   const [showProfile, setShowProfile] = useState(null)
   const [showPostReview, setShowPostReview] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
@@ -302,6 +304,7 @@ export default function Map(props) {
 
   return (
     <div className="map-container">
+      <Loader show={showLoader} />
       {!allowAccess && <SplashPage setAllowAccess={setAllowAccess} />}
 
       <Locate
@@ -353,6 +356,7 @@ export default function Map(props) {
           placesService={placesService}
           pos={pos}
           showProfile={showProfile}
+          setShowLoader={setShowLoader}
           setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
           setMarkers={setMarkers}
           setSelected={setSelected}

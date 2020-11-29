@@ -35,10 +35,11 @@ export default ({
   mapRef,
   placesService,
   pos,
-  showProfile,
+  setShowLoader,
   setKeywordSearchUrl,
   setMarkers,
   setSelected,
+  showProfile,
 }) => {
 
   React.useEffect(() => {
@@ -57,9 +58,11 @@ export default ({
 
   function nearbySearch(options) {
     const { keyword, location, rankBy, selected: selectedId, zoom } = options
+    setShowLoader(true)
     placesService.nearbySearch(
       options,
       (results, status) => {
+        setShowLoader(false)
         if (status == window.google.maps.places.PlacesServiceStatus.OK) {
           let selected
           for (let i = 0; i < results.length; i++) {

@@ -1,6 +1,4 @@
 #not_found {
-  background-color: beige;
-  color: var(--color-dark-text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
