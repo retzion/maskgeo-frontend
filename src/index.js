@@ -10,7 +10,7 @@ import "semantic-ui-css/semantic.min.css"
 import "./assets/css/index.css"
 
 console.log(
-  `Running version ${version} in ${process.env["NODE_ENV"]} environment`
+  `Running ${process.env["REACT_APP_MG_ENV"]} version ${version} in ${process.env["NODE_ENV"]} environment`
 )
 
 Date.prototype.addDays = function (days) {

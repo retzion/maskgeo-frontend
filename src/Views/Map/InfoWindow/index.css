@@ -2,10 +2,31 @@
   font-size: 1rem;
   text-align: center;
   cursor: pointer;
+  /* padding-top: 15px; */
+}
+
+.info-window-container .title {
+  font-size: 0.9rem;
+  padding-right: 18px;
+}
+.info-window-container h1,
+.info-window-container h2 {
+  margin: 0 0 9px 0;
+}
+
+.info-window-container .address {
+  font-size: 0.6rem;
+  font-weight: 300px;
+}
+
+.info-window-container .rating-text {
+  font-style: italic;
+  font-size: 0.81rem;
 }
 
 .gm-style-iw-a button {
   right: 6px !important;
+  background: rgba(255, 255, 255, 0.5);
 }
 .gm-style-iw-a button img {
   width: 24px !important;

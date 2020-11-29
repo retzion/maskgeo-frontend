@@ -4,19 +4,12 @@ import validate from "validator"
 import UniversalCookie from "universal-cookie"
 
 // helpers
-import {cookieNames} from "../../../config"
+import { cookieNames } from "../../../config"
 import { createUser, requestMagicLoginLink } from "../../../util/MaskGeoApi"
 
 // styles
 import "./index.css"
 const styles = {
-  sidebar: {
-    sidebar: {
-      background: "white",
-      width: "100%",
-      maxWidth: 550,
-    },
-  },
   close: {
     float: "right",
     cursor: "pointer",
@@ -93,7 +86,8 @@ export default function ProfileSideBar({ close, logOut, user }) {
 
   async function createAccount() {
     // validate username
-    if (!newUserUsernameInput.current.value) return alert("Please enter a username.")
+    if (!newUserUsernameInput.current.value)
+      return alert("Please enter a username.")
     const validUserExp = new RegExp(/^([a-zA-Z0-9_]+)$/)
     const validUsername = validUserExp.test(newUserUsernameInput.current.value)
     if (!validUsername)
@@ -102,7 +96,8 @@ export default function ProfileSideBar({ close, logOut, user }) {
       )
 
     // validate email address
-    if (!newUserEmailInput.current.value) return alert("Please enter an email address.")
+    if (!newUserEmailInput.current.value)
+      return alert("Please enter an email address.")
     const validEmail = validate.isEmail(newUserEmailInput.current.value)
     if (!validEmail) return alert("This is not a valid email address!")
 
@@ -249,12 +244,8 @@ export default function ProfileSideBar({ close, logOut, user }) {
           </a>
         </div>
 
-        <p style={{ display: user ? "block" : "none" }}>
-          <button
-            onClick={logOut}
-          >
-            Log Out
-          </button>
+        <p style={{ display: user ? "block" : "none", paddingTop: 30 }}>
+          <button onClick={logOut}>Log Out</button>
         </p>
       </div>
     </div>
@@ -266,7 +257,13 @@ export default function ProfileSideBar({ close, logOut, user }) {
       open={true}
       children={[]}
       pullRight={true}
-      styles={styles.sidebar}
+      styles={{
+        sidebar: {
+          background: "white",
+          width: "100%",
+          maxWidth: 550,
+        },
+      }}
     />
   )
 }
