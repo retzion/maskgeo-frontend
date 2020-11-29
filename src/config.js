@@ -10,7 +10,7 @@ export const appEnvironments = {
 }
 
 export const appEnvironment =
-  appEnvironments[process.env["REACT_APP_MG_ENV"] || "production"]
+  appEnvironments[process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"] || "production"]
 
 export function maskGeoApiUri() {
   return {

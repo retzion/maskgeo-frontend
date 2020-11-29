@@ -1,6 +1,6 @@
 {
   "name": "maskgeo-frontend",
-  "version": "0.1.41",
+  "version": "0.1.42",
   "private": true,
   "engines": {
     "node": "15.2.0",
@@ -34,6 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:prod": "REACT_APP_MG_ENV=production react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

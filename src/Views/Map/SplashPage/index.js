@@ -69,55 +69,36 @@ export default ({ setAllowAccess }) => (
             your browser.
           </p>
         </div>
-        <Input
-          type="text"
-          placeholder="Enter preview passcode"
-          style={{
-            marginTop: "21px",
-          }}
-          onChange={e => {
-            const value = e.target.value
-            if (value === "1776") {
-              const expires = new Date().addDays(1)
-              Cookies.set(cookieNames.allowCookies, true, {
-                expires,
-                path: "/",
-              })
-              setAllowAccess(true)
-            }
-          }}
-        />
       </div>
     }
-    // ModalControls={[
-    //   <Input
-    //     type="text"
-    //     placeholder="Enter preview passcode"
-    //     style={{
-    //       marginBottom: "2%",
-    //     }}
-    //     onChange={e => {
-    //       const value = e.target.value
-    //       if (value === "1776") {
-    //         const expires = new Date().addDays(1)
-    //         Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
-    //         setAllowAccess(true)
-    //       }
-    //     }}
-    //   />,
-    //   <Button
-    //     className="primary big"
-    //     onClick={() => {
-    //       const expires = new Date().addDays(1)
-    //       Cookies.set(cookieNames.allowCookies, true, {
-    //         expires,
-    //         path: "/",
-    //       })
-    //       setAllowAccess(true)
-    //     }}
-    //   >
-    //     I Agree
-    //   </Button>,
-    // ]}
+    ModalControls={process.env["REACT_APP_MG_ENV"] !== 'production' ? [
+      <Input
+        type="text"
+        placeholder="Enter preview passcode"
+        style={{
+          marginBottom: "2%",
+        }}
+        onChange={e => {
+          const value = e.target.value
+          if (value === "1776") {
+            const expires = new Date().addDays(1)
+            Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
+            setAllowAccess(true)
+          }
+        }}
+      />      
+    ] : [<Button
+        className="primary big"
+        onClick={() => {
+          const expires = new Date().addDays(1)
+          Cookies.set(cookieNames.allowCookies, true, {
+            expires,
+            path: "/",
+          })
+          setAllowAccess(true)
+        }}
+      >
+        I Agree
+      </Button>]}
   />
 )
