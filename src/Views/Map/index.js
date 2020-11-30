@@ -123,19 +123,18 @@ export default function Map(props) {
   // URL handlers
   const urlHandler = {
     setMarkerId: markerId => {
-      if (markerId) {
-        // set URL for a selected marker
-        if (window.history.pushState) {
-          const indexOfSelected = window.location.href.indexOf("/selected/")
-          const href =
-            indexOfSelected > 0
-              ? window.location.href.substring(0, indexOfSelected)
-              : window.location.href
-          const newurl = window.location.pathname.startsWith("/search/")
-            ? `${href}/selected/${markerId}`
-            : `${window.location.protocol}//${window.location.host}/marker/${markerId}`
-          window.history.pushState({ path: newurl }, "", newurl)
-        }
+      if (window.history.pushState) {
+        const indexOfSelected = window.location.href.indexOf("/selected/")
+        let newurl =
+          indexOfSelected > 0
+            ? window.location.href.substring(0, indexOfSelected)
+            : window.location.href
+        if (markerId) newurl += `/selected/${markerId}`
+        window.history.pushState(
+          { path: newurl },
+          "",
+          newurl + window.location.hash
+        )
       }
     },
     setKeywordSearchUrl: params => {
@@ -149,17 +148,20 @@ export default function Map(props) {
         }
       }
     },
-    setSelectedId: selectedId => {
-      if (selectedId) {
-        // load place details for a marker
-        if (window.history.pushState) {
-          const newurl = `${window.location.protocol}//${window.location.host}/selected/${selectedId}`
-          window.history.pushState(
-            { path: newurl },
-            "",
-            newurl + window.location.hash
-          )
-        }
+    setSelectedId: (selectedId, details) => {
+      // load place details for a marker
+      if (window.history.pushState) {
+        const trimmedPathname = !selectedId
+          ? window.location.pathname
+          : window.location.pathname.replace(`/selected/${selectedId}`, "")
+        let newurl = `${window.location.protocol}//${window.location.host}${trimmedPathname}`
+        if (selectedId) newurl += `/selected/${selectedId}`
+        if (details) newurl += `?details=1`
+        window.history.pushState(
+          { path: newurl },
+          "",
+          newurl + window.location.hash
+        )
       }
     },
     setProfileQueryParam: show => {
@@ -173,7 +175,7 @@ export default function Map(props) {
   }
 
   const openSelected = useCallback(selectedObject => {
-    urlHandler.setSelectedId(selectedObject.place_id)
+    if (selectedObject) urlHandler.setSelectedId(selectedObject.place_id, true)
     setDetails(selectedObject)
   }, [])
 
@@ -364,7 +366,7 @@ export default function Map(props) {
           setShowLoader={setShowLoader}
           setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
           setMarkers={setMarkers}
-          setSelected={setSelected}
+          setSelected={openSelected}
           setPos={setPos}
         />
       )}
@@ -401,10 +403,12 @@ export default function Map(props) {
         {selected && (
           <InfoWindow
             place={selected}
-            resetUrl={resetUrl}
-            setSelected={setSelected}
-            showDetails={() => {
-              openSelected(selected)
+            close={() => {
+              setSelected(null)
+              urlHandler.setMarkerId()
+            }}
+            showDetails={place => {
+              openSelected(place)
             }}
           />
         )}

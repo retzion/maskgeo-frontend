@@ -71,7 +71,6 @@ export default ({
       opening_hours && opening_hours.periods
         ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
         : null
-    console.log({todaysHours})
     todaysHoursText = todaysHours && todaysHours.open && todaysHours.open.time
       ? openNow
         ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(

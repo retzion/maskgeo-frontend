@@ -13,6 +13,7 @@ const styles = {
 }
 
 export default ({
+  close,
   place,
   place: {
     formatted_address: address,
@@ -22,8 +23,6 @@ export default ({
     maskRatingsCount,
     name,
   },
-  resetUrl,
-  setSelected,
   showDetails,
 }) => {
   if (!place) return null
@@ -35,8 +34,7 @@ export default ({
         lng: geometry.location.lng(),
       }}
       onCloseClick={() => {
-        setSelected(null)
-        resetUrl()
+        close()
       }}
     >
       <div className="info-window-container" onClick={showDetails}>
