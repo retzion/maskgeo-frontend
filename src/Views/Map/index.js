@@ -71,6 +71,7 @@ export default function Map(props) {
   const [showLoader, setShowLoader] = useState(false)
   const [showProfile, setShowProfile] = useState(null)
   const [showPostReview, setShowPostReview] = useState(null)
+  const [showPlaceDetails, setShowPlaceDetails] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
   const [user, setUser] = useState(null)
 
@@ -222,8 +223,10 @@ export default function Map(props) {
     const {
       location: { search },
     } = props
-    const showPlaceDetails = search.includes("details")
     const profile = search.includes("profile")
+
+    const showPlaceDetails = search.includes("details")
+    setShowPlaceDetails(showPlaceDetails)
 
     /** Pan to Marker if param is found */
     if (markerIds) {
@@ -249,6 +252,7 @@ export default function Map(props) {
       // load place details for a marker
       loadSelectedMarker({
         openSelected,
+        showPlaceDetails,
         panTo,
         placeId: selectedPlace,
         places: window.google.maps.places,

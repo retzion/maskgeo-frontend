@@ -13,6 +13,7 @@ export default async ({
   setMarkerId,
   setMarkers,
   setSelected,
+  showPlaceDetails,
 }) => {
   try {
     let geoCoordinates, result
@@ -60,9 +61,8 @@ export default async ({
           result = calculateMaskRating(result)          
 
           result.customIcon = true
-          console.log({result, setMarkers, openSelected})
           if (setMarkers) setMarkers([result])
-          if (openSelected) openSelected(result)
+          if (openSelected && showPlaceDetails) openSelected(result)
           else setSelected(result)
         }
       }

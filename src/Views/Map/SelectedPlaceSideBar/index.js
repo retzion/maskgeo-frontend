@@ -9,6 +9,7 @@ import {
   faMapMarkerAlt,
   faPhoneAlt,
 } from "@fortawesome/free-solid-svg-icons"
+import { CopyToClipboard } from "react-copy-to-clipboard"
 
 // components
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
@@ -39,29 +40,29 @@ export default ({
     maskRatingsCount,
     maskReviews = [],
     maskReviewsCount = 0,
+    reference,
     website,
   } = selected || {}
+
+  const baseUrl = `${document.location.protocol}//${document.location.host}/selected/${reference}?details=1`
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
-  const [copied, setCopied] = useState(null)
+  const [clipboard, setClipboard] = useState({
+    value: baseUrl,
+    copied: false,
+  })
+  // const [copied, setCopied] = useState(null)
 
   React.useEffect(() => {
-    console.log(baseUrl, window.location.hash)
     if (window.location.hash) {
       const reviewsPane = document.getElementById("selected_place_sidebar")
       setTimeout(() => {
         const a = window.location.hash.substring(1)
         const b = document.getElementById(a)
-        console.log({a,b})
-        reviewsPane.scroll(
-          0,
-          findPos(b)
-        )
+        if (a && b) reviewsPane.scroll(0, findPos(b))
       }, 333)
     }
   }, [window.location.hash])
-
-  const baseUrl = `${document.location.protocol}//${document.location.host}${document.location.pathname}`
 
   // parse hours
   let openNow, todaysHours, todaysHoursText
@@ -71,34 +72,35 @@ export default ({
       opening_hours && opening_hours.periods
         ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
         : null
-    todaysHoursText = todaysHours && todaysHours.open && todaysHours.open.time
-      ? openNow
-        ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(
-            todaysHours.close.time
-          )}`
-        : `Opens at ${militaryTimeToAmPm(todaysHours.open.time)}`
-      : null
-  } catch(c) {}
+    todaysHoursText =
+      todaysHours && todaysHours.open && todaysHours.open.time
+        ? openNow
+          ? `${militaryTimeToAmPm(
+              todaysHours.open.time
+            )} - ${militaryTimeToAmPm(todaysHours.close.time)}`
+          : `Opens at ${militaryTimeToAmPm(todaysHours.open.time)}`
+        : null
+  } catch (c) {}
 
   function close() {
     window.location.hash = ""
     closeSidebar()
   }
 
-  const copyToClipboard = e => {
-    e.preventDefault()
-    navigator.clipboard
-      .writeText(baseUrl)
-      .then(() => {
-        setCopied(true)
-        setTimeout(() => {
-          setCopied(null)
-        }, 3000)
-      })
-      .catch(() => {
-        alert("Your browser does not support this")
-      })
-  }
+  // const copyToClipboard = e => {
+  //   e.preventDefault()
+  //   navigator.clipboard
+  //     .writeText(baseUrl)
+  //     .then(() => {
+  //       setCopied(true)
+  //       setTimeout(() => {
+  //         setCopied(null)
+  //       }, 3000)
+  //     })
+  //     .catch(() => {
+  //       alert("Your browser does not support this")
+  //     })
+  // }
 
   function militaryTimeToAmPm(time) {
     let hours = time.substring(0, 2)
@@ -140,17 +142,29 @@ export default ({
       <a onClick={close} className="top-button close">
         ✖️
       </a>
-      <button onClick={copyToClipboard} className="top-button copy-url">
-        <span>Copy Link</span>
-        <span className="icon-container">
-          <FontAwesomeIcon className="icon" icon={faLink} />
-        </span>
-        {copied && (
-          <span className="copied">
-            <Label pointing="left" content="copied!" />
+      <input
+        style={{ visibility: "hidden", posision: "absolute" }}
+        value={clipboard.value}
+        onChange={({ target: { value } }) =>
+          setClipboard({ value, copied: false })
+        }
+      />
+      <CopyToClipboard
+        text={clipboard.value}
+        onCopy={() => setClipboard({ ...clipboard, copied: true })}
+      >
+        <button className="top-button copy-url">
+          <span>Copy Link</span>
+          <span className="icon-container">
+            <FontAwesomeIcon className="icon" icon={faLink} />
           </span>
-        )}
-      </button>
+          {clipboard.copied && (
+            <span className="copied">
+              <Label pointing="left" content="copied!" />
+            </span>
+          )}
+        </button>
+      </CopyToClipboard>
       {!featurePhotoUrl && <h3>&nbsp;</h3>}
       <div style={styles.container}>
         {/* {Business info} */}
@@ -289,7 +303,7 @@ export default ({
 
 //Finds y value of given object
 function findPos(obj) {
-  console.log(obj,typeof obj)
+  if (!obj) return
   var curtop = 0
   if (obj.offsetParent) {
     do {
