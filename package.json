@@ -1,6 +1,6 @@
 {
   "name": "maskgeo-frontend",
-  "version": "0.1.43",
+  "version": "0.1.44",
   "private": true,
   "engines": {
     "node": "15.2.0",
@@ -19,6 +19,7 @@
     "axios": "^0.21.0",
     "javascript-time-ago": "^2.3.3",
     "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
