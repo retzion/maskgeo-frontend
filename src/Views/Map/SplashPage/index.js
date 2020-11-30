@@ -71,7 +71,7 @@ export default ({ setAllowAccess }) => (
         </div>
       </div>
     }
-    ModalControls={process.env["REACT_APP_MG_ENV"] !== 'production' ? [
+    ModalControls={(process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"]) !== 'production' ? [
       <Input
         type="text"
         placeholder="Enter preview passcode"

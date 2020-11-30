@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react"
 import Sidebar from "react-sidebar"
 import validate from "validator"
 import UniversalCookie from "universal-cookie"
+import { Form, Input } from "semantic-ui-react"
 
 // helpers
 import { cookieNames } from "../../../config"
@@ -29,7 +30,7 @@ const styles = {
   address: {
     fontSize: "1rem",
   },
-  input: { padding: 9, width: "90%", marginBottom: 6 },
+  // input: { padding: 9, width: "90%", marginBottom: 6 },
 }
 
 const Cookies = new UniversalCookie()
@@ -55,11 +56,6 @@ export default function ProfileSideBar({ close, logOut, user }) {
 
   function setEmail(inputValue) {
     const cookieValue = Cookies.get(cookieNames.email)
-    console.log({
-      email,
-      inputValue,
-      cookieValue,
-    })
 
     const expires = new Date().addDays(90)
     if (inputValue != cookieValue)
@@ -69,10 +65,10 @@ export default function ProfileSideBar({ close, logOut, user }) {
   }
 
   async function logIn() {
-    const valid = validate.isEmail(emailInput.current.value)
+    const valid = validate.isEmail(emailInput.current.inputRef.current.value)
     if (!valid) alert("This is not a valid email address!")
     else {
-      const currentEmailValue = emailInput.current.value
+      const currentEmailValue = emailInput.current.inputRef.current.value
       const magicLinkResponse = await requestMagicLoginLink(currentEmailValue)
       setEmail(currentEmailValue)
       if (magicLinkResponse && magicLinkResponse.status === 200)
@@ -86,24 +82,24 @@ export default function ProfileSideBar({ close, logOut, user }) {
 
   async function createAccount() {
     // validate username
-    if (!newUserUsernameInput.current.value)
+    if (!newUserUsernameInput.current.inputRef.current.value)
       return alert("Please enter a username.")
     const validUserExp = new RegExp(/^([a-zA-Z0-9_]+)$/)
-    const validUsername = validUserExp.test(newUserUsernameInput.current.value)
+    const validUsername = validUserExp.test(newUserUsernameInput.current.inputRef.current.value)
     if (!validUsername)
       return alert(
         "Please enter a valid username in the correct format (only letters, numbers, and underscores are allowed)."
       )
 
     // validate email address
-    if (!newUserEmailInput.current.value)
+    if (!newUserEmailInput.current.inputRef.current.value)
       return alert("Please enter an email address.")
-    const validEmail = validate.isEmail(newUserEmailInput.current.value)
+    const validEmail = validate.isEmail(newUserEmailInput.current.inputRef.current.value)
     if (!validEmail) return alert("This is not a valid email address!")
 
     const createUserResponse = await createUser(
-      newUserEmailInput.current.value,
-      newUserUsernameInput.current.value
+      newUserEmailInput.current.inputRef.current.value,
+      newUserUsernameInput.current.inputRef.current.value
     ).catch(console.error)
     const { data: response } = createUserResponse || {}
     if (!response)
@@ -113,7 +109,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
     else if (response.error) alert(response.error)
     else if (createUserResponse.status === 200) {
       setLoginLinkSent(true)
-      setEmail(newUserEmailInput.current.value)
+      setEmail(newUserEmailInput.current.inputRef.current.value)
     } else
       alert(
         "There was a problem creating an account with this information. Please check your username and email address and try again."
@@ -146,7 +142,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
             marginTop: 45,
           }}
         >
-          <form
+          <Form
             style={{
               display: showLogin ? "none" : "block",
             }}
@@ -155,27 +151,33 @@ export default function ProfileSideBar({ close, logOut, user }) {
             }}
           >
             <h2>Create an Account</h2>
-            <input
-              ref={newUserUsernameInput}
-              name="username"
-              type="text"
-              style={styles.input}
-              placeholder="choose a username (letters, numbers, and underscores allowed)"
-            />
-            <input
-              ref={newUserEmailInput}
-              name="email"
-              type="text"
-              style={styles.input}
-              placeholder="email address"
-            />
+
+            <Form.Field>
+              <Input
+                ref={newUserUsernameInput}
+                name="username"
+                type="text"
+                style={styles.input}
+                placeholder="choose a username (letters, numbers, and underscores allowed)"
+              />
+            </Form.Field>
+
+            <Form.Field>
+              <Input
+                ref={newUserEmailInput}
+                name="email"
+                type="text"
+                style={styles.input}
+                placeholder="email address"
+              />
+            </Form.Field>
             <p>
               <button className="primary" onClick={createAccount}>
                 Create My Account
               </button>
             </p>
-          </form>
-          <form
+          </Form>
+          <Form
             style={{
               display: !showLogin || loginLinkSent ? "none" : "block",
             }}
@@ -184,20 +186,22 @@ export default function ProfileSideBar({ close, logOut, user }) {
             }}
           >
             <h2>Log In</h2>
-            <input
-              ref={emailInput}
-              name="email"
-              type="text"
-              style={styles.input}
-              placeholder="email address"
-              defaultValue={email}
-            />
-            <p>
+            <Form.Field>
+              <Input
+                ref={emailInput}
+                name="email"
+                type="text"
+                style={styles.input}
+                placeholder="email address"
+                defaultValue={email}
+              />
+            </Form.Field>
+            <Form.Field>
               <button className="primary" onClick={logIn}>
                 Send me a Login Link
               </button>
-            </p>
-          </form>
+            </Form.Field>
+          </Form>
           <div
             style={{
               marginTop: 45,
@@ -209,7 +213,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
           >
             <div
               style={{
-                marginTop: -9,
+                marginTop: -12,
                 marginRight: "auto",
                 marginLeft: "auto",
                 backgroundColor: "white",

@@ -9,7 +9,6 @@ import {
   faMapMarkerAlt,
   faPhoneAlt,
 } from "@fortawesome/free-solid-svg-icons"
-import { faThumbsDown, faThumbsUp } from "@fortawesome/free-regular-svg-icons"
 
 // components
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
@@ -22,7 +21,13 @@ import "./styles/label.css"
 import smallRatingIconCount from "../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
 const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 
-export default ({ close, openProfile, selected, setShowPostReview, user }) => {
+export default ({
+  close: closeSidebar,
+  openProfile,
+  selected,
+  setShowPostReview,
+  user,
+}) => {
   const {
     formatted_address: address,
     formatted_phone_number: phone,
@@ -40,10 +45,51 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
 
   const [copied, setCopied] = useState(null)
 
+  React.useEffect(() => {
+    console.log(baseUrl, window.location.hash)
+    if (window.location.hash) {
+      const reviewsPane = document.getElementById("selected_place_sidebar")
+      setTimeout(() => {
+        const a = window.location.hash.substring(1)
+        const b = document.getElementById(a)
+        console.log({a,b})
+        reviewsPane.scroll(
+          0,
+          findPos(b)
+        )
+      }, 333)
+    }
+  }, [window.location.hash])
+
+  const baseUrl = `${document.location.protocol}//${document.location.host}${document.location.pathname}`
+
+  // parse hours
+  let openNow, todaysHours, todaysHoursText
+  try {
+    openNow = opening_hours && opening_hours.isOpen()
+    todaysHours =
+      opening_hours && opening_hours.periods
+        ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
+        : null
+    console.log({todaysHours})
+    todaysHoursText = todaysHours && todaysHours.open && todaysHours.open.time
+      ? openNow
+        ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(
+            todaysHours.close.time
+          )}`
+        : `Opens at ${militaryTimeToAmPm(todaysHours.open.time)}`
+      : null
+  } catch(c) {}
+
+  function close() {
+    window.location.hash = ""
+    closeSidebar()
+  }
+
   const copyToClipboard = e => {
     e.preventDefault()
     navigator.clipboard
-      .writeText(document.location)
+      .writeText(baseUrl)
       .then(() => {
         setCopied(true)
         setTimeout(() => {
@@ -54,20 +100,6 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
         alert("Your browser does not support this")
       })
   }
-
-  // parse hours
-  const openNow = opening_hours && opening_hours.isOpen()
-  const todaysHours =
-    opening_hours && opening_hours.periods
-      ? opening_hours.periods.find(p => p.open.day === new Date().getDay())
-      : null
-  const todaysHoursText = todaysHours
-    ? openNow
-      ? `${militaryTimeToAmPm(todaysHours.open.time)} - ${militaryTimeToAmPm(
-          todaysHours.close.time
-        )}`
-      : `Opens at ${militaryTimeToAmPm(todaysHours.open.time)}`
-    : null
 
   function militaryTimeToAmPm(time) {
     let hours = time.substring(0, 2)
@@ -110,7 +142,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
         ✖️
       </a>
       <button onClick={copyToClipboard} className="top-button copy-url">
-        <span>Copy URL</span>
+        <span>Copy Link</span>
         <span className="icon-container">
           <FontAwesomeIcon className="icon" icon={faLink} />
         </span>
@@ -128,7 +160,7 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
           {name}
         </h1>
 
-          {/* Ratings / Leave Review */}
+        {/* Ratings / Leave Review */}
         <div className="mask-rating-icons-row">
           {/* {Rating Icons} */}
           {!maskRatingsCount ? (
@@ -150,20 +182,8 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
 
           {/* Leave Review */}
           <button className="primary float-right" onClick={reviewLocation}>
-            {/* <FontAwesomeIcon
-              className="icon"
-              icon={faThumbsUp}
-              style={{ marginRight: 6 }}
-            />
-            <FontAwesomeIcon
-              className="icon"
-              icon={faThumbsDown}
-              flip="horizontal"
-              style={{ marginRight: 6 }}
-            /> */}
             Rate &amp; Review
           </button>
-
         </div>
 
         {/* {Address} */}
@@ -259,10 +279,23 @@ export default ({ close, openProfile, selected, setShowPostReview, user }) => {
 
   return (
     <Sidebar
+      sidebarId="selected_place_sidebar"
       sidebar={<SidebarContent />}
       open={true}
       children={[]}
       styles={styles.sidebar}
     />
   )
+}
+
+//Finds y value of given object
+function findPos(obj) {
+  console.log(obj,typeof obj)
+  var curtop = 0
+  if (obj.offsetParent) {
+    do {
+      curtop += obj.offsetTop
+    } while ((obj = obj.offsetParent))
+    return [curtop]
+  }
 }

@@ -18,6 +18,7 @@ export default review => {
     <div
       id={`review_${review._id}`}
       key={review._id}
+      onClick={() => {window.location.hash = `review_${review._id}`}}
       style={{
         padding: 12,
         borderBottom: "1px solid #eaeaea",

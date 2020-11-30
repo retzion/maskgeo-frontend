@@ -160,6 +160,7 @@ export default ({ close, selected, setSelected, user }) => {
       updatedSelected = calculateMaskRating(updatedSelected)
 
       setSelected(updatedSelected)
+      window.location.hash = `review_${savedReview._id}`
       close()
     }
   }, [selected])
