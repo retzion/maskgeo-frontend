@@ -50,11 +50,14 @@ export default ({
     if (window.location.hash) {
       const reviewsPane = document.getElementById("selected_place_sidebar")
       setTimeout(() => {
+        const a = window.location.hash.substring(1)
+        const b = document.getElementById(a)
+        console.log({a,b})
         reviewsPane.scroll(
           0,
-          findPos(document.getElementById(window.location.hash.substring(1)))
+          findPos(b)
         )
-      }, 666)
+      }, 333)
     }
   }, [window.location.hash])
 
@@ -287,6 +290,7 @@ export default ({
 
 //Finds y value of given object
 function findPos(obj) {
+  console.log(obj,typeof obj)
   var curtop = 0
   if (obj.offsetParent) {
     do {
