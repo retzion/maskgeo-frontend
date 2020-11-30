@@ -25,6 +25,7 @@ export default ({
   },
   showDetails,
 }) => {
+  console.log({place})
   if (!place) return null
 
   return (

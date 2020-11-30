@@ -57,12 +57,13 @@ export default async ({
           result.maskReviews = maskReviews
           result.maskReviewsCount = maskReviews.filter(r => r.review && r.review.length).length
 
-          calculateMaskRating(result)          
+          result = calculateMaskRating(result)          
 
           result.customIcon = true
+          console.log({result, setMarkers, openSelected})
           if (setMarkers) setMarkers([result])
-          setSelected(result)
           if (openSelected) openSelected(result)
+          else setSelected(result)
         }
       }
     )

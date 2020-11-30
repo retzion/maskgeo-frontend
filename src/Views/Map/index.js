@@ -176,6 +176,7 @@ export default function Map(props) {
 
   const openSelected = useCallback(selectedObject => {
     if (selectedObject) urlHandler.setSelectedId(selectedObject.place_id, true)
+    setSelected(selectedObject)
     setDetails(selectedObject)
   }, [])
 
@@ -221,6 +222,7 @@ export default function Map(props) {
     const {
       location: { search },
     } = props
+    const showPlaceDetails = search.includes("details")
     const profile = search.includes("profile")
 
     /** Pan to Marker if param is found */
@@ -269,6 +271,7 @@ export default function Map(props) {
         zoom,
       })
       setShowPlaceTypesButtons(true)
+      if (showPlaceDetails) setDetails(selected)
     }
 
     /** Open profile sidebar if query param is found */
@@ -366,7 +369,7 @@ export default function Map(props) {
           setShowLoader={setShowLoader}
           setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
           setMarkers={setMarkers}
-          setSelected={openSelected}
+          setSelected={setSelected}
           setPos={setPos}
         />
       )}
@@ -407,8 +410,8 @@ export default function Map(props) {
               setSelected(null)
               urlHandler.setMarkerId()
             }}
-            showDetails={place => {
-              openSelected(place)
+            showDetails={() => {
+              openSelected(selected)
             }}
           />
         )}
