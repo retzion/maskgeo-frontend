@@ -88,9 +88,7 @@ export default function Map(props) {
 
   // check for https
   useEffect(() => {
-    const protocol = document.location.protocol
-    const host = document.location.host
-    const pathname = document.location.pathname
+    const { protocol, host, pathname } = window.location
     const env = process.env["NODE_ENV"]
 
     if (env === "production" && protocol !== "https:")
@@ -156,7 +154,11 @@ export default function Map(props) {
         // load place details for a marker
         if (window.history.pushState) {
           const newurl = `${window.location.protocol}//${window.location.host}/selected/${selectedId}`
-          window.history.pushState({ path: newurl }, "", newurl)
+          window.history.pushState(
+            { path: newurl },
+            "",
+            newurl + window.location.hash
+          )
         }
       }
     },
