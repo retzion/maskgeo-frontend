@@ -11,7 +11,7 @@ import { cookieNames } from "../../../config"
 import bitcoinLogo from "../../../assets/img/bitcoin-logo.png"
 import btcQr from "../../../assets/img/bitcoin-qr.png"
 import donatePayPal from "../../../assets/img/donate-paypal.gif"
-import mask from "../../../assets/img/mask.png"
+import logo from "../../../assets/img/logo.png"
 import payPalLogo from "../../../assets/img/paypal-logo.png"
 import "./index.css"
 
@@ -24,7 +24,7 @@ export default ({ setAllowAccess }) => (
     startOpen={true}
     ModalHeader={
       <span className="splash-page-welcome">
-        Welcome to Mask Forecast <img src={mask} alt="MaskForecast" />
+        Welcome to Mask Forecast <img src={logo} alt="MaskForecast" />
       </span>
     }
     ModalContent={

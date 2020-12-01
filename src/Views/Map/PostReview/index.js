@@ -40,8 +40,7 @@ const styles = {
   ratingContainer: {
     width: 150,
     height: 30,
-    // margin: "auto",
-    backgroundImage: "url(/mask-grey.svg)",
+    backgroundImage: "url(/img/mask-grey.png)",
     backgroundPosition: "contain",
     backgroundRepeat: "repeat-x",
     textAlign: "left",
@@ -49,7 +48,7 @@ const styles = {
   ratingResults: {
     height: 30,
     margin: 0,
-    backgroundImage: "url(/mask.svg)",
+    backgroundImage: "url(/mask.png)",
     backgroundPosition: "contain",
     backgroundRepeat: "repeat-x",
   },

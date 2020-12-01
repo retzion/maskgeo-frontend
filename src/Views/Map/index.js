@@ -27,6 +27,7 @@ import { version } from "../../../package.json"
 
 // design resources
 import "@reach/combobox/styles.css"
+import logo from "../../assets/img/logo.png"
 import "./styles/index.css"
 // import mapStyles from "./styles/mapStylesDark"
 const mapContainerStyle = {
@@ -341,7 +342,7 @@ export default function Map(props) {
 
       <h1 className="logo">
         <span role="img" aria-label="tent">
-          😷
+          <img src={logo} alt="mask" />
         </span>{" "}
         Mask Forecast
       </h1>

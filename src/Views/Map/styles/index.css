@@ -30,6 +30,10 @@ h1.logo {
   cursor: default;
   font-size: 1.5rem;
 }
+h1.logo img {
+  max-height: 33px;
+  vertical-align: middle;
+}
 @media (max-width: 420px) {
   h1.logo {
     font-size: 1.25rem;
