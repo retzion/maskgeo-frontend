@@ -286,6 +286,22 @@ export default function Map(props) {
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
 
+    map.addListener("click", e => {
+      if ("placeId" in e) {
+        e.stop()
+        loadSelectedMarker({
+          panTo,
+          placeId: e.placeId,
+          places: window.google.maps.places,
+          placesService: newPlacesService,
+          pos,
+          setMarkerId: urlHandler.setMarkerId,
+          setMarkers,
+          setSelected,
+        })
+      }
+    })
+
     map.addListener("center_changed", () => {
       const center = map.getCenter()
       const newCenter = { lat: center.lat(), lng: center.lng() }
@@ -420,44 +436,45 @@ export default function Map(props) {
             }}
           />
         )}
-
-        {details && (
-          <SelectedPlaceSideBar
-            selected={selected}
-            close={() => {
-              setDetails(null)
-              urlHandler.setMarkerId(selected.place_id)
-            }}
-            user={user}
-            openProfile={() => {
-              setShowProfile(true)
-            }}
-            setShowPostReview={setShowPostReview}
-          />
-        )}
-
-        {showProfile && (
-          <ProfileSideBar
-            user={user}
-            logOut={logOut}
-            close={() => {
-              setShowProfile(null)
-              urlHandler.setProfileQueryParam(null)
-            }}
-          />
-        )}
-
-        {showPostReview && (
-          <PostReview
-            user={user}
-            selected={selected}
-            close={() => {
-              setShowPostReview(null)
-            }}
-            setSelected={setSelected}
-          />
-        )}
       </GoogleMap>
+
+      {details && (
+        <SelectedPlaceSideBar
+          selected={selected}
+          close={() => {
+            setDetails(null)
+            urlHandler.setMarkerId(selected.place_id)
+          }}
+          user={user}
+          openProfile={() => {
+            setShowProfile(true)
+          }}
+          setShowPostReview={setShowPostReview}
+        />
+      )}
+
+      {showProfile && (
+        <ProfileSideBar
+          user={user}
+          logOut={logOut}
+          close={() => {
+            setShowProfile(null)
+            urlHandler.setProfileQueryParam(null)
+          }}
+        />
+      )}
+
+      {showPostReview && (
+        <PostReview
+          user={user}
+          selected={selected}
+          close={() => {
+            setShowPostReview(null)
+          }}
+          setSelected={setSelected}
+        />
+      )}
+
       <span className="version">
         app:v{version} | api:v{storage.getData("apiVersion")}
       </span>
