@@ -1,10 +1,16 @@
 import React from "react"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons"
 
 import "./index.css"
 
-export default ({ panTo, setPos, setShowPlaceTypesButtons, setShowLoader }) => {
+export default ({
+  mapRef,
+  panTo,
+  setPos,
+  setShowPlaceTypesButtons,
+  setShowLoader,
+}) => {
   return (
     <button
       className="locate nav-button"
@@ -21,6 +27,7 @@ export default ({ panTo, setPos, setShowPlaceTypesButtons, setShowLoader }) => {
             setShowLoader(false)
             setPos(newPos)
             panTo(newPos)
+            mapRef.current.setZoom(12)
           },
           () => {
             setShowLoader(false)

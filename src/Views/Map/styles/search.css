@@ -1,0 +1,39 @@
+.search-container {
+  position: absolute;
+  top: 51px;
+  width: 93%;
+  z-index: 1;
+}
+input.search {
+  height: 2rem;
+  width: 100%;
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: 0 7.5px;
+}
+
+@media (max-width: 420px) {
+  .search-container {
+    top: 45px;
+  }
+}
+@media (min-width: 810px) {
+  .search-container {
+    clear: both;
+    top: 9px;
+    left: 39%;
+    transform: translateX(-50%);
+    width: 225px;
+    max-width: 30%;
+    margin-left: 6%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 809px) {
+  input.search {
+    margin: 0 1rem;
+    text-align: left;
+  }
+}
+

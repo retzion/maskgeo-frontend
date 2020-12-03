@@ -29,26 +29,34 @@ import Button from "./Button"
 import "./index.css"
 
 export default ({
-  bounds,
   close,
+  getBounds,
   keywordSearchOptions,
   mapRef,
+  panTo,
   placesService,
   pos,
+  searchBoxOptions,
+  setBounds,
   setShowLoader,
   setKeywordSearchUrl,
   setMarkers,
+  setPlacesSearchBoxUrl,
   setSelected,
   showProfile,
 }) => {
+  let searchBox, searchBoxInput
 
   React.useEffect(() => {
+    initSearchbox()
+    if (searchBoxOptions) searchBoxSearch(searchBoxOptions)
     if (keywordSearchOptions) nearbySearch(keywordSearchOptions)
   }, [])
 
   function click(placeType) {
     setSelected(null)
-    bounds = new window.google.maps.LatLngBounds()
+    // bounds = new window.google.maps.LatLngBounds()
+    setBounds(mapRef.current.getBounds())
     nearbySearch({
       location: pos,
       rankBy: window.google.maps.places.RankBy.DISTANCE,
@@ -56,42 +64,82 @@ export default ({
     })
   }
 
+  function initSearchbox() {
+    const bounds = getBounds()
+    searchBoxInput = document.getElementById("find")
+    searchBox = new window.google.maps.places.SearchBox(searchBoxInput, {
+      bounds,
+    })
+    mapRef.current.addListener("bounds_changed", () => {
+      searchBox.setBounds(mapRef.current.getBounds())
+    })
+    searchBox.addListener("places_changed", getPlaces)
+  }
+
+  function getPlaces() {
+    const places = searchBox.getPlaces()
+    const bounds = new window.google.maps.LatLngBounds()
+
+    for (let i = 0; i < places.length; i++) {
+      bounds.extend(places[i].geometry.location)
+    }
+
+    setBounds(bounds)
+    mapRef.current.fitBounds(bounds)
+    setMarkers(places)
+
+    if (places.length > 1) setSelected(null)
+    else setSelected(places[0])
+
+    if (!showProfile)
+      setPlacesSearchBoxUrl({
+        keyword: searchBoxInput.value,
+        location: pos,
+        // selected: selectedId,
+        rankBy: window.google.maps.places.RankBy.DISTANCE,
+        zoom: mapRef.current.getZoom(),
+      })
+
+    close()
+  }
+
   function nearbySearch(options) {
     const { keyword, location, rankBy, selected: selectedId, zoom } = options
+    const bounds = getBounds() || new window.google.maps.LatLngBounds()
     setShowLoader(true)
-    placesService.nearbySearch(
-      options,
-      (results, status) => {
-        setShowLoader(false)
-        if (status == window.google.maps.places.PlacesServiceStatus.OK) {
-          let selected
-          for (let i = 0; i < results.length; i++) {
-            if (results[i]["reference"] === selectedId) {
-              selected = results[i]
-              results[i]['selectOnLoad'] = true
-            }
-            bounds.extend(results[i].geometry.location)
+    placesService.nearbySearch(options, (results, status) => {
+      setShowLoader(false)
+      if (status == window.google.maps.places.PlacesServiceStatus.OK) {
+        let selected
+        for (let i = 0; i < results.length; i++) {
+          if (results[i]["reference"] === selectedId) {
+            selected = results[i]
+            results[i]["selectOnLoad"] = true
           }
+          bounds.extend(results[i].geometry.location)
+        }
 
-          mapRef.current.fitBounds(bounds)
-          setMarkers(results)
-          if (!showProfile) setKeywordSearchUrl({
+        mapRef.current.fitBounds(bounds)
+        setMarkers(results)
+        if (!showProfile)
+          setKeywordSearchUrl({
             keyword,
             location,
             selected: selectedId,
             rankBy,
             zoom: zoom || mapRef.current.getZoom(),
           })
-          if (selected) setSelected(selected)
-          close()
-        }
+        if (selected) setSelected(selected)
+        close()
       }
-    )
+    })
   }
 
-  function handleSearchTextKeyUp(event) {
-    var key = event.keyCode
-    if (key === 13) click(event.target.value)
+  function searchBoxSearch(options) {
+    nearbySearch({
+      ...options,
+      keyword: options.searchInput,
+    })
   }
 
   return (
@@ -103,9 +151,9 @@ export default ({
 
         <div className="keyword-search-container">
           <Input
+            id="find"
             placeholder="search for places"
             className="keyword-search"
-            onKeyUp={handleSearchTextKeyUp}
           />
         </div>
 

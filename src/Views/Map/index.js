@@ -13,7 +13,7 @@ import KeywordSearchPanel from "./KeywordSearchPanel"
 import PostReview from "./PostReview"
 import ProfileButton from "./ProfileButton"
 import ProfileSideBar from "./ProfileSideBar"
-import Search from "./Search"
+// import Search from "./Search"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import SplashPage from "./SplashPage"
 import Loader from "../../Components/Loader"
@@ -22,7 +22,7 @@ import Loader from "../../Components/Loader"
 import loadSelectedMarker from "./loadSelectedMarker"
 import storage from "../../util/LocalStorage"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
-import { cookieNames } from "../../config"
+import { cookieNames, googleMapsApiKey } from "../../config"
 import { version } from "../../../package.json"
 
 // design resources
@@ -57,7 +57,7 @@ const options = {
 
 export default function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey,
     libraries,
   })
   const [allowAccess, setAllowAccess] = useState(
@@ -65,6 +65,7 @@ export default function Map(props) {
   )
   const [details, setDetails] = useState(null)
   const [keywordSearchOptions, setKeywordSearchOptions] = useState(null)
+  const [searchBoxOptions, setSearchBoxOptions] = useState(null)
   const [markers, setMarkers] = useState([])
   const [placesService, setPlacesService] = useState(null)
   const [pos, setPosState] = useState(startingPosition)
@@ -144,7 +145,18 @@ export default function Map(props) {
       if (keyword && location) {
         // load markerss for a nearby search
         if (window.history.pushState) {
-          let newurl = `${window.location.protocol}//${window.location.host}/search/${keyword}/@${location.lat},${location.lng},${zoom}`
+          let newurl = `${window.location.protocol}//${window.location.host}/search/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
+          if (selected) newurl += `/selected/${selected}`
+          window.history.pushState({ path: newurl }, "", newurl)
+        }
+      }
+    },
+    setPlacesSearchBoxUrl: params => {
+      const { keyword, location, selected, zoom = 12 } = params
+      if (keyword && location) {
+        // load markerss for a nearby search
+        if (window.history.pushState) {
+          let newurl = `${window.location.protocol}//${window.location.host}/find/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
           if (selected) newurl += `/selected/${selected}`
           window.history.pushState({ path: newurl }, "", newurl)
         }
@@ -176,6 +188,10 @@ export default function Map(props) {
         window.history.pushState({ path: newurl }, "", newurl)
       }
     },
+  }
+
+  function setBounds(newBounds) {
+    bounds = newBounds
   }
 
   const openSelected = useCallback(selectedObject => {
@@ -221,7 +237,7 @@ export default function Map(props) {
 
   function evalParams(newPlacesService) {
     let { marker: markerIds } = props.match.params
-    const { keyword, selected: selectedPlace } = props.match.params
+    const { keyword, search: searchInput, selected: selectedPlace } = props.match.params
     const { locationZoom, selected } = props.match.params
     const {
       location: { search },
@@ -251,7 +267,7 @@ export default function Map(props) {
     }
 
     /** Open Selected Place Sidebar if param is found */
-    if (!keyword && selectedPlace) {
+    if (!keyword && !searchInput && selectedPlace) {
       // load place details for a marker
       loadSelectedMarker({
         openSelected,
@@ -266,12 +282,30 @@ export default function Map(props) {
       })
     }
 
+    /** Open SearchBox results if param is found */
+    if (searchInput && locationZoom) {
+      let [lat, lng, zoom = 12] = locationZoom.split(",")
+      lat = lat.replace("@", "")
+      console.log({zoom})
+
+      setSearchBoxOptions({
+        searchInput: decodeURIComponent(searchInput),
+        location: { lat: parseFloat(lat), lng: parseFloat(lng) },
+        rankBy: window.google.maps.places.RankBy.DISTANCE,
+        selected,
+        zoom,
+      })
+      
+      setShowPlaceTypesButtons(true)
+      if (showPlaceDetails) setDetails(selected)
+    }
+
     /** Open Keyword search results if param is found */
     if (keyword && locationZoom) {
       let [lat, lng, zoom = 12] = locationZoom.split(",")
       lat = lat.replace("@", "")
       setKeywordSearchOptions({
-        keyword,
+        keyword: decodeURIComponent(keyword),
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
         rankBy: window.google.maps.places.RankBy.DISTANCE,
         selected,
@@ -287,6 +321,8 @@ export default function Map(props) {
 
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map
+
+    bounds = map.getBounds()
 
     map.addListener("click", e => {
       if ("placeId" in e) {
@@ -312,12 +348,11 @@ export default function Map(props) {
       const newCenter = { lat: center.lat(), lng: center.lng() }
       setPos(newCenter)
       bounds = map.getBounds()
+      console.log("center changed")
     })
 
     const newPlacesService = new window.google.maps.places.PlacesService(map)
     setPlacesService(newPlacesService)
-
-    bounds = new window.google.maps.LatLngBounds()
 
     evalParams(newPlacesService)
   }, [])
@@ -341,6 +376,7 @@ export default function Map(props) {
       {!allowAccess && <SplashPage setAllowAccess={setAllowAccess} />}
 
       <Locate
+        mapRef={mapRef}
         panTo={panTo}
         setPos={setPos}
         setShowLoader={setShowLoader}
@@ -368,35 +404,35 @@ export default function Map(props) {
         Mask Forecast
       </h1>
 
-      {/* <Search
-        panTo={panTo}
-        setMarkerId={urlHandler.setMarkerId}
-        setMarkers={setMarkers}
-        setSelected={setSelected}
-        showDetails={details}
-        placesService={placesService}
-        pos={pos}
-        setPos={setPos}
-        setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-      /> */}
+      {/* <div className="search-container">
+        <input
+          id="search"
+          type="text"
+          placeholder="Search..."
+          className="search"
+        />
+      </div> */}
 
       {showPlaceTypesButtons && (
         <KeywordSearchPanel
-          bounds={bounds}
+          getBounds={() => (bounds)}
           close={() => {
             setShowPlaceTypesButtons(null)
           }}
           keywordSearchOptions={keywordSearchOptions}
+          searchBoxOptions={searchBoxOptions}
           mapRef={mapRef}
           panTo={panTo}
           placesService={placesService}
           pos={pos}
-          showProfile={showProfile}
+          setBounds={setBounds}
           setShowLoader={setShowLoader}
           setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
           setMarkers={setMarkers}
+          setPlacesSearchBoxUrl={urlHandler.setPlacesSearchBoxUrl}
           setSelected={setSelected}
           setPos={setPos}
+          showProfile={showProfile}
         />
       )}
 
@@ -448,7 +484,7 @@ export default function Map(props) {
           selected={selected}
           close={() => {
             setDetails(null)
-            urlHandler.setMarkerId(selected.place_id)
+            if (selected) urlHandler.setMarkerId(selected.place_id)
           }}
           user={user}
           openProfile={() => {
