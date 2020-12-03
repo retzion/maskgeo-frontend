@@ -19,23 +19,33 @@ const Cookies = new UniversalCookie()
 
 export default ({ setAllowAccess }) => (
   <Modal
+    className="cookie-modal"
     alignControls="center"
     closeOnDimmerClick={false}
     startOpen={true}
-    ModalHeader={
-      <span className="splash-page-welcome">
-        Welcome to Mask Forecast <img src={logo} alt="MaskForecast" />
-      </span>
-    }
+    // ModalHeader={
+    //   <span className="splash-page-welcome">
+    //     Welcome to Mask Forecast <img src={logo} alt="MaskForecast" />
+    //   </span>
+    // }
     ModalContent={
       <div className="splash-page">
+        <img src={logo} alt="MaskForecast" className="logo" />
+        <h2 className="splash-page-welcome">
+          Welcome to Mask Forecast
+        </h2>
         <div>
           <p>
-            Check the forecast for masks before you go out. Leave ratings and
-            reviews on locations based on your experience with masks.
+            <strong>
+              <i>
+                Check the forecast for masks before you go out. Leave ratings
+                and reviews on locations based on your experience with masks.
+              </i>
+            </strong>
           </p>
+          <br />
         </div>
-        <div className="donate disabled">
+        {/* <div className="donate disabled">
           <h3>Donate</h3>
           <div className="donate-options">
             <div className="donate-bitcoin">
@@ -61,44 +71,80 @@ export default ({ setAllowAccess }) => (
               />
             </div>
           </div>
-        </div>
+        </div> */}
         <div>
-          <h3>Cookies Notification</h3>
+          <h2>🍪 Cookies Notification 🍪</h2>
           <p>
-            By using this site, you consent to allowing cookies to be used in
-            your browser.
+            By using this site, you consent to allow cookies to be used in your
+            browser.
           </p>
+          <br />
         </div>
+        {(process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"]) !==
+        "production" ? (
+          <Input
+            type="text"
+            placeholder="Enter preview passcode"
+            style={{
+              marginBottom: "2%",
+            }}
+            onChange={e => {
+              const value = e.target.value
+              if (value === "1776") {
+                const expires = new Date().addDays(1)
+                Cookies.set(cookieNames.allowCookies, true, {
+                  expires,
+                  path: "/",
+                })
+                setAllowAccess(true)
+              }
+            }}
+          />
+        ) : (
+          <Button
+            className="primary big"
+            onClick={() => {
+              const expires = new Date().addDays(1)
+              Cookies.set(cookieNames.allowCookies, true, {
+                expires,
+                path: "/",
+              })
+              setAllowAccess(true)
+            }}
+          >
+            I Agree
+          </Button>
+        )}
       </div>
     }
-    ModalControls={(process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"]) !== 'production' ? [
-      <Input
-        type="text"
-        placeholder="Enter preview passcode"
-        style={{
-          marginBottom: "2%",
-        }}
-        onChange={e => {
-          const value = e.target.value
-          if (value === "1776") {
-            const expires = new Date().addDays(1)
-            Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
-            setAllowAccess(true)
-          }
-        }}
-      />      
-    ] : [<Button
-        className="primary big"
-        onClick={() => {
-          const expires = new Date().addDays(1)
-          Cookies.set(cookieNames.allowCookies, true, {
-            expires,
-            path: "/",
-          })
-          setAllowAccess(true)
-        }}
-      >
-        I Agree
-      </Button>]}
+    // ModalControls={(process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"]) !== 'production' ? [
+    //   <Input
+    //     type="text"
+    //     placeholder="Enter preview passcode"
+    //     style={{
+    //       marginBottom: "2%",
+    //     }}
+    //     onChange={e => {
+    //       const value = e.target.value
+    //       if (value === "1776") {
+    //         const expires = new Date().addDays(1)
+    //         Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
+    //         setAllowAccess(true)
+    //       }
+    //     }}
+    //   />
+    // ] : [<Button
+    //     className="primary big"
+    //     onClick={() => {
+    //       const expires = new Date().addDays(1)
+    //       Cookies.set(cookieNames.allowCookies, true, {
+    //         expires,
+    //         path: "/",
+    //       })
+    //       setAllowAccess(true)
+    //     }}
+    //   >
+    //     I Agree
+    //   </Button>]}
   />
 )

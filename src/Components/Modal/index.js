@@ -36,11 +36,12 @@ export default function (props) {
         onClose={() => {
           setOpen(null)
         }}
+        className={props.className}
         style={{
           zIndex: 99,
         }}
       >
-        <Modal.Header>{ModalHeader}</Modal.Header>
+        {ModalHeader && <Modal.Header>{ModalHeader}</Modal.Header>}
         <Modal.Content>{ModalContent}</Modal.Content>
         {ModalControls && (
           <Modal.Actions style={{ textAlign: props.alignControls || "right" }}>

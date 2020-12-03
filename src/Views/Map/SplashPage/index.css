@@ -1,19 +1,31 @@
+.cookie-modal {
+  background-color: white !important;
+  background-image: url(/img/cookie.png) !important;
+  background-size: 240px !important;
+  background-position: right -45px bottom -120px !important;
+  background-repeat: no-repeat !important;
+}
+.cookie-modal .content {
+  background: none !important;
+}
+
+
 .splash-page {
-  min-height: 51vh;
-  width: 94%;
   display: grid;
   place-items: center;
   margin: 3% 3%;
-  background: white;
   border-radius: 9px;
   font-size: 0.9rem;
 }
-.splash-page-welcome img {
-  height: 30px;
-  vertical-align: middle;
+.splash-page .logo {
+  max-width: 150px;
+}
+.splash-page-welcome {
+  margin-top: 9px;
+  padding-top: 0;
 }
 .splash-page > div {
-  width: 90%;
+  /* width: 90%; */
   text-align: center;
 }
 .splash-page .donate-options {
@@ -36,4 +48,11 @@
   margin-top: 12px;
   margin-left: -36px;
   position: absolute;
+}
+
+@media (max-width: 550px) {
+  .splash-page h2 {
+    font-size: 1.23rem;
+    text-align: center;
+  }
 }
