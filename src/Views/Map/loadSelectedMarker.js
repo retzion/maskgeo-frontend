@@ -49,10 +49,11 @@ export default async ({
           panTo(geoCoordinates)
       
           // mask reviews
-          let { data: maskReviews } = await fetchReviews({
+          const fetchedReviews = await fetchReviews({
             geoCoordinates,
             googlePlaceId: placeId,
           })
+          const { data: maskReviews } = fetchedReviews || { data: null }
           if (!maskReviews) return alert("Problem fetching results.")
 
           result.maskReviews = maskReviews

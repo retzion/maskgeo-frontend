@@ -153,12 +153,14 @@ export default function Map(props) {
     setSelectedId: (selectedId, details) => {
       // load place details for a marker
       if (window.history.pushState) {
-        const trimmedPathname = !selectedId
+        let newurl = !selectedId
           ? window.location.pathname
           : window.location.pathname.replace(`/selected/${selectedId}`, "")
-        let newurl = `${window.location.protocol}//${window.location.host}${trimmedPathname}`
         if (selectedId) newurl += `/selected/${selectedId}`
         if (details) newurl += `?details=1`
+        if (!newurl.startsWith("/")) newurl = "/" + newurl
+        newurl = newurl.replace("//", "")
+        newurl = `${window.location.protocol}//${window.location.host}${newurl}`
         window.history.pushState(
           { path: newurl },
           "",
@@ -288,7 +290,10 @@ export default function Map(props) {
 
     map.addListener("click", e => {
       if ("placeId" in e) {
+        // This is most likely a Google Place of Interest marker click
+        // We will stop the Google infowindow from showing and load our custom infowindow
         e.stop()
+        setSelected(e)
         loadSelectedMarker({
           panTo,
           placeId: e.placeId,

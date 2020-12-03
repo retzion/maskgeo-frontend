@@ -1,5 +1,7 @@
 import React from "react"
 import { InfoWindow as GoogleInfoWindow } from "@react-google-maps/api"
+
+// components
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
 
 // styles
@@ -19,6 +21,7 @@ export default ({
     formatted_address: address,
     geometry,
     icon,
+    latLng,
     maskRating,
     maskRatingsCount,
     name,
@@ -27,16 +30,11 @@ export default ({
 }) => {
   if (!place) return null
 
-  return (
-    <GoogleInfoWindow
-      position={{
-        lat: geometry.location.lat(),
-        lng: geometry.location.lng(),
-      }}
-      onCloseClick={() => {
-        close()
-      }}
-    >
+  const lat = geometry ? geometry.location.lat() : latLng.lat()
+  const lng = geometry ? geometry.location.lng() : latLng.lng()
+
+  const contents =
+    place && place.name ? (
       <div className="info-window-container" onClick={showDetails}>
         <h1 className="title">
           {icon && <img src={icon} alt="" style={styles.icon} />}
@@ -66,6 +64,23 @@ export default ({
           {address && <a style={styles.details}>view details</a>}
         </p>
       </div>
+    ) : (
+      <div className="info-window-container loading" onClick={showDetails}>
+        Loading...
+      </div>
+    )
+
+  return (
+    <GoogleInfoWindow
+      position={{
+        lat,
+        lng,
+      }}
+      onCloseClick={() => {
+        close()
+      }}
+    >
+      {contents}
     </GoogleInfoWindow>
   )
 }

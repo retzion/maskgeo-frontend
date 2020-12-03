@@ -2,7 +2,9 @@
   font-size: 1rem;
   text-align: center;
   cursor: pointer;
-  /* padding-top: 15px; */
+}
+.info-window-container.loading {
+  padding: 45px;
 }
 
 .info-window-container .title {
