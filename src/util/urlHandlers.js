@@ -1,12 +1,14 @@
 export default {
     setMarkerId: markerId => {
       if (window.history.pushState) {
-        const indexOfSelected = window.location.href.indexOf("/selected/")
+        const indexOfSelected = window.location.pathname.indexOf("/selected/")
         let newurl =
-          indexOfSelected > 0
-            ? window.location.href.substring(0, indexOfSelected)
-            : window.location.href
+          indexOfSelected > -1
+            ? window.location.pathname.substring(0, indexOfSelected)
+            : window.location.pathname
         if (markerId) newurl += `/selected/${markerId}`
+        newurl = cleanExtraSlashes(newurl)
+        newurl = `${window.location.protocol}//${window.location.host}${newurl}`
         window.history.pushState(
           { path: newurl },
           "",
@@ -44,9 +46,7 @@ export default {
           : window.location.pathname.replace(`/selected/${selectedId}`, "")
         if (selectedId) newurl += `/selected/${selectedId}`
         if (details) newurl += `?details=1`
-        if (!newurl.startsWith("/")) newurl = "/" + newurl
-        newurl = newurl.replace("//", "")
-        if (!newurl.startsWith("/")) newurl = "/" + newurl
+        newurl = cleanExtraSlashes(newurl)
         newurl = `${window.location.protocol}//${window.location.host}${newurl}`
         window.history.pushState(
           { path: newurl },
@@ -65,3 +65,8 @@ export default {
     },
   }
 
+function cleanExtraSlashes(url) {
+  url = url.replace("//", "")
+  if (!url.startsWith("/")) url = "/" + url
+  return url
+}

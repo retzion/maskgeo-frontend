@@ -25,8 +25,9 @@ export default async ({
       const { lat, lng } = await getLatLng(result)
       geoCoordinates = { lat, lng }
       placeId = result.place_id
-      if (setMarkerId) setMarkerId(placeId)
     }
+
+    if (setMarkerId) setMarkerId(placeId)
 
     // fetch Places data
     placesService.getDetails(
