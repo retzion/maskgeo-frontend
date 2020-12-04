@@ -21,6 +21,7 @@ import Loader from "../../Components/Loader"
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
 import storage from "../../util/LocalStorage"
+import urlHandlers from "../../util/urlHandlers"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 import { cookieNames, googleMapsApiKey } from "../../config"
 import { version } from "../../../package.json"
@@ -123,79 +124,12 @@ export default function Map(props) {
     })()
   }, [])
 
-  // URL handlers
-  const urlHandler = {
-    setMarkerId: markerId => {
-      if (window.history.pushState) {
-        const indexOfSelected = window.location.href.indexOf("/selected/")
-        let newurl =
-          indexOfSelected > 0
-            ? window.location.href.substring(0, indexOfSelected)
-            : window.location.href
-        if (markerId) newurl += `/selected/${markerId}`
-        window.history.pushState(
-          { path: newurl },
-          "",
-          newurl + window.location.hash
-        )
-      }
-    },
-    setKeywordSearchUrl: params => {
-      const { keyword, location, selected, zoom = 12 } = params
-      if (keyword && location) {
-        // load markerss for a nearby search
-        if (window.history.pushState) {
-          let newurl = `${window.location.protocol}//${window.location.host}/search/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
-          if (selected) newurl += `/selected/${selected}`
-          window.history.pushState({ path: newurl }, "", newurl)
-        }
-      }
-    },
-    setPlacesSearchBoxUrl: params => {
-      const { keyword, location, selected, zoom = 12 } = params
-      if (keyword && location) {
-        // load markerss for a nearby search
-        if (window.history.pushState) {
-          let newurl = `${window.location.protocol}//${window.location.host}/find/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
-          if (selected) newurl += `/selected/${selected}`
-          window.history.pushState({ path: newurl }, "", newurl)
-        }
-      }
-    },
-    setSelectedId: (selectedId, details) => {
-      // load place details for a marker
-      if (window.history.pushState) {
-        let newurl = !selectedId
-          ? window.location.pathname
-          : window.location.pathname.replace(`/selected/${selectedId}`, "")
-        if (selectedId) newurl += `/selected/${selectedId}`
-        if (details) newurl += `?details=1`
-        if (!newurl.startsWith("/")) newurl = "/" + newurl
-        newurl = newurl.replace("//", "")
-        newurl = `${window.location.protocol}//${window.location.host}${newurl}`
-        window.history.pushState(
-          { path: newurl },
-          "",
-          newurl + window.location.hash
-        )
-      }
-    },
-    setProfileQueryParam: show => {
-      // set URL
-      if (window.history.pushState) {
-        const href = window.location.href.replace("?profile", "")
-        const newurl = show ? `${href}?profile` : href
-        window.history.pushState({ path: newurl }, "", newurl)
-      }
-    },
-  }
-
   function setBounds(newBounds) {
     bounds = newBounds
   }
 
   const openSelected = useCallback(selectedObject => {
-    if (selectedObject) urlHandler.setSelectedId(selectedObject.place_id, true)
+    if (selectedObject) urlHandlers.setSelectedId(selectedObject.place_id, true)
     setSelected(selectedObject)
     setDetails(selectedObject)
   }, [])
@@ -260,7 +194,7 @@ export default function Map(props) {
           places: window.google.maps.places,
           placesService: newPlacesService,
           pos,
-          setMarkerId: urlHandler.setMarkerId,
+          setMarkerId: urlHandlers.setMarkerId,
           setMarkers,
           setSelected,
         })
@@ -336,7 +270,7 @@ export default function Map(props) {
           places: window.google.maps.places,
           placesService: newPlacesService,
           pos,
-          setMarkerId: urlHandler.setMarkerId,
+          setMarkerId: urlHandlers.setMarkerId,
           setMarkers,
           setSelected,
         })
@@ -387,7 +321,7 @@ export default function Map(props) {
         user={user}
         setShowProfile={setShowProfile}
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
-        setProfileQueryParam={urlHandler.setProfileQueryParam}
+        setProfileQueryParam={urlHandlers.setProfileQueryParam}
       />
 
       <FindPlacesButton
@@ -427,9 +361,9 @@ export default function Map(props) {
           pos={pos}
           setBounds={setBounds}
           setShowLoader={setShowLoader}
-          setKeywordSearchUrl={urlHandler.setKeywordSearchUrl}
+          setKeywordSearchUrl={urlHandlers.setKeywordSearchUrl}
           setMarkers={setMarkers}
-          setPlacesSearchBoxUrl={urlHandler.setPlacesSearchBoxUrl}
+          setPlacesSearchBoxUrl={urlHandlers.setPlacesSearchBoxUrl}
           setSelected={setSelected}
           setPos={setPos}
           showProfile={showProfile}
@@ -459,7 +393,7 @@ export default function Map(props) {
                   })
                 }
                 setSelected(s)
-                urlHandler.setMarkerId(s.place_id)
+                urlHandlers.setMarkerId(s.place_id)
               }}
             />
           )
@@ -470,7 +404,7 @@ export default function Map(props) {
             place={selected}
             close={() => {
               setSelected(null)
-              urlHandler.setMarkerId()
+              urlHandlers.setMarkerId()
             }}
             showDetails={() => {
               openSelected(selected)
@@ -484,7 +418,7 @@ export default function Map(props) {
           selected={selected}
           close={() => {
             setDetails(null)
-            if (selected) urlHandler.setMarkerId(selected.place_id)
+            if (selected) urlHandlers.setMarkerId(selected.place_id)
           }}
           user={user}
           openProfile={() => {
@@ -500,7 +434,7 @@ export default function Map(props) {
           logOut={logOut}
           close={() => {
             setShowProfile(null)
-            urlHandler.setProfileQueryParam(null)
+            urlHandlers.setProfileQueryParam(null)
           }}
         />
       )}
