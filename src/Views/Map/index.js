@@ -23,13 +23,14 @@ import loadSelectedMarker from "./loadSelectedMarker"
 import storage from "../../util/LocalStorage"
 import urlHandlers from "../../util/urlHandlers"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
-import { cookieNames, googleMapsApiKey } from "../../config"
+import { cookieNames, googleMapsApiKey, websiteSettings } from "../../config"
 import { version } from "../../../package.json"
 
 // design resources
 import "@reach/combobox/styles.css"
 import logo from "../../assets/img/logo.png"
 import "./styles/index.css"
+import { config } from "@fortawesome/fontawesome-svg-core"
 // import mapStyles from "./styles/mapStylesDark"
 const mapContainerStyle = {
   height: "100vh",
@@ -52,6 +53,7 @@ const options = {
   center: startingPosition,
   // styles: mapStyles,
   disableDefaultUI: true,
+  gestureHandling: "greedy",
   zoomControl: true,
   zoom: 12,
 }
@@ -169,16 +171,20 @@ export default function Map(props) {
     }
   }
 
-  function evalParams(newPlacesService) {
+  async function evalParams(newPlacesService) {
     let { marker: markerIds } = props.match.params
-    const { keyword, search: searchInput, selected: selectedPlace } = props.match.params
+    const {
+      keyword,
+      search: searchInput,
+      selected: selectedPlace,
+    } = props.match.params
     const { locationZoom, selected } = props.match.params
     const {
       location: { search },
     } = props
-    const profile = search.includes("profile")
-
+    // const profile = search.includes("profile")
     const showPlaceDetails = search.includes("details")
+
     setShowPlaceDetails(showPlaceDetails)
 
     /** Pan to Marker if param is found */
@@ -188,22 +194,24 @@ export default function Map(props) {
       if (markerIds.length > 1)
         createMarkersFromIds(markerIds, newPlacesService)
       else
-        loadSelectedMarker({
-          panTo,
-          placeId: markerIds[0],
-          places: window.google.maps.places,
-          placesService: newPlacesService,
-          pos,
-          setMarkerId: urlHandlers.setMarkerId,
-          setMarkers,
-          setSelected,
-        })
+        console.log(
+          await loadSelectedMarker({
+            panTo,
+            placeId: markerIds[0],
+            places: window.google.maps.places,
+            placesService: newPlacesService,
+            pos,
+            setMarkerId: urlHandlers.setMarkerId,
+            setMarkers,
+            setSelected,
+          })
+        )
     }
 
     /** Open Selected Place Sidebar if param is found */
     if (!keyword && !searchInput && selectedPlace) {
       // load place details for a marker
-      loadSelectedMarker({
+      const loaded = await loadSelectedMarker({
         openSelected,
         showPlaceDetails,
         panTo,
@@ -214,13 +222,14 @@ export default function Map(props) {
         setMarkers,
         setSelected,
       })
+      console.log({ loaded })
     }
 
     /** Open SearchBox results if param is found */
     if (searchInput && locationZoom) {
       let [lat, lng, zoom = 12] = locationZoom.split(",")
       lat = lat.replace("@", "")
-      console.log({zoom})
+      console.log({ zoom })
 
       setSearchBoxOptions({
         searchInput: decodeURIComponent(searchInput),
@@ -229,7 +238,7 @@ export default function Map(props) {
         selected,
         zoom,
       })
-      
+
       setShowPlaceTypesButtons(true)
       if (showPlaceDetails) setDetails(selected)
     }
@@ -335,21 +344,12 @@ export default function Map(props) {
         <span role="img" aria-label="tent">
           <img src={logo} alt="mask" />
         </span>{" "}
-        Mask Forecast
+        {websiteSettings.friendlyName}
       </h1>
-
-      {/* <div className="search-container">
-        <input
-          id="search"
-          type="text"
-          placeholder="Search..."
-          className="search"
-        />
-      </div> */}
 
       {showPlaceTypesButtons && (
         <KeywordSearchPanel
-          getBounds={() => (bounds)}
+          getBounds={() => bounds}
           close={() => {
             setShowPlaceTypesButtons(null)
           }}

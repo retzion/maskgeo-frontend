@@ -10,6 +10,7 @@ export default async ({
   placeId,
   places,
   placesService,
+  reference,
   setMarkerId,
   setMarkers,
   setSelected,
@@ -32,7 +33,7 @@ export default async ({
     // fetch Places data
     placesService.getDetails(
       {
-        placeId,
+        placeId: reference || placeId,
         /** @TODO reduce fetched data fields */
         // fields: ["formatted_phone_number", "name", "photos", "rating" ],
       },
@@ -66,10 +67,12 @@ export default async ({
           if (setMarkers) setMarkers([result])
           if (openSelected && showPlaceDetails) openSelected(result)
           else setSelected(result)
+          return result
         }
+        // else return
       }
     )
   } catch (error) {
-    console.error(error)
+    return console.error(error)
   }
 }
