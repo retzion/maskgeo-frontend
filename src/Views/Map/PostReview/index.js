@@ -1,10 +1,10 @@
 import React, { createRef, useCallback, useRef, useState } from "react"
-import Sidebar from "react-sidebar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 // components
 import Slider from "./Slider"
+import Sidebar from "../../../Components/Sidebar"
 
 // helpers
 import { postReview } from "../../../util/MaskGeoApi"
@@ -159,7 +159,8 @@ export default ({ close, selected, setSelected, user }) => {
       updatedSelected = calculateMaskRating(updatedSelected)
 
       setSelected(updatedSelected)
-      if (savedReview.review && savedReview.review.length) window.location.hash = `review_${savedReview._id}`
+      if (savedReview.review && savedReview.review.length)
+        window.location.hash = `review_${savedReview._id}`
       close()
     }
   }, [selected])
@@ -172,9 +173,6 @@ export default ({ close, selected, setSelected, user }) => {
       }}
     >
       <div style={styles.container}>
-        <a onClick={close} className="top-button close">
-          ✖️
-        </a>
         <h1 style={{ display: "inline-block", marginTop: 0 }}>
           {userIdMatch ? "Edit Your" : "Post a"} Review
         </h1>
@@ -244,11 +242,22 @@ export default ({ close, selected, setSelected, user }) => {
   )
 
   return (
+    // <Sidebar
+    //   sidebar={<SidebarContent />}
+    //   open={true}
+    //   children={[]}
+    //   styles={styles.sidebar}
+    // />
     <Sidebar
-      sidebar={<SidebarContent />}
-      open={true}
-      children={[]}
-      styles={styles.sidebar}
+      sidebarId="post_review_sidebar"
+      sidebarContent={<SidebarContent />}
+      sidebarControls={
+        <a onClick={close} className="top-button close">
+          ✖️
+        </a>
+      }
+      startOpen={true}
+      zIndex={3}
     />
   )
 }

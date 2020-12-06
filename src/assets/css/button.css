@@ -39,6 +39,7 @@ button.primary.disabled,
 }
 
 .top-button {
+  cursor: pointer;
   background: rgba(221,221,221,0.75);
   text-shadow: 2px 2px #eaeaea;
   box-shadow: 1px 1px #666;

@@ -1,0 +1,11 @@
+.custom-sidebar .sidebar-content {
+  position: absolute;
+  background: white;
+  height: 100%;
+  width: 100%;
+  max-width: 550px;
+  top: 0;
+  left: 0;
+  overflow-x: auto;
+  overflow-y: scroll;
+}

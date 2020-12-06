@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Sidebar from "react-sidebar"
 import { Label } from "semantic-ui-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
@@ -14,6 +13,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 // components
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
 import MaskReview from "./MaskReview"
+import Sidebar from "../../../Components/Sidebar"
 
 // styles
 import styles from "./styles"
@@ -55,7 +55,8 @@ export default ({
 
   React.useEffect(() => {
     if (window.location.hash) {
-      const reviewsPane = document.getElementById("selected_place_sidebar")
+      const sidebar = document.getElementById("selected_place_sidebar")
+      const reviewsPane = sidebar.getElementsByClassName("sidebar-content")[0]
       setTimeout(() => {
         const a = window.location.hash.substring(1)
         const b = document.getElementById(a)
@@ -139,32 +140,7 @@ export default ({
           }}
         />
       )}
-      <a onClick={close} className="top-button close">
-        ✖️
-      </a>
-      <input
-        style={{ visibility: "hidden", posision: "absolute" }}
-        value={clipboard.value}
-        onChange={({ target: { value } }) =>
-          setClipboard({ value, copied: false })
-        }
-      />
-      <CopyToClipboard
-        text={clipboard.value}
-        onCopy={() => setClipboard({ ...clipboard, copied: true })}
-      >
-        <button className="top-button copy-url">
-          <span>Copy Link</span>
-          <span className="icon-container">
-            <FontAwesomeIcon className="icon" icon={faLink} />
-          </span>
-          {clipboard.copied && (
-            <span className="copied">
-              <Label pointing="left" content="copied!" />
-            </span>
-          )}
-        </button>
-      </CopyToClipboard>
+
       {!featurePhotoUrl && <h3>&nbsp;</h3>}
       <div style={styles.container}>
         {/* {Business info} */}
@@ -290,13 +266,50 @@ export default ({
     </div>
   )
 
+  const SidebarControls = () => (
+    <React.Fragment>
+      <a onClick={close} className="top-button close">
+        ✖️
+      </a>
+      <input
+        style={{ visibility: "hidden", position: "absolute" }}
+        value={clipboard.value}
+        onChange={({ target: { value } }) =>
+          setClipboard({ value, copied: false })
+        }
+      />
+      <CopyToClipboard
+        text={clipboard.value}
+        onCopy={() => {
+          setClipboard({ ...clipboard, copied: true })
+          setTimeout(() => {
+            setClipboard({ ...clipboard, copied: false })
+          }, 2500)
+        }}
+      >
+        <button className="top-button copy-url">
+          <span>Copy Link</span>
+          <span className="icon-container">
+            <FontAwesomeIcon className="icon" icon={faLink} />
+          </span>
+          {clipboard.copied && (
+            <span className="copied">
+              <Label pointing="left" content="copied!" />
+            </span>
+          )}
+        </button>
+      </CopyToClipboard>
+    </React.Fragment>
+  )
+
   return (
     <Sidebar
+      close={close}
       sidebarId="selected_place_sidebar"
-      sidebar={<SidebarContent />}
-      open={true}
-      children={[]}
-      styles={styles.sidebar}
+      sidebarContent={<SidebarContent />}
+      sidebarControls={<SidebarControls />}
+      startOpen={true}
+      zIndex={2}
     />
   )
 }

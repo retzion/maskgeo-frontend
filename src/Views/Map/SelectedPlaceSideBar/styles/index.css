@@ -1,53 +1,48 @@
-.selected-place-sidebar {
-  background-color: white;
-  height: 100vh;
+#selected_place_sidebar .sidebar-controls {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  /* max-width: 720px;
-  min-width: 240px; */
-  /* display: grid;
-  grid-template-columns: minmax(300px, 99%) 1fr; */
+  max-width: 550px;
+  padding: 6px 12px;
+  text-align: left;
 }
-
-.selected-place-sidebar .close {
+#selected_place_sidebar .sidebar-controls .close {
   display: grid;
   place-items: center;
-  position: fixed;
-  right: 12px;
-  top: 12px;
-  cursor: pointer;
   margin: 0;
   font-size: 1.5rem;
   border-radius: 3px;
   width: 36px;
   height: 36px;
+  float: right;
 }
-.selected-place-sidebar .copy-url {
-  display: inline-block;
-  position: absolute;
-  left: 12px;
-  top: 12px;
-  cursor: pointer;
-  margin: 0;
+#selected_place_sidebar .sidebar-controls .copy-url {
   font-size: 0.81rem;
   border-radius: 3px;
   width: auto;
   height: 36px;
   text-shadow: 1px 1px #eaeaea;
 }
-.selected-place-sidebar .copied {
-  position: absolute;
-  left: 102px;
-  top: 4.5px;
-}
-.selected-place-sidebar .copy-url .icon-container {
+#selected_place_sidebar .sidebar-controls .copy-url .icon-container {
   margin-left: 9px;
 }
-.selected-place-sidebar .copied .label {
+#selected_place_sidebar .sidebar-controls .copied {
+  position: absolute;
+  left: 120px;
+  top: 6.6px;
+}
+#selected_place_sidebar .sidebar-controls .copied .ui.left.pointing.label {
   color: white;
   background: var(--color-blue);
   text-shadow: none;
   box-shadow: 1px 1px #fff;
 }
+
+
+
+
+
 
 .selected-place-sidebar .mask-rating-icons-row {
   height: auto;
