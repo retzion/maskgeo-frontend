@@ -165,9 +165,9 @@ export default ({ close, selected, setSelected, user }) => {
     }
   }, [selected])
 
-  const SidebarContent = () => (
+  return (
     <div
-      className="post-review open-sidebar"
+      className="post-review"
       style={{
         padding: 12,
       }}
@@ -181,7 +181,7 @@ export default ({ close, selected, setSelected, user }) => {
           {name}
         </h2>
         <h3 style={styles.address}>{address}</h3>
-        <div>
+        <div style={{marginBottom: 90}}>
           <hr color="#eaeaea" />
           <form
             style={{ display: showSubmitConfirmation ? "none" : "block" }}
@@ -239,25 +239,5 @@ export default ({ close, selected, setSelected, user }) => {
         </div>
       </div>
     </div>
-  )
-
-  return (
-    // <Sidebar
-    //   sidebar={<SidebarContent />}
-    //   open={true}
-    //   children={[]}
-    //   styles={styles.sidebar}
-    // />
-    <Sidebar
-      sidebarId="post_review_sidebar"
-      sidebarContent={<SidebarContent />}
-      sidebarControls={
-        <a onClick={close} className="top-button close">
-          ✖️
-        </a>
-      }
-      startOpen={true}
-      zIndex={3}
-    />
   )
 }

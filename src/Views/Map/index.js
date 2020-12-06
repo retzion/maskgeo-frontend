@@ -10,7 +10,6 @@ import InfoWindow from "./InfoWindow"
 import Locate from "./Locate"
 import Marker from "./Marker"
 import KeywordSearchPanel from "./KeywordSearchPanel"
-import PostReview from "./PostReview"
 import ProfileButton from "./ProfileButton"
 import ProfileSideBar from "./ProfileSideBar"
 // import Search from "./Search"
@@ -75,7 +74,6 @@ export default function Map(props) {
   const [selected, setSelected] = useState(null)
   const [showLoader, setShowLoader] = useState(false)
   const [showProfile, setShowProfile] = useState(null)
-  const [showPostReview, setShowPostReview] = useState(null)
   const [showPlaceDetails, setShowPlaceDetails] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
   const [user, setUser] = useState(null)
@@ -424,7 +422,7 @@ export default function Map(props) {
           openProfile={() => {
             setShowProfile(true)
           }}
-          setShowPostReview={setShowPostReview}
+          setSelected={setSelected}
         />
       )}
 
@@ -436,17 +434,6 @@ export default function Map(props) {
             setShowProfile(null)
             urlHandlers.setProfileQueryParam(null)
           }}
-        />
-      )}
-
-      {showPostReview && (
-        <PostReview
-          user={user}
-          selected={selected}
-          close={() => {
-            setShowPostReview(null)
-          }}
-          setSelected={setSelected}
         />
       )}
 

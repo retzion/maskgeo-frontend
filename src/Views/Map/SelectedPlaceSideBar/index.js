@@ -14,6 +14,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
 import MaskReview from "./MaskReview"
 import Sidebar from "../../../Components/Sidebar"
+import PostReview from "../PostReview"
 
 // styles
 import styles from "./styles"
@@ -26,7 +27,7 @@ export default ({
   close: closeSidebar,
   openProfile,
   selected,
-  setShowPostReview,
+  setSelected,
   user,
 }) => {
   const {
@@ -51,7 +52,7 @@ export default ({
     value: baseUrl,
     copied: false,
   })
-  // const [copied, setCopied] = useState(null)
+  const [showPostReview, setShowPostReview] = useState(null)
 
   React.useEffect(() => {
     if (window.location.hash) {
@@ -88,21 +89,6 @@ export default ({
     closeSidebar()
   }
 
-  // const copyToClipboard = e => {
-  //   e.preventDefault()
-  //   navigator.clipboard
-  //     .writeText(baseUrl)
-  //     .then(() => {
-  //       setCopied(true)
-  //       setTimeout(() => {
-  //         setCopied(null)
-  //       }, 3000)
-  //     })
-  //     .catch(() => {
-  //       alert("Your browser does not support this")
-  //     })
-  // }
-
   function militaryTimeToAmPm(time) {
     let hours = time.substring(0, 2)
     const amPm = parseInt(hours) < 12 ? "AM" : "PM"
@@ -125,7 +111,10 @@ export default ({
 
   function reviewLocation() {
     if (!user) openProfile()
-    else setShowPostReview(true)
+    else {
+      setShowPostReview(true)
+      document.getElementsByClassName("sidebar-content")[0].scroll({ top: 0 })
+    }
   }
 
   const SidebarContent = () => (
@@ -262,6 +251,17 @@ export default ({
         <p>
           <br />
         </p>
+
+        {/* {showPostReview && (
+        <PostReview
+          user={user}
+          selected={selected}
+          close={() => {
+            setShowPostReview(null)
+          }}
+          setSelected={setSelected}
+        />
+      )} */}
       </div>
     </div>
   )
@@ -306,8 +306,34 @@ export default ({
     <Sidebar
       close={close}
       sidebarId="selected_place_sidebar"
-      sidebarContent={<SidebarContent />}
-      sidebarControls={<SidebarControls />}
+      sidebarContent={
+        showPostReview ? (
+          <PostReview
+            user={user}
+            selected={selected}
+            close={() => {
+              setShowPostReview(null)
+            }}
+            setSelected={setSelected}
+          />
+        ) : (
+          <SidebarContent />
+        )
+      }
+      sidebarControls={
+        showPostReview ? (
+          <a
+            onClick={() => {
+              setShowPostReview(null)
+            }}
+            className="top-button close"
+          >
+            ✖️
+          </a>
+        ) : (
+          <SidebarControls />
+        )
+      }
       startOpen={true}
       zIndex={2}
     />
