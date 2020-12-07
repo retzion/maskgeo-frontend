@@ -19,7 +19,7 @@ export default {
     padding: "0 12px",
   },
   ratingText: {
-    verticalAlign: "middle",
+    verticalAlign: "top",
     display: "inline-block",
     fontSize: "1rem",
     height: 21,

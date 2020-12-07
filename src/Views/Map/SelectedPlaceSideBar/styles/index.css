@@ -47,7 +47,7 @@
 .selected-place-sidebar .mask-rating-icons-row {
   height: auto;
   display: grid;
-  place-items: center start;
+  place-items: center center;
   grid-template-columns: minmax(201px, 45%) 1fr;
 }
 .selected-place-sidebar button.float-right {
