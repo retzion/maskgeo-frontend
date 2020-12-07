@@ -1,0 +1,3 @@
+.ui.dimmer:last-child {
+  z-index: 2;
+}

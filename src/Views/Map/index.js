@@ -11,8 +11,7 @@ import Locate from "./Locate"
 import Marker from "./Marker"
 import KeywordSearchPanel from "./KeywordSearchPanel"
 import ProfileButton from "./ProfileButton"
-import ProfileSideBar from "./ProfileSideBar"
-// import Search from "./Search"
+import ProfileModal from "./ProfileModal"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import SplashPage from "./SplashPage"
 import Loader from "../../Components/Loader"
@@ -220,7 +219,6 @@ export default function Map(props) {
         setMarkers,
         setSelected,
       })
-      console.log({ loaded })
     }
 
     /** Open SearchBox results if param is found */
@@ -427,7 +425,7 @@ export default function Map(props) {
       )}
 
       {showProfile && (
-        <ProfileSideBar
+        <ProfileModal
           user={user}
           logOut={logOut}
           close={() => {

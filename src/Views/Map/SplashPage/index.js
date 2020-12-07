@@ -23,11 +23,6 @@ export default ({ setAllowAccess }) => (
     alignControls="center"
     closeOnDimmerClick={false}
     startOpen={true}
-    // ModalHeader={
-    //   <span className="splash-page-welcome">
-    //     Welcome to Mask Forecast <img src={logo} alt="MaskForecast" />
-    //   </span>
-    // }
     ModalContent={
       <div className="splash-page">
         <img src={logo} alt="MaskForecast" className="logo" />
@@ -117,34 +112,5 @@ export default ({ setAllowAccess }) => (
         )}
       </div>
     }
-    // ModalControls={(process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"]) !== 'production' ? [
-    //   <Input
-    //     type="text"
-    //     placeholder="Enter preview passcode"
-    //     style={{
-    //       marginBottom: "2%",
-    //     }}
-    //     onChange={e => {
-    //       const value = e.target.value
-    //       if (value === "1776") {
-    //         const expires = new Date().addDays(1)
-    //         Cookies.set(cookieNames.allowCookies, true, { expires, path: "/" })
-    //         setAllowAccess(true)
-    //       }
-    //     }}
-    //   />
-    // ] : [<Button
-    //     className="primary big"
-    //     onClick={() => {
-    //       const expires = new Date().addDays(1)
-    //       Cookies.set(cookieNames.allowCookies, true, {
-    //         expires,
-    //         path: "/",
-    //       })
-    //       setAllowAccess(true)
-    //     }}
-    //   >
-    //     I Agree
-    //   </Button>]}
   />
 )

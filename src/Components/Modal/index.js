@@ -1,6 +1,8 @@
 import React from "react"
 import { Modal } from "semantic-ui-react"
 
+import "./index.css"
+
 export default function (props) {
   let {
     startOpen = false,
@@ -37,9 +39,6 @@ export default function (props) {
           setOpen(null)
         }}
         className={props.className}
-        style={{
-          zIndex: 99,
-        }}
       >
         {ModalHeader && <Modal.Header>{ModalHeader}</Modal.Header>}
         <Modal.Content>{ModalContent}</Modal.Content>
