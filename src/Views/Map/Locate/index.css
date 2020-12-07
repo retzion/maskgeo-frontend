@@ -1,12 +1,9 @@
 .locate {
-  right: 1rem;
+  right: 12px;
 }
-.locate .icon {
-  /* color: #990000; */
-}
+
 @media (max-width: 420px) {
   .locate {
-    margin-right: 0;
-    margin-left: 0;
+    right: 0;
   }
 }

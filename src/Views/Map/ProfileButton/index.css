@@ -1,5 +1,5 @@
 .profile {
-  right: 108px;
+  right: 93px;
 }
 .profile .icon {
   /* color: var(--color-blue); */
@@ -19,7 +19,7 @@
 
 @media (max-width: 420px) {
   .profile {
-    right: 90px;
+    right: 63px;
   }
 }
 @media (max-width: 630px) {

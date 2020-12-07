@@ -1,5 +1,5 @@
 .find-places {
-  right: 60px;
+  right: 51px;
 }
 .find-places .icon {
   /* color: #006300; */
@@ -17,7 +17,7 @@
 
 @media (max-width: 420px) {
   .find-places {
-    right: 51px;
+    right: 30px;
   }
 }
 @media (max-width: 630px) {

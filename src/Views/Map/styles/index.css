@@ -23,7 +23,7 @@
 
 h1.logo {
   position: absolute;
-  top: 4.5px;
+  top: 0;
   left: 1rem;
   color: var(--color-dark-text);
   z-index: 1;
@@ -39,6 +39,7 @@ h1.logo img {
 @media (max-width: 420px) {
   h1.logo {
     font-size: 1.25rem;
+    top: 4.5px;
   }
 }
 
