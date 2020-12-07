@@ -22,7 +22,7 @@ export default ({
           active
           onClickOutside={close}
           page
-          style={{ zIndex: zIndex - 1, backgroundColor: "rgba(255, 255, 255, 0.66)" }}
+          style={{ zIndex: zIndex - 1, backgroundColor: "rgba(0, 0, 0, 0.66)" }}
         />
         <div className="sidebar-content" style={{ zIndex }}>
           {sidebarContent}
