@@ -7,12 +7,11 @@ export default function(selected) {
       description: document
         .querySelector('meta[name="description"]')
         .getAttribute("content"),
-      image: document.location.href + document
+      image: document
         .querySelector('meta[property="og:image"]')
         .getAttribute("content"),
       url: document.location.href,
     }
-  console.log(window.defaultMetaData)
 
   // change social media tags and document title
   if (selected) {

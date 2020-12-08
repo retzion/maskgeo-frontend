@@ -195,24 +195,22 @@ export default function Map(props) {
       if (markerIds.length > 1)
         createMarkersFromIds(markerIds, newPlacesService)
       else
-        console.log(
-          await loadSelectedMarker({
-            panTo,
-            placeId: markerIds[0],
-            places: window.google.maps.places,
-            placesService: newPlacesService,
-            pos,
-            setMarkerId: urlHandlers.setMarkerId,
-            setMarkers,
-            setSelected,
-          })
-        )
+        loadSelectedMarker({
+          panTo,
+          placeId: markerIds[0],
+          places: window.google.maps.places,
+          placesService: newPlacesService,
+          pos,
+          setMarkerId: urlHandlers.setMarkerId,
+          setMarkers,
+          setSelected,
+        })
     }
 
     /** Open Selected Place Sidebar if param is found */
     if (!keyword && !searchInput && selectedPlace) {
       // load place details for a marker
-      const loaded = await loadSelectedMarker({
+      loadSelectedMarker({
         openSelected,
         showPlaceDetails,
         panTo,
