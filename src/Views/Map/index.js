@@ -19,6 +19,7 @@ import Loader from "../../Components/Loader"
 // helpers
 import loadSelectedMarker from "./loadSelectedMarker"
 import storage from "../../util/LocalStorage"
+import updateMeta from "../../util/updateMeta"
 import urlHandlers from "../../util/urlHandlers"
 import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 import { cookieNames, googleMapsApiKey, websiteSettings } from "../../config"
@@ -96,6 +97,8 @@ export default function Map(props) {
 
     if (env === "production" && protocol !== "https:")
       document.location = `https://${host}${pathname}`
+
+    updateMeta()
   }, [])
 
   // check authentication
@@ -131,6 +134,7 @@ export default function Map(props) {
     if (selectedObject) urlHandlers.setSelectedId(selectedObject.place_id, true)
     setSelected(selectedObject)
     setDetails(selectedObject)
+    updateMeta(selectedObject)
   }, [])
 
   mapRef = React.useRef()
@@ -287,7 +291,6 @@ export default function Map(props) {
       const newCenter = { lat: center.lat(), lng: center.lng() }
       setPos(newCenter)
       bounds = map.getBounds()
-      console.log("center changed")
     })
 
     const newPlacesService = new window.google.maps.places.PlacesService(map)
@@ -415,6 +418,7 @@ export default function Map(props) {
           close={() => {
             setDetails(null)
             if (selected) urlHandlers.setMarkerId(selected.place_id)
+            updateMeta()
           }}
           user={user}
           openProfile={() => {
