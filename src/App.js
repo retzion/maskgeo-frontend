@@ -12,13 +12,13 @@ export default function App() {
         <Route path="/" component={Map} exact />
         <Route path="/marker/:marker" component={Map} exact />
         <Route
-          path="/find/:search/:locationZoom/selected/:selected"
+          path="/find/:search/:locationZoom/location/:selected"
           component={Map}
           exact
         />
         <Route path="/find/:search/:locationZoom" component={Map} exact />
         <Route
-          path="/search/:keyword/:locationZoom/selected/:selected"
+          path="/search/:keyword/:locationZoom/location/:selected"
           component={Map}
           exact
         />
