@@ -2,7 +2,7 @@
   display: grid;
   grid-gap: 1%;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  padding-top: 12px;
+  padding: 12px 0;
 }
 
 #selected_place_sidebar .sidebar-controls .top-button {
@@ -30,7 +30,7 @@
 #selected_place_sidebar .sidebar-controls .close {
   display: grid;
   place-items: center;
-  margin: 9px 18px 0 6px;
+  margin: 9px 18px 0 3px;
   font-size: 1.2rem;
   border-radius: 3px;
   width: 36px;

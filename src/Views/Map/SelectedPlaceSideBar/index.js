@@ -264,17 +264,6 @@ export default ({
         <p>
           <br />
         </p>
-
-        {/* {showPostReview && (
-        <PostReview
-          user={user}
-          selected={selected}
-          close={() => {
-            setShowPostReview(null)
-          }}
-          setSelected={setSelected}
-        />
-      )} */}
       </div>
     </div>
   )

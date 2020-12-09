@@ -1,10 +1,5 @@
 @import "./buttons.css";
 
-#selected_place_sidebar .logo {
-  max-width: 270px;
-  margin: 9px 0 0 0;
-}
-
 #selected_place_sidebar .sidebar-controls {
   position: fixed;
   top: 0;
@@ -18,7 +13,7 @@
 #selected_place_sidebar .sidebar-controls .share-options {
   background: rgba(0, 0, 0, 0.75);
   padding: 12px;
-  height: 270px;
+  min-height: 270px;
 }
 h3.share-location {
   display: inline-block;

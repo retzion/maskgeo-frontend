@@ -24,24 +24,16 @@
 img.logo {
   position: absolute;
   top: 0;
-  left: 1rem;
+  left: 12px;
   max-width: 270px;
-  /* color: var(--color-dark-text); */
   z-index: 1;
   margin: 9px 0 0 0;
-  /* padding: 6px 0; */
-  /* cursor: default; */
-  /* font-size: 1.5rem; */
 }
-/* h1.logo img {
-  max-height: 33px;
-  vertical-align: middle;
-} */
 @media (max-width: 420px) {
-  /* h1.logo {
-    font-size: 1.25rem;
+  img.logo {
     top: 4.5px;
-  } */
+    max-width: 180px;
+  }
 }
 
 .rating-icons img {
