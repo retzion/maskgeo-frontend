@@ -25,8 +25,8 @@ import { websiteSettings } from "../../../../config"
 // images & styles
 import logo from "../../../../assets/img/logo-w-text-horz.png"
 
-export default function ({ close, selected = {} }) {
-  const { name, reference, vicinity } = selected
+export default function ({ close, selected }) {
+  const { name, reference, vicinity } = selected || {}
 
   const baseUrl = `${document.location.protocol}//${document.location.host}/location/${reference}?details`
   const [showShareOptions, setShowShareOptions] = useState(null)

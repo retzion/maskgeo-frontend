@@ -24,7 +24,7 @@ const ratingStyles = smallRatingIconCount({ height: 21, width: 105 })
 export default ({
   close: closeSidebar,
   openProfile,
-  selected = {},
+  selected,
   setSelected,
   user,
 }) => {
@@ -40,7 +40,7 @@ export default ({
     maskReviews = [],
     maskReviewsCount = 0,
     website,
-  } = selected
+  } = selected || {}
 
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 

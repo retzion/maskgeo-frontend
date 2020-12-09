@@ -89,6 +89,9 @@ export default ({ close, selected, setSelected, user }) => {
   const handleSubmitButton = () => {
     setTimeout(() => {
       setSubmitButtonDisabled(true)
+      window.scroll({ top: 0 })
+      const paneToScroll = document.getElementById("post_review")
+      paneToScroll.scroll({ top: 0 })
     }, 666)
   }
 
@@ -115,12 +118,12 @@ export default ({ close, selected, setSelected, user }) => {
       var viewportmeta = document.querySelector('meta[name="viewport"]')
       if (viewportmeta) {
         viewportmeta.content =
-          "width=device-width, minimum-scale=1.0, maximum-scale=1.0"
+          "user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui"
         document.body.addEventListener(
           "gesturestart",
           function () {
             viewportmeta.content =
-              "width=device-width, minimum-scale=0.25, maximum-scale=1.6"
+              "user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui"
           },
           false
         )
@@ -167,6 +170,7 @@ export default ({ close, selected, setSelected, user }) => {
 
   return (
     <div
+      id="post_review"
       className="post-review"
       style={{
         padding: 12,
@@ -181,7 +185,7 @@ export default ({ close, selected, setSelected, user }) => {
           {name}
         </h2>
         <h3 style={styles.address}>{address}</h3>
-        <div style={{marginBottom: 90}}>
+        <div style={{ marginBottom: 90 }}>
           <hr color="#eaeaea" />
           <form
             style={{ display: showSubmitConfirmation ? "none" : "block" }}
