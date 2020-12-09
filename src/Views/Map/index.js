@@ -88,6 +88,9 @@ export default function Map(props) {
       const newurl = `${window.location.protocol}//${window.location.host}`
       window.history.pushState({ path: newurl }, "", newurl)
     }
+    setDetails(null)
+    setSelected(null)
+    setMarkers([])
   }
 
   // check for https
@@ -335,15 +338,14 @@ export default function Map(props) {
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
       />
 
-      <div />
-
-      {/* <h1 className="logo">
-        <span role="img" aria-label="tent">
-          <img src={logo} alt="mask" />
-        </span>{" "}
-        {websiteSettings.friendlyName}
-      </h1> */}
-      <img src={logo} alt={websiteSettings.friendlyName} className="logo" />
+      <img
+        src={logo}
+        alt={websiteSettings.friendlyName}
+        title="click to reset map"
+        className="logo"
+        onClick={resetUrl}
+        style={{ cursor: "pointer" }}
+      />
 
       {showPlaceTypesButtons && (
         <KeywordSearchPanel

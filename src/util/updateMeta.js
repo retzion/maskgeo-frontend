@@ -15,7 +15,7 @@ export default function(selected) {
 
   // change social media tags and document title
   if (selected) {
-    const featurePhotoUrl = selected.photos[0] ? selected.photos[0].getUrl() : null
+    const featurePhotoUrl = selected.photos && selected.photos[0] ? selected.photos[0].getUrl() : null
     document.title = `${websiteSettings.friendlyName} for ${selected.name}`
     document
       .querySelector('meta[property="og:title"]')
