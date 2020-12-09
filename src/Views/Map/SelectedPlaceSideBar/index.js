@@ -44,7 +44,19 @@ export default ({
 
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
+  const [scrolledBelowImage, setScrolledBelowImage] = useState(null)
   const [showPostReview, setShowPostReview] = useState(null)
+
+  React.useEffect(() => {
+    const scrollYTrigger = featurePhotoUrl ? 245 : 0
+    const sidebar = document.getElementById("selected_place_sidebar")
+    const scrollPane = sidebar.getElementsByClassName("sidebar-content")[0]
+    if (!featurePhotoUrl) setScrolledBelowImage(true)
+    scrollPane.addEventListener("scroll", ({ target }) => {
+      if (!featurePhotoUrl || (target.scrollTop > scrollYTrigger)) setScrolledBelowImage(true)
+      else setScrolledBelowImage(null)
+    })
+  }, [])
 
   React.useEffect(() => {
     if (window.location.hash) {
@@ -122,8 +134,7 @@ export default ({
         />
       )}
 
-      {!featurePhotoUrl && <h3>&nbsp;</h3>}
-      <div style={styles.container}>
+      <div style={{ ...styles.container, marginTop: featurePhotoUrl ? 0 : 36 }}>
         {/* {Business info} */}
         <h1 className="place-name-header">
           {icon && <img src={icon} alt="" style={styles.icon} />}
@@ -273,7 +284,12 @@ export default ({
             ✖️
           </a>
         ) : (
-          <SidebarControls close={close} selected={selected} />
+          <SidebarControls
+            close={close}
+            featurePhotoUrl={featurePhotoUrl}
+            selected={selected}
+            scrolledBelowImage={scrolledBelowImage}
+          />
         )
       }
       startOpen={true}

@@ -25,7 +25,12 @@ import { websiteSettings } from "../../../../config"
 // images & styles
 import logo from "../../../../assets/img/logo-w-text-horz.png"
 
-export default function ({ close, selected }) {
+export default function ({
+  close,
+  featurePhotoUrl,
+  scrolledBelowImage,
+  selected,
+}) {
   const { name, reference, vicinity } = selected || {}
 
   const baseUrl = `${document.location.protocol}//${document.location.host}/location/${reference}?details`
@@ -240,31 +245,50 @@ export default function ({ close, selected }) {
 
   return (
     <React.Fragment>
-      {!showShareOptions && (
-        <a onClick={close} className="top-button close">
-          <span className="icon-container">
-            <FontAwesomeIcon className="icon" icon={faTimes} />
-          </span>
-        </a>
+      {!showShareOptions && scrolledBelowImage && (
+        <div
+          style={{
+            background: "rgba(255, 255, 255, 0.9)",
+            borderBottom: featurePhotoUrl ? "none" : "1px solid #ccc",
+            height: 54,
+            width: "100%",
+            position: "fixed",
+          }}
+        ></div>
       )}
 
-      {showShareOptions && <ShareOptions />}
-      {!showShareOptions && (
-        <button
-          className="top-button right-button share-button share"
-          onClick={() => {
-            setShowShareOptions(true)
-          }}
-        >
-          <span>Share</span>
-          <span className="icon-container">
-            <FontAwesomeIcon className="icon" icon={faShareAlt} />
-          </span>
-        </button>
-      )}
-      {!showShareOptions && (
-        <img src={logo} alt={websiteSettings.friendlyName} className="logo" />
-      )}
+      <div
+        style={{
+          position: "absolute",
+          width: "100%",
+        }}
+      >
+        {!showShareOptions && (
+          <a onClick={close} className="top-button close">
+            <span className="icon-container">
+              <FontAwesomeIcon className="icon" icon={faTimes} />
+            </span>
+          </a>
+        )}
+
+        {showShareOptions && <ShareOptions />}
+        {!showShareOptions && (
+          <button
+            className="top-button right-button share-button share"
+            onClick={() => {
+              setShowShareOptions(true)
+            }}
+          >
+            <span>Share</span>
+            <span className="icon-container">
+              <FontAwesomeIcon className="icon" icon={faShareAlt} />
+            </span>
+          </button>
+        )}
+        {!showShareOptions && (
+          <img src={logo} alt={websiteSettings.friendlyName} className="logo" />
+        )}
+      </div>
     </React.Fragment>
   )
 }
