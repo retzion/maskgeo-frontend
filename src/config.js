@@ -29,6 +29,6 @@ export const cookieNames = {
 }
 
 export const frontendUrl =
-  process.env["REACT_APP_FRONTEND_URL"] || "http://localhost:3000"
+  process.env["REACT_APP_PUBLIC_URL"] || "http://localhost:3000"
 
 export const googleMapsApiKey = process.env["REACT_APP_GOOGLE_MAPS_API_KEY"]

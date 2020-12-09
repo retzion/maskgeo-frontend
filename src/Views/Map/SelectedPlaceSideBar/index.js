@@ -45,7 +45,7 @@ export default ({
     website,
   } = selected || {}
 
-  const baseUrl = `${document.location.protocol}//${document.location.host}/selected/${reference}?details=1`
+  const baseUrl = `${document.location.protocol}//${document.location.host}/selected/${reference}?details`
   const featurePhotoUrl = photos[0] ? photos[0].getUrl() : null
 
   const [clipboard, setClipboard] = useState({

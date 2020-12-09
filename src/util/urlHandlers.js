@@ -45,7 +45,7 @@ export default {
           ? window.location.pathname
           : window.location.pathname.replace(`/selected/${selectedId}`, "")
         if (selectedId) newurl += `/selected/${selectedId}`
-        if (details) newurl += `?details=1`
+        if (details) newurl += `?details`
         newurl = cleanExtraSlashes(newurl)
         newurl = `${window.location.protocol}//${window.location.host}${newurl}`
         window.history.pushState(
