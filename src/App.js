@@ -23,7 +23,7 @@ export default function App() {
           exact
         />
         <Route path="/search/:keyword/:locationZoom" component={Map} exact />
-        <Route path="/selected/:selected" component={Map} exact />
+        <Route path="/location/:selected" component={Map} exact />
         <Route path="/token/:token" component={Map} exact />
         <Route path="*" component={NotFound} />
       </Switch>

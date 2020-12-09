@@ -1,0 +1,124 @@
+#selected_place_sidebar .sidebar-controls .share-buttons {
+  display: grid;
+  grid-gap: 1%;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  padding-top: 12px;
+}
+
+#selected_place_sidebar .sidebar-controls .top-button {
+  font-size: 0.81rem;
+  border-radius: 3px;
+  width: auto;
+  height: 36px;
+  margin: 3px;
+}
+#selected_place_sidebar .sidebar-controls .right-button {
+  float: right;
+}
+#selected_place_sidebar .sidebar-controls .top-button .icon-container {
+  margin-left: 9px;
+}
+
+#selected_place_sidebar .sidebar-controls .right-button.share-cancel {
+  background: white;
+  margin-right: 0;
+}
+#selected_place_sidebar .sidebar-controls .right-button.share-cancel:hover {
+  color: #666;
+}
+
+#selected_place_sidebar .sidebar-controls .close {
+  display: grid;
+  place-items: center;
+  margin: 9px 18px 0 6px;
+  font-size: 1.2rem;
+  border-radius: 3px;
+  width: 36px;
+  height: 36px;
+  float: right;
+}
+#selected_place_sidebar .sidebar-controls .close .icon-container {
+  margin-left: 0;
+}
+
+.selected-place-sidebar button.float-right {
+  padding: 6px 18px;
+  margin: 3px;
+  font-size: 0.84rem;
+}
+
+/** Share Buttons */
+#selected_place_sidebar .sidebar-controls .share-button {
+  background: rgba(221, 221, 221, 0.87);
+}
+#selected_place_sidebar .sidebar-controls .share-button:hover {
+  background: rgba(255, 255, 255, 0.84);
+}
+
+#selected_place_sidebar .sidebar-controls .right-button.share-button.share {
+  margin-top: 9px;
+}
+
+#selected_place_sidebar .sidebar-controls .share-facebook {
+  background: rgba(66, 103, 178, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-facebook:hover {
+  background: rgba(66, 103, 178, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-linkedin {
+  background: rgba(0, 119, 181, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-linkedin:hover {
+  background: rgba(0, 119, 181, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-pinterest {
+  background: rgba(230, 0, 35, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-pinterest:hover {
+  background: rgba(230, 0, 35, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-reddit {
+  background: rgba(255, 86, 0, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-reddit:hover {
+  background: rgba(255, 86, 0, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-telegram {
+  background: rgba(0, 136, 204, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-telegram:hover {
+  background: rgba(0, 136, 204, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-tumblr {
+  background: rgba(52, 82, 111, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-tumblr:hover {
+  background: rgba(52, 82, 111, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-twitter {
+  background: rgba(29, 161, 242, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-twitter:hover {
+  background: rgba(29, 161, 242, 1);
+}
+
+#selected_place_sidebar .sidebar-controls .share-whatsapp {
+  background: rgba(18, 140, 126, 0.84);
+  color: white;
+}
+#selected_place_sidebar .sidebar-controls .share-whatsapp:hover {
+  background: rgba(18, 140, 126, 1);
+}

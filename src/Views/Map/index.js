@@ -25,9 +25,9 @@ import { decryptToken, processToken, removeToken } from "../../util/MaskGeoApi"
 import { cookieNames, googleMapsApiKey, websiteSettings } from "../../config"
 import { version } from "../../../package.json"
 
-// design resources
+// images & styles
+import logo from "../../assets/img/logo-w-text-horz.png"
 import "@reach/combobox/styles.css"
-import logo from "../../assets/img/logo.png"
 import "./styles/index.css"
 import { config } from "@fortawesome/fontawesome-svg-core"
 // import mapStyles from "./styles/mapStylesDark"
@@ -337,12 +337,13 @@ export default function Map(props) {
 
       <div />
 
-      <h1 className="logo">
+      {/* <h1 className="logo">
         <span role="img" aria-label="tent">
           <img src={logo} alt="mask" />
         </span>{" "}
         {websiteSettings.friendlyName}
-      </h1>
+      </h1> */}
+      <img src={logo} alt={websiteSettings.friendlyName} className="logo" />
 
       {showPlaceTypesButtons && (
         <KeywordSearchPanel
