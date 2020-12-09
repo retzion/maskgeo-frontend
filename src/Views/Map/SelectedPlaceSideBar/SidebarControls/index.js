@@ -28,7 +28,7 @@ import logo from "../../../../assets/img/logo-w-text-horz.png"
 export default function ({ close, selected = {} }) {
   const { name, reference, vicinity } = selected
 
-  const baseUrl = `${document.location.protocol}//${document.location.host}/selected/${reference}?details`
+  const baseUrl = `${document.location.protocol}//${document.location.host}/location/${reference}?details`
   const [showShareOptions, setShowShareOptions] = useState(null)
   const [clipboard, setClipboard] = useState({
     value: baseUrl,
