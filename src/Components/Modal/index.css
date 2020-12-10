@@ -1,3 +1,19 @@
 .ui.dimmer:last-child {
   z-index: 2;
 }
+
+.modal-header {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.ui.modal .close {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  font-size: 1.2rem;
+  border-radius: 3px;
+  width: 30px;
+  height: 30px;
+  float: right;
+}

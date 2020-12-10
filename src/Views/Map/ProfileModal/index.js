@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react"
 import validate from "validator"
 import UniversalCookie from "universal-cookie"
 import { Form, Input } from "semantic-ui-react"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 // helpers
 import { cookieNames } from "../../../config"
@@ -112,7 +114,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
           display: !user || loginLinkSent ? "none" : "block",
         }}
       >
-        <h3>{userEmail}</h3>
+        <h4>{userEmail}</h4>
       </div>
 
       <div
@@ -230,7 +232,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
 
   return (
     <Modal
-      style={{zIndex: 2}}
+      style={{ zIndex: 2 }}
       className="profile-modal"
       alignControls="center"
       closeOnDimmerClick={false}
@@ -238,11 +240,13 @@ export default function ProfileSideBar({ close, logOut, user }) {
       ModalHeader={
         <div>
           <a onClick={close} className="top-button close">
-            ✖️
+            <span className="icon-container">
+              <FontAwesomeIcon className="icon" icon={faTimes} />
+            </span>
           </a>
 
           {user ? (
-            <h2>Welcome, {username}</h2>
+            <h3>Welcome, {username}</h3>
           ) : (
             <h3>Please Log In or Sign Up</h3>
           )}

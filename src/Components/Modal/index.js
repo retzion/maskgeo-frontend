@@ -4,13 +4,21 @@ import { Modal } from "semantic-ui-react"
 import "./index.css"
 
 export default function (props) {
-  let {
+  const {
     startOpen = false,
     OpenerComponent,
     ModalContent,
     ModalControls,
     ModalHeader,
   } = props
+
+  const modalProps = {...props}
+  delete modalProps["alignControls"]
+  delete modalProps["startOpen"]
+  delete modalProps["OpenerComponent"]
+  delete modalProps["ModalContent"]
+  delete modalProps["ModalControls"]
+  delete modalProps["ModalHeader"]
 
   const [open, setOpen] = React.useState(startOpen)
 
@@ -32,7 +40,7 @@ export default function (props) {
       </div>
 
       <Modal
-        {...props}
+        {...modalProps}
         dimmer={props.dimmer || "blurring"}
         open={open}
         onClose={() => {
@@ -40,7 +48,8 @@ export default function (props) {
         }}
         className={props.className}
       >
-        {ModalHeader && <Modal.Header>{ModalHeader}</Modal.Header>}
+        <div className="modal-header">{ModalHeader}</div>
+        {/* {ModalHeader && <Modal.Header>{ModalHeader}</Modal.Header>} */}
         <Modal.Content>{ModalContent}</Modal.Content>
         {ModalControls && (
           <Modal.Actions style={{ textAlign: props.alignControls || "right" }}>
