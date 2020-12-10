@@ -10,13 +10,9 @@ import "./index.css"
 import smallRatingIconCount from "../../../../Components/MaskRatingIcons/styles/smallRatingIconCount"
 const ratingStyles = smallRatingIconCount({ height: 45, width: 225 })
 
-export default React.forwardRef(({ userIdMatch }, ref) => {
-  const initialRating = userIdMatch ? userIdMatch.rating : 2.5
-
-  const [rating, setRating] = useState(initialRating)
-
+export default ({rating, setRating, userIdMatch}) => {
   const sliderSettings = {
-    start: initialRating,
+    start: rating,
     min: 0,
     max: 5,
     step: 0.5,
@@ -41,7 +37,6 @@ export default React.forwardRef(({ userIdMatch }, ref) => {
             widthMultiplier={45}
           />
           <Slider
-            ref={ref}
             value={rating}
             color="blue"
             settings={sliderSettings}
@@ -52,4 +47,4 @@ export default React.forwardRef(({ userIdMatch }, ref) => {
       </Grid.Column>
     </Grid>
   )
-})
+}

@@ -1,10 +1,7 @@
-import React, { createRef, useCallback, useRef, useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/free-solid-svg-icons"
+import React, { useCallback, useRef, useState } from "react"
 
 // components
 import Slider from "./Slider"
-import Sidebar from "../../../Components/Sidebar"
 
 // helpers
 import { postReview } from "../../../util/MaskGeoApi"
@@ -79,11 +76,13 @@ export default ({ close, selected, setSelected, user }) => {
         })
       : null
 
+  const initialRating = userIdMatch ? userIdMatch.rating : 2.5
+
+  const [rating, setRating] = useState(initialRating)
   const [showSubmitConfirmation, setShowSubmitConfirmation] = useState(null)
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(null)
   const [submitError, setSubmitError] = useState(null)
 
-  const sliderRef = createRef()
   const reviewInput = useRef("")
 
   const handleSubmitButton = () => {
@@ -105,7 +104,7 @@ export default ({ close, selected, setSelected, user }) => {
     const reviewData = {
       geoCoordinates,
       googlePlaceId,
-      rating: sliderRef.current.props.value,
+      rating,
       review: reviewInput.current.value,
       user,
     }
@@ -196,9 +195,8 @@ export default ({ close, selected, setSelected, user }) => {
           >
             <h3>Rate the Wearing of Masks (0 - 5)</h3>
             <Slider
-              ref={sliderRef}
-              selected={selected}
-              user={user}
+              rating={rating}
+              setRating={setRating}
               userIdMatch={userIdMatch}
             />
             <hr color="#eaeaea" />
