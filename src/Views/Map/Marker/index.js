@@ -11,9 +11,9 @@ export default ({ marker, setSelected }) => {
     const icon = marker.customIcon
       ? {
           origin: new window.google.maps.Point(0, 0),
-          anchor: new window.google.maps.Point(15, 15),
+          anchor: new window.google.maps.Point(15, 33),
           scaledSize: new window.google.maps.Size(30, 30),
-          url: `/mask.png`,
+          url: `/img/mask.png`,
         }
       : null
 
@@ -26,7 +26,7 @@ export default ({ marker, setSelected }) => {
         onClick={() => {
           setSelected(marker)
         }}
-        // icon={icon}
+        icon={icon}
       />
     )
   }

@@ -29,7 +29,7 @@ import { version } from "../../../package.json"
 import logo from "../../assets/img/logo-w-text-horz.png"
 import "@reach/combobox/styles.css"
 import "./styles/index.css"
-import { config } from "@fortawesome/fontawesome-svg-core"
+// import { config } from "@fortawesome/fontawesome-svg-core"
 // import mapStyles from "./styles/mapStylesDark"
 const mapContainerStyle = {
   height: "100vh",
@@ -285,6 +285,7 @@ export default function Map(props) {
           setSelected,
         })
       }
+      else setSelected(null)
     })
 
     map.addListener("center_changed", () => {
@@ -377,6 +378,7 @@ export default function Map(props) {
         onLoad={onMapLoad}
       >
         {markers.map(marker => {
+          marker.customIcon = true
           return (
             <Marker
               key={marker["place_id"]}

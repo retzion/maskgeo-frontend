@@ -1,3 +1,10 @@
+.gm-style-iw-a {
+  margin-top: -18px;
+}
+.gm-style .gm-style-iw-t::after {
+  margin-top: -1px;
+}
+
 .info-window-container {
   font-size: 1rem;
   text-align: center;
