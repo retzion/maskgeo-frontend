@@ -46,7 +46,7 @@ export default function ({
   const shareImage = encodeURIComponent(window.location + "img/logo-w-text.png")
   const platformUrls = {
     email: `mailto:?subject=${shareText}&body=${shareText} ${shareUrl}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?href=${shareUrl}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
     linkedin: `https://www.linkedin.com/shareArticle?url=${shareUrl}&mini=true`,
     pinterest: `https://www.pinterest.com/pin-builder/?url=${shareUrl}&media=${shareImage}&method=button`,
     reddit: `https://www.reddit.com/submit?url=${shareUrl}&title=${shareText}`,
