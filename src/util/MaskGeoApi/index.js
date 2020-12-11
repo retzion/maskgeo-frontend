@@ -19,6 +19,16 @@ if (accessToken) universalHeaders["Authorization"] = `Bearer ${accessToken}`
 axios.defaults.withCredentials = true
 
 /**
+ * @title POST Client errors
+ * @dev Log error data in tthe database
+ *
+ * @param {object} payload Error code, message, and metadata
+ */
+function logError(payload) {
+  return post(`${apiUri}/error`, payload).catch(() => null)
+}
+
+/**
  * @title POST New user account
  * @dev Get a JSON Web Token from a valid `login token`
  *
@@ -163,6 +173,7 @@ export {
   createUser,
   decryptToken,
   fetchReviews,
+  logError,
   postReview,
   processToken,
   removeToken,
