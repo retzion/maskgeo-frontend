@@ -165,7 +165,7 @@ export default ({ close, selected, setSelected, user }) => {
         window.location.hash = `review_${savedReview._id}`
       close()
     }
-  }, [selected])
+  }, [rating, selected])
 
   return (
     <div
