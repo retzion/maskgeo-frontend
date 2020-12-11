@@ -30,12 +30,14 @@ console.error = function (err) {
       : {
           message: err,
         }
-
-  consoleError(err)
-  logError({
-    error,
-    appVersion: version,
-  })
+  
+  if (!error.message.startsWith("Warning:")) {
+    consoleError(err)
+    logError({
+      error,
+      appVersion: version,
+    })
+  }
 }
 
 // polyfills
