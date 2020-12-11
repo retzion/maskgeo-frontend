@@ -43,7 +43,7 @@ export default function ({
 
   const shareText = `Mask Forecast for ${name}, ${vicinity}`
   const shareUrl = encodeURIComponent(`http://link.maskforecast.com/${reference}`)
-  const shareImage = encodeURIComponent(window.location + "img/logo-w-text.png")
+  const shareImage = encodeURIComponent(`${window.location.protocol}//${window.location.host}/img/logo-w-text.png`)
   const platformUrls = {
     email: `mailto:?subject=${shareText}&body=${shareText} ${shareUrl}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
