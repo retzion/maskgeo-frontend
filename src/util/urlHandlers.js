@@ -8,33 +8,34 @@ export default {
             : window.location.pathname
         if (markerId) newurl += `/location/${markerId}`
         newurl = cleanExtraSlashes(newurl)
-        newurl = `${window.location.protocol}//${window.location.host}${newurl}`
         window.history.pushState(
-          { path: newurl },
+          {},
           "",
           newurl + window.location.hash
         )
       }
     },
     setKeywordSearchUrl: params => {
-      const { keyword, location, selected, zoom = 12 } = params
+      const { keyword, location, selectedId, showPlaceDetails, zoom = 12 } = params
       if (keyword && location) {
         // load markerss for a nearby search
         if (window.history.pushState) {
-          let newurl = `${window.location.protocol}//${window.location.host}/search/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
-          if (selected) newurl += `/location/${selected}`
-          window.history.pushState({ path: newurl }, "", newurl)
+          let newurl = `/search/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
+          if (selectedId) newurl += `/location/${selectedId}`
+          if (showPlaceDetails) newurl += `?details=1`
+          window.history.pushState({}, "", newurl)
         }
       }
     },
     setPlacesSearchBoxUrl: params => {
-      const { keyword, location, selected, zoom = 12 } = params
+      const { keyword, location, selectedId, showPlaceDetails, zoom = 12 } = params
       if (keyword && location) {
         // load markerss for a nearby search
         if (window.history.pushState) {
-          let newurl = `${window.location.protocol}//${window.location.host}/find/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
-          if (selected) newurl += `/location/${selected}`
-          window.history.pushState({ path: newurl }, "", newurl)
+          let newurl = `/find/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
+          if (selectedId) newurl += `/location/${selectedId}`
+          if (showPlaceDetails) newurl += `?details=1`
+          window.history.pushState({}, "", newurl)
         }
       }
     },
@@ -47,9 +48,8 @@ export default {
         if (selectedId) newurl += `/location/${selectedId}`
         if (details) newurl += `?details`
         newurl = cleanExtraSlashes(newurl)
-        newurl = `${window.location.protocol}//${window.location.host}${newurl}`
         window.history.pushState(
-          { path: newurl },
+          {},
           "",
           newurl + window.location.hash
         )
@@ -60,7 +60,7 @@ export default {
       if (window.history.pushState) {
         const href = window.location.href.replace("?profile", "")
         const newurl = show ? `${href}?profile` : href
-        window.history.pushState({ path: newurl }, "", newurl)
+        window.history.pushState({}, "", newurl)
       }
     },
   }

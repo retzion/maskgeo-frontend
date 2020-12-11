@@ -252,6 +252,7 @@ export default function ({
             borderBottom: featurePhotoUrl ? "none" : "1px solid #ccc",
             height: 54,
             width: "100%",
+            maxWidth: 550,
             position: "fixed",
           }}
         ></div>

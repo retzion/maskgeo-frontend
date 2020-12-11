@@ -51,7 +51,7 @@ export default ({
     const scrollYTrigger = featurePhotoUrl ? 245 : 0
     const sidebar = document.getElementById("selected_place_sidebar")
     const scrollPane = sidebar.getElementsByClassName("sidebar-content")[0]
-    if (!featurePhotoUrl) setScrolledBelowImage(true)
+    if (name && !featurePhotoUrl) setScrolledBelowImage(true)
     scrollPane.addEventListener("scroll", ({ target }) => {
       if (!featurePhotoUrl || (target.scrollTop > scrollYTrigger)) setScrolledBelowImage(true)
       else setScrolledBelowImage(null)

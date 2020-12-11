@@ -33,11 +33,11 @@ export default ({
   getBounds,
   keywordSearchOptions,
   mapRef,
-  panTo,
   placesService,
   pos,
   searchBoxOptions,
   setBounds,
+  setDetails,
   setShowLoader,
   setKeywordSearchUrl,
   setMarkers,
@@ -103,8 +103,15 @@ export default ({
     close()
   }
 
-  function nearbySearch(options) {
-    const { keyword, location, rankBy, selected: selectedId, zoom } = options
+  function nearbySearch(options, searchbox) {
+    const {
+      keyword,
+      location,
+      rankBy,
+      selectedId,
+      showPlaceDetails,
+      zoom,
+    } = options
     const bounds = getBounds() || new window.google.maps.LatLngBounds()
     setShowLoader(true)
     placesService.nearbySearch(options, (results, status) => {
@@ -121,25 +128,39 @@ export default ({
 
         mapRef.current.fitBounds(bounds)
         setMarkers(results)
-        if (!showProfile)
+        if (!showProfile && !searchbox)
           setKeywordSearchUrl({
             keyword,
             location,
-            selected: selectedId,
+            selectedId,
+            showPlaceDetails,
+            rankBy,
+            zoom: zoom || mapRef.current.getZoom(),
+          })
+        else if (!showProfile && searchbox)
+          setPlacesSearchBoxUrl({
+            keyword,
+            location,
+            selectedId,
+            showPlaceDetails,
             rankBy,
             zoom: zoom || mapRef.current.getZoom(),
           })
         if (selected) setSelected(selected)
+        if (showPlaceDetails) setDetails(selected)
         close()
       }
     })
   }
 
   function searchBoxSearch(options) {
-    nearbySearch({
-      ...options,
-      keyword: options.searchInput,
-    })
+    nearbySearch(
+      {
+        ...options,
+        keyword: options.searchInput,
+      },
+      true
+    )
   }
 
   return (

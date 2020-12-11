@@ -74,7 +74,6 @@ export default function Map(props) {
   const [selected, setSelected] = useState(null)
   const [showLoader, setShowLoader] = useState(false)
   const [showProfile, setShowProfile] = useState(null)
-  const [showPlaceDetails, setShowPlaceDetails] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
   const [user, setUser] = useState(null)
 
@@ -179,17 +178,14 @@ export default function Map(props) {
     let { marker: markerIds } = props.match.params
     const {
       keyword,
+      locationZoom,
       search: searchInput,
       selected: selectedPlace,
     } = props.match.params
-    const { locationZoom, selected } = props.match.params
     const {
       location: { search },
     } = props
-    // const profile = search.includes("profile")
-    const showPlaceDetails = search.includes("details")
-
-    setShowPlaceDetails(showPlaceDetails)
+    const showDetails = search.includes("details")
 
     /** Pan to Marker if param is found */
     if (markerIds) {
@@ -215,7 +211,7 @@ export default function Map(props) {
       // load place details for a marker
       loadSelectedMarker({
         openSelected,
-        showPlaceDetails,
+        showPlaceDetails: showDetails,
         panTo,
         placeId: selectedPlace,
         places: window.google.maps.places,
@@ -230,18 +226,18 @@ export default function Map(props) {
     if (searchInput && locationZoom) {
       let [lat, lng, zoom = 12] = locationZoom.split(",")
       lat = lat.replace("@", "")
-      console.log({ zoom })
 
       setSearchBoxOptions({
         searchInput: decodeURIComponent(searchInput),
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
         rankBy: window.google.maps.places.RankBy.DISTANCE,
-        selected,
+        selectedId: selectedPlace,
+        showPlaceDetails: showDetails,
         zoom,
       })
 
       setShowPlaceTypesButtons(true)
-      if (showPlaceDetails) setDetails(selected)
+      if (showDetails) setDetails(selectedPlace)
     }
 
     /** Open Keyword search results if param is found */
@@ -252,11 +248,11 @@ export default function Map(props) {
         keyword: decodeURIComponent(keyword),
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
         rankBy: window.google.maps.places.RankBy.DISTANCE,
-        selected,
+        selectedId: selectedPlace,
+        showPlaceDetails: showDetails,
         zoom,
       })
       setShowPlaceTypesButtons(true)
-      if (showPlaceDetails) setDetails(selected)
     }
 
     /** Open profile sidebar if query param is found */
@@ -284,8 +280,7 @@ export default function Map(props) {
           setMarkers,
           setSelected,
         })
-      }
-      else setSelected(null)
+      } else setSelected(null)
     })
 
     map.addListener("center_changed", () => {
@@ -336,6 +331,7 @@ export default function Map(props) {
 
       <FindPlacesButton
         setKeywordSearchOptions={setKeywordSearchOptions}
+        setSearchBoxOptions={setSearchBoxOptions}
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
       />
 
@@ -361,12 +357,12 @@ export default function Map(props) {
           placesService={placesService}
           pos={pos}
           setBounds={setBounds}
-          setShowLoader={setShowLoader}
+          setDetails={setDetails}
           setKeywordSearchUrl={urlHandlers.setKeywordSearchUrl}
           setMarkers={setMarkers}
           setPlacesSearchBoxUrl={urlHandlers.setPlacesSearchBoxUrl}
           setSelected={setSelected}
-          setPos={setPos}
+          setShowLoader={setShowLoader}
           showProfile={showProfile}
         />
       )}
