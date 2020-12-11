@@ -33,7 +33,8 @@ export default function ({
 }) {
   const { name, reference, vicinity } = selected || {}
 
-  const baseUrl = `${document.location.protocol}//${document.location.host}/location/${reference}?details`
+  // const baseUrl = `${document.location.protocol}//${document.location.host}/location/${reference}?details`
+  const baseUrl = encodeURIComponent(`http://link.maskforecast.com/${reference}`)
   const [showShareOptions, setShowShareOptions] = useState(null)
   const [clipboard, setClipboard] = useState({
     value: baseUrl,
