@@ -72,6 +72,7 @@ export default function Map(props) {
   const [placesService, setPlacesService] = useState(null)
   const [pos, setPosState] = useState(startingPosition)
   const [selected, setSelected] = useState(null)
+  const [showDetails, setShowDetails] = useState(false)
   const [showLoader, setShowLoader] = useState(false)
   const [showProfile, setShowProfile] = useState(null)
   const [showPlaceTypesButtons, setShowPlaceTypesButtons] = useState(null)
@@ -185,7 +186,8 @@ export default function Map(props) {
     const {
       location: { search },
     } = props
-    const showDetails = search.includes("details")
+    const _showDetails = search.includes("details")
+    setShowDetails(_showDetails)
 
     /** Pan to Marker if param is found */
     if (markerIds) {
@@ -203,6 +205,7 @@ export default function Map(props) {
           setMarkerId: urlHandlers.setMarkerId,
           setMarkers,
           setSelected,
+          showPlaceDetails: _showDetails,
         })
     }
 
@@ -211,7 +214,7 @@ export default function Map(props) {
       // load place details for a marker
       loadSelectedMarker({
         openSelected,
-        showPlaceDetails: showDetails,
+        showPlaceDetails: _showDetails,
         panTo,
         placeId: selectedPlace,
         places: window.google.maps.places,
@@ -219,6 +222,7 @@ export default function Map(props) {
         pos,
         setMarkers,
         setSelected,
+        setShowLoader,
       })
     }
 
@@ -232,12 +236,12 @@ export default function Map(props) {
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
         rankBy: window.google.maps.places.RankBy.DISTANCE,
         selectedId: selectedPlace,
-        showPlaceDetails: showDetails,
+        showPlaceDetails: _showDetails,
         zoom,
       })
 
       setShowPlaceTypesButtons(true)
-      if (showDetails) setDetails(selectedPlace)
+      if (_showDetails) setDetails(selectedPlace)
     }
 
     /** Open Keyword search results if param is found */
@@ -249,7 +253,7 @@ export default function Map(props) {
         location: { lat: parseFloat(lat), lng: parseFloat(lng) },
         rankBy: window.google.maps.places.RankBy.DISTANCE,
         selectedId: selectedPlace,
-        showPlaceDetails: showDetails,
+        showPlaceDetails: _showDetails,
         zoom,
       })
       setShowPlaceTypesButtons(true)
@@ -381,17 +385,17 @@ export default function Map(props) {
               marker={marker}
               setSelected={async s => {
                 if (!s.reviews) {
-                  await loadSelectedMarker({
+                  const place = await loadSelectedMarker({
                     panTo,
-                    placeId: s.place_id,
+                    placeId: s.reference || s.place_id,
                     places: window.google.maps.places,
                     placesService,
                     pos,
                     setSelected,
                   })
+                  setSelected(place)
                 }
-                setSelected(s)
-                urlHandlers.setMarkerId(s.place_id)
+                urlHandlers.setMarkerId(s.place_id, showDetails)
               }}
             />
           )

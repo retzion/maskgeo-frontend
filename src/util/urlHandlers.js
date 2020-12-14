@@ -1,5 +1,5 @@
 export default {
-    setMarkerId: markerId => {
+    setMarkerId: (markerId, showPlaceDetails) => {
       if (window.history.pushState) {
         const indexOfSelected = window.location.pathname.indexOf("/location/")
         let newurl =
@@ -7,6 +7,7 @@ export default {
             ? window.location.pathname.substring(0, indexOfSelected)
             : window.location.pathname
         if (markerId) newurl += `/location/${markerId}`
+        if (showPlaceDetails) newurl += `?details`
         newurl = cleanExtraSlashes(newurl)
         window.history.pushState(
           {},
@@ -22,7 +23,7 @@ export default {
         if (window.history.pushState) {
           let newurl = `/search/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
           if (selectedId) newurl += `/location/${selectedId}`
-          if (showPlaceDetails) newurl += `?details=1`
+          if (showPlaceDetails) newurl += `?details`
           window.history.pushState({}, "", newurl)
         }
       }
@@ -34,7 +35,7 @@ export default {
         if (window.history.pushState) {
           let newurl = `/find/${encodeURIComponent(keyword)}/@${location.lat},${location.lng},${zoom}`
           if (selectedId) newurl += `/location/${selectedId}`
-          if (showPlaceDetails) newurl += `?details=1`
+          if (showPlaceDetails) newurl += `?details`
           window.history.pushState({}, "", newurl)
         }
       }
