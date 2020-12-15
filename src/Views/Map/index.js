@@ -132,7 +132,7 @@ export default function Map(props) {
   // geolocate upon loading
   React.useEffect(() => {
     setTimeout(() => {
-      if (!pos) {
+      if (!pos && !Cookies.get(cookieNames.position)) {
         const btn = document.getElementById("locate_button")
         console.log({pos, btn})
         if (btn) btn.click()
