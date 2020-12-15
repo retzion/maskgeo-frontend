@@ -68,7 +68,7 @@ export default function ProfileSideBar({ close, logOut, user }) {
     const validUsername = validUserExp.test(
       username
     )
-    if (username.length < 4)
+    if (username.length < 3)
       return alert(
         "Usernames must be 3 characters or more."
       )
