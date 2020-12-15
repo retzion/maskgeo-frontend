@@ -294,7 +294,10 @@ export default function Map(props) {
           setMarkers,
           setSelected,
         })
-      } else setSelected(null)
+      } else {
+        setSelected(null)
+        urlHandlers.setMarkerId()
+      }
     })
 
     map.addListener("center_changed", () => {
