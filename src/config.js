@@ -13,7 +13,7 @@ export const appEnvironment =
   appEnvironments[process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"] || "production"]
 
 const apiDomains = {
-  development: "https://maskgeo-backend.herokuapp.com",
+  development: "https://staging-maskgeo-backend.herokuapp.com",
   local: "http://localhost:3001",
   production: "https://api.maskforecast.com",
 }
