@@ -70,7 +70,7 @@ export default function Map(props) {
   const [searchBoxOptions, setSearchBoxOptions] = useState(null)
   const [markers, setMarkers] = useState([])
   const [placesService, setPlacesService] = useState(null)
-  const [pos, setPosState] = useState(null)
+  const [pos, setPosState] = useState(startingPosition)
   const [selected, setSelected] = useState(null)
   const [showDetails, setShowDetails] = useState(false)
   const [showLoader, setShowLoader] = useState(false)
@@ -132,9 +132,8 @@ export default function Map(props) {
   // geolocate upon loading
   React.useEffect(() => {
     setTimeout(() => {
-      if (!pos && !Cookies.get(cookieNames.position)) {
+      if (!Cookies.get(cookieNames.position)) {
         const btn = document.getElementById("locate_button")
-        console.log({pos, btn})
         if (btn) btn.click()
       }
     }, 333)

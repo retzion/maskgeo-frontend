@@ -44,7 +44,7 @@ export default ({
   setPlacesSearchBoxUrl,
   setSelected,
   showProfile,
-}) => {
+}) => {console.log({pos})
   let searchBox, searchBoxInput
 
   React.useEffect(() => {
@@ -104,6 +104,7 @@ export default ({
   }
 
   function nearbySearch(options, searchbox) {
+    console.log(options)
     const {
       keyword,
       location,
