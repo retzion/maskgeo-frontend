@@ -33,12 +33,9 @@ export default ({
     )
   }
 
-  React.useEffect(() => {
-    if (!pos) locate()
-  }, [])
-
   return (
     <button
+      id="locate_button"
       className="locate nav-button"
       title="Pan to your current location"
       onClick={locate}
