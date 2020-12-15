@@ -61,17 +61,22 @@ export default function ProfileSideBar({ close, logOut, user }) {
 
   async function createAccount() {
     // validate username
-    if (!newUserUsernameInput.current.inputRef.current.value)
+    const username = newUserUsernameInput.current.inputRef.current.value
+    if (!username)
       return alert("Please enter a username.")
     const validUserExp = new RegExp(/^([a-zA-Z0-9_]+)$/)
     const validUsername = validUserExp.test(
-      newUserUsernameInput.current.inputRef.current.value
+      username
     )
+    // if (username.length < 4)
+    //   return alert(
+    //     "Usernames must be 3 characters or more."
+    //   )
     if (!validUsername)
       return alert(
         "Please enter a valid username in the correct format (only letters, numbers, and underscores are allowed)."
       )
-
+    
     // validate email address
     if (!newUserEmailInput.current.inputRef.current.value)
       return alert("Please enter an email address.")
@@ -83,8 +88,9 @@ export default function ProfileSideBar({ close, logOut, user }) {
     const createUserResponse = await createUser(
       newUserEmailInput.current.inputRef.current.value,
       newUserUsernameInput.current.inputRef.current.value
-    ).catch(console.error)
+    )
     const { data: response } = createUserResponse || {}
+    console.log({response})
     if (!response)
       alert(
         "There was a problem creating an account with this information. Please check your username and email address and try again."

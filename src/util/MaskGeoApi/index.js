@@ -39,7 +39,7 @@ function createUser(email, username) {
   return post(`${apiUri}/user`, {
     email,
     username,
-  }).catch(console.error)
+  }).catch(c => c.response)
 }
 
 /**
