@@ -48,7 +48,7 @@ export default function (props) {
         }}
         className={props.className}
       >
-        <div className="modal-header">{ModalHeader}</div>
+        {ModalHeader && <div className="modal-header">{ModalHeader}</div>}
         {/* {ModalHeader && <Modal.Header>{ModalHeader}</Modal.Header>} */}
         <Modal.Content>{ModalContent}</Modal.Content>
         {ModalControls && (

@@ -25,7 +25,7 @@ export default ({ setAllowAccess }) => (
     startOpen={true}
     ModalContent={
       <div className="splash-page">
-        <img src={logo} alt="MaskForecast" className="logo" />
+        <img src={logo} alt="MaskForecast" className="splash-logo" />
         <h2 className="splash-page-welcome">
           Welcome to Mask Forecast
         </h2>
