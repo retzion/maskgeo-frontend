@@ -8,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 
 // components
+import Loader from "../../../Components/Loader"
 import MaskRatingIcons from "../../../Components/MaskRatingIcons"
 import MaskReview from "./MaskReview"
 import Sidebar from "../../../Components/Sidebar"
@@ -269,9 +270,9 @@ export default ({
             }}
             setSelected={setSelected}
           />
-        ) : (
+        ) : selected.name ? (
           <SidebarContent />
-        )
+        ) : <Loader />
       }
       sidebarControls={
         showPostReview ? (
