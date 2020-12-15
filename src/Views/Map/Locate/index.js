@@ -7,6 +7,7 @@ import "./index.css"
 export default ({
   mapRef,
   panTo,
+  pos,
   setPos,
   setShowPlaceTypesButtons,
   setShowLoader,
@@ -32,7 +33,9 @@ export default ({
     )
   }
 
-  React.useEffect(locate, [])
+  React.useEffect(() => {
+    if (!pos) locate()
+  }, [])
 
   return (
     <button

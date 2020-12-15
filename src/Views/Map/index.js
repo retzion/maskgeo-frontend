@@ -321,6 +321,7 @@ export default function Map(props) {
       <Locate
         mapRef={mapRef}
         panTo={panTo}
+        pos={pos}
         setPos={setPos}
         setShowLoader={setShowLoader}
         setShowPlaceTypesButtons={setShowPlaceTypesButtons}
