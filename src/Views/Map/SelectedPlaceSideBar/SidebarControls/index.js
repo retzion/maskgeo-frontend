@@ -20,7 +20,7 @@ import {
 import { CopyToClipboard } from "react-copy-to-clipboard"
 
 // helpers
-import { websiteSettings } from "../../../../config"
+import { apiDomain, websiteSettings } from "../../../../config"
 
 // images & styles
 import logo from "../../../../assets/img/logo-w-text-horz.png"
@@ -34,7 +34,7 @@ export default function ({
   const { name, reference, vicinity } = selected || {}
 
   // const baseUrl = `${document.location.protocol}//${document.location.host}/location/${reference}?details`
-  const baseUrl = `http://link.maskforecast.com/${reference}`
+  const baseUrl = `${apiDomain}/r/${reference}`
   const [showShareOptions, setShowShareOptions] = useState(null)
   const [clipboard, setClipboard] = useState({
     value: baseUrl,
@@ -42,7 +42,7 @@ export default function ({
   })
 
   const shareText = `Mask Forecast for ${name}, ${vicinity}`
-  const shareUrl = encodeURIComponent(`http://link.maskforecast.com/${reference}`)
+  const shareUrl = encodeURIComponent(baseUrl)
   const shareImage = encodeURIComponent(`${window.location.protocol}//${window.location.host}/img/logo-w-text.png`)
   const platformUrls = {
     email: `mailto:?subject=${shareText}&body=${shareText} ${shareUrl}`,

@@ -21,7 +21,7 @@
 
 #selected_place_sidebar .sidebar-controls .right-button.share-cancel {
   background: white;
-  margin-right: 0;
+  margin-right: 6px;
 }
 #selected_place_sidebar .sidebar-controls .right-button.share-cancel:hover {
   color: #666;
