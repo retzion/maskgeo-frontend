@@ -15,7 +15,9 @@ export default ({ click, keyword, icon }) => {
         className="icon"
         icon={icon}
         style={{
-          background: uniqolor(keyword.toLowerCase(), { lightness: [45] })["color"],
+          background: uniqolor(keyword.toLowerCase(), {
+            lightness: 36,
+          })["color"],
         }}
       />
       <span>{keyword}</span>

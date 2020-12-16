@@ -9,7 +9,8 @@
   font-size: 1rem;
   text-align: left;
   width: 100%;
-  overflow: hidden;
+  overflow: scroll;
+  padding-bottom: 120px;
 }
 .keyword-search-buttons.expanded {
   height: auto;
@@ -23,12 +24,12 @@
   font-size: 0.9rem;
   background: #ddd;
   border-radius: 3px;
-  width: 24px;
-  height: 24px;
+  width: 33px;
+  height: 33px;
   color: var(--color-dark-text);
   text-shadow: 2px 2px #eaeaea;
   box-shadow: 1px 1px #666;
-  top: 27px;
+  top: 21px;
   right: 15px;
   z-index: 3;
 }
@@ -52,19 +53,18 @@
 .keyword-search-buttons .keyword-search-container {
   position: absolute;
   padding: 0;
-  width: 93%;
+  width: 91%;
 }
 .keyword-search-buttons .keyword-search-container input,
 .keyword-search-buttons .keyword-search {
-  min-width: 100%;
-  /* border: 1px solid #ccc; */
-  border-radius: 6px;
+  width: 100%;
   margin: 6px;
 }
 
 @media (max-width: 720px) {
   .keyword-search-buttons {
     top: 48px;
+    padding-bottom: 150px;
   }
   .keyword-search-buttons .open-sidebar {
     grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));

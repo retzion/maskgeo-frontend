@@ -2,23 +2,42 @@ import React from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {
   faBed,
+  faBookOpen,
+  faBookReader,
+  faBreadSlice,
+  faBriefcaseMedical,
+  faCar,
+  faChessQueen,
+  faChurch,
   faCoffee,
+  faCut,
+  faDog,
   faDumbbell,
   faEnvelope,
   faGasPump,
   faGlassCheers,
+  faGraduationCap,
   faHamburger,
+  faHippo,
+  faHotel,
   faHSquare,
+  faMusic,
   faParking,
+  faPlus,
   faPrescriptionBottleAlt,
+  faSeedling,
+  faShoePrints,
   faShoppingCart,
   faSpa,
   faStore,
+  faTheaterMasks,
   faTimes,
+  faTooth,
   faTree,
   faTshirt,
   faUniversity,
   faUtensils,
+  faWineBottle,
 } from "@fortawesome/free-solid-svg-icons"
 import { Input } from "semantic-ui-react"
 
@@ -44,7 +63,7 @@ export default ({
   setPlacesSearchBoxUrl,
   setSelected,
   showProfile,
-}) => {console.log({pos})
+}) => {
   let searchBox, searchBoxInput
 
   React.useEffect(() => {
@@ -180,27 +199,43 @@ export default ({
         </div>
 
         <div className="keyword-buttons">
-          <Button keyword="Groceries" icon={faShoppingCart} click={click} />
-          <Button keyword="Resturants" icon={faUtensils} click={click} />
-          <Button keyword="Takeout" icon={faHamburger} click={click} />
-          <Button keyword="Bars" icon={faGlassCheers} click={click} />
-          <Button keyword="Cafes" icon={faCoffee} click={click} />
-          <Button keyword="Drug Stores" icon={faStore} click={click} />
-          <Button keyword="Gyms" icon={faDumbbell} click={click} />
-          <Button keyword="Laundry" icon={faTshirt} click={click} />
-          <Button keyword="Parks" icon={faTree} click={click} />
-          <Button keyword="Spas" icon={faSpa} click={click} />
-          <Button keyword="Hotels" icon={faBed} click={click} />
+          <Button keyword="Bakeries" icon={faBreadSlice} click={click} />
           <Button keyword="Banks" icon={faUniversity} click={click} />
+          <Button keyword="Barber" icon={faCut} click={click} />
+          <Button keyword="Bars" icon={faGlassCheers} click={click} />
+          <Button keyword="Beauty Salon" icon={faChessQueen} click={click} />
+          <Button keyword="Book Store" icon={faBookOpen} click={click} />
+          <Button keyword="Cafes" icon={faCoffee} click={click} />
+          <Button keyword="Car Wash" icon={faCar} click={click} />
+          <Button keyword="Church" icon={faChurch} click={click} />
+          <Button keyword="Dentist" icon={faTooth} click={click} />
+          <Button keyword="Doctor" icon={faBriefcaseMedical} click={click} />
+          <Button keyword="Drug Stores" icon={faStore} click={click} />
+          <Button keyword="Florist" icon={faSeedling} click={click} />
           <Button keyword="Gas" icon={faGasPump} click={click} />
-          <Button keyword="Parking" icon={faParking} click={click} />
-          <Button
-            keyword="Pharmacy"
-            icon={faPrescriptionBottleAlt}
-            click={click}
-          />
-          <Button keyword="Post Office" icon={faEnvelope} click={click} />
+          <Button keyword="Groceries" icon={faShoppingCart} click={click} />
+          <Button keyword="Gyms" icon={faDumbbell} click={click} />
           <Button keyword="Hospital" icon={faHSquare} click={click} />
+          <Button keyword="Hotels" icon={faHotel} click={click} />
+          <Button keyword="Laundry" icon={faTshirt} click={click} />
+          <Button keyword="Library" icon={faBookReader} click={click} />
+          <Button keyword="Liquor Store" icon={faWineBottle} click={click} />
+          <Button keyword="Lodging" icon={faBed} click={click} />
+          <Button keyword="Movie Theater" icon={faTheaterMasks} click={click} />
+          <Button keyword="Night Club" icon={faMusic} click={click} />
+          <Button keyword="Parking" icon={faParking} click={click} />
+          <Button keyword="Parks" icon={faTree} click={click} />
+          <Button keyword="Pet Store" icon={faDog} click={click} />
+          <Button keyword="Pharmacy" icon={faPrescriptionBottleAlt} click={click} />
+          <Button keyword="Post Office" icon={faEnvelope} click={click} />
+          <Button keyword="Resturants" icon={faUtensils} click={click} />
+          <Button keyword="Shoe Store" icon={faShoePrints} click={click} />
+          <Button keyword="Spas" icon={faSpa} click={click} />
+          <Button keyword="Supermarket" icon={faShoppingCart} click={click} />
+          <Button keyword="Takeout" icon={faHamburger} click={click} />
+          <Button keyword="University" icon={faGraduationCap} click={click} />
+          <Button keyword="Zoo" icon={faHippo} click={click} />
+          <div style={{clear:'both'}} />
         </div>
       </div>
     </div>
