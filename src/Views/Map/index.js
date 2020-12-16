@@ -398,6 +398,7 @@ export default function Map(props) {
               key={marker["place_id"]}
               marker={marker}
               setSelected={async s => {
+                setSelected(s)
                 if (!s.reviews) {
                   const place = await loadSelectedMarker({
                     panTo,

@@ -123,7 +123,6 @@ export default ({
   }
 
   function nearbySearch(options, searchbox) {
-    console.log(options)
     const {
       keyword,
       location,
