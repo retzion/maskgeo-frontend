@@ -29,6 +29,7 @@ import { version } from "../../../package.json"
 import logo from "../../assets/img/logo-w-text-horz.png"
 import "@reach/combobox/styles.css"
 import "./styles/index.css"
+import { TableBody } from "semantic-ui-react"
 // import { config } from "@fortawesome/fontawesome-svg-core"
 // import mapStyles from "./styles/mapStylesDark"
 const mapContainerStyle = {
@@ -92,6 +93,15 @@ export default function Map(props) {
     setSelected(null)
     setMarkers([])
   }
+
+  // listen for scroll slip
+  useEffect(() => {
+    document.addEventListener("scroll", () => {
+      if (window.scrollY) {
+        window.scroll(0, 0)
+      }
+    })
+  }, [])
 
   // check for https
   useEffect(() => {
