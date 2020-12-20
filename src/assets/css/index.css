@@ -27,7 +27,7 @@ body,
   font-size: 18px;
   color: var(--color-dark-text);
   background-color: rgb(229, 227, 223);
-  height: 120%;
+  height: 100%;
   scroll-behavior: smooth;
 }
 
