@@ -11,7 +11,7 @@ import Locate from "./Locate"
 import Marker from "./Marker"
 import KeywordSearchPanel from "./KeywordSearchPanel"
 import ProfileButton from "./ProfileButton"
-import ProfileModal from "./ProfileModal"
+import ProfileModal from "../../Components/ProfileModal"
 import SelectedPlaceSideBar from "./SelectedPlaceSideBar"
 import SplashPage from "./SplashPage"
 import Loader from "../../Components/Loader"
@@ -454,6 +454,7 @@ export default function Map(props) {
             setShowProfile(null)
             urlHandlers.setProfileQueryParam(null)
           }}
+          setUser={setUser}
         />
       )}
 
