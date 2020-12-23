@@ -1,21 +1,28 @@
 import React, { useRef, useState } from "react"
 import validate from "validator"
 import UniversalCookie from "universal-cookie"
-import { Button, Form, Input } from "semantic-ui-react"
+import { Button, Dropdown, Form, Icon, Input, Segment } from "semantic-ui-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faTimes } from "@fortawesome/free-solid-svg-icons"
+import {
+  faCheck,
+  faExclamationCircle,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons"
 
 // components
 import Loader from "../Loader"
+import LoginForm from "./LoginForm"
 
 // helpers
 import { cookieNames } from "../../config"
 import {
+  addUserPhone,
   createUser,
   processToken,
   requestMagicLoginLink,
 } from "../../util/MaskGeoApi"
 import Modal from "../Modal"
+import { validatePhone } from "../../util/TwilioApi"
 
 // styles
 import "./index.css"
@@ -23,53 +30,38 @@ import "./index.css"
 const Cookies = new UniversalCookie()
 
 export default function ProfileSideBar({ close, logOut, setUser, user }) {
-  const { email: userEmail, username } = user || {}
+  const { email: userEmail, phone: userPhone, username } = user || {}
 
-  const [email, setEmailState] = useState(null)
   const [loginLinkSent, setLoginLinkSent] = useState(null)
+  const [newUserEmail, setNewUserEmail] = useState("")
+  const [newUserPhone, setNewUserPhone] = useState("")
+  const [newUserUsername, setNewUserUsername] = useState("")
+  const [phoneValid, setPhoneValid] = useState(
+    !newUserPhone || validatePhone(newUserPhone)
+  )
   const [showLoader, setShowLoader] = useState(false)
-  const [showLogin, setShowLogin] = useState(null)
+  const [showLogin, setShowLogin] = useState(
+    Cookies.get(cookieNames.email) || Cookies.get(cookieNames.phone)
+  )
+  const [showTokenForm, setShowTokenForm] = useState(null)
+  const [userMessage, setUserMessage] = useState(null)
 
-  const emailInput = useRef()
+  const phoneInput = useRef()
   const loginTokenInput = useRef()
   const tokenInput = useRef()
   const newUserUsernameInput = useRef()
   const newUserEmailInput = useRef()
 
-  React.useEffect(() => {
-    const emailValue = Cookies.get(cookieNames.email)
-    emailInput.current.value = emailValue
-    if (email != emailValue) setEmailState(emailValue)
-    if (emailValue && emailValue.length) setShowLogin(true)
-  }, [])
-
-  function setEmail(inputValue) {
+  function setEmailCookie(inputValue) {
     const cookieValue = Cookies.get(cookieNames.email)
 
     const expires = new Date().addDays(90)
     if (inputValue != cookieValue)
       Cookies.set(cookieNames.email, inputValue, { expires, path: "/" })
-    if (inputValue != email) setEmailState(inputValue)
-    if (inputValue && inputValue.length) setShowLogin(true)
-  }
-
-  async function logIn() {
-    const valid = validate.isEmail(emailInput.current.inputRef.current.value)
-    if (!valid) alert("This is not a valid email address!")
-    else {
-      const currentEmailValue = emailInput.current.inputRef.current.value
-      const magicLinkResponse = await requestMagicLoginLink(currentEmailValue)
-      setEmail(currentEmailValue)
-      if (magicLinkResponse && magicLinkResponse.status === 200)
-        setLoginLinkSent(true)
-      else
-        alert(
-          "There was a problem sending to that email address. Please check your email address and try again."
-        )
-    }
   }
 
   async function createAccount() {
+    setShowLoader(true)
     // validate username
     const username = newUserUsernameInput.current.inputRef.current.value
     if (!username) return alert("Please enter a username.")
@@ -89,13 +81,19 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
       newUserEmailInput.current.inputRef.current.value
     )
     if (!validEmail) return alert("This is not a valid email address!")
+    else setEmailCookie(newUserEmailInput.current.inputRef.current.value)
 
+    // save valid phone to cookie if included
+    if (newUserPhone && phoneValid) Cookies.set(cookieNames.phone, newUserPhone)
+
+    // create user
     const createUserResponse = await createUser(
       newUserEmailInput.current.inputRef.current.value,
-      newUserUsernameInput.current.inputRef.current.value
+      newUserUsernameInput.current.inputRef.current.value,
+      // validate phone inline
+      newUserPhone && phoneValid && newUserPhone
     )
     const { data: response } = createUserResponse || {}
-    console.log({ response })
     if (!response)
       alert(
         "There was a problem creating an account with this information. Please check your username and email address and try again."
@@ -103,11 +101,12 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
     else if (response.error) alert(response.error)
     else if (createUserResponse.status === 200) {
       setLoginLinkSent(true)
-      setEmail(newUserEmailInput.current.inputRef.current.value)
+      setShowLogin(true)
     } else
       alert(
         "There was a problem creating an account with this information. Please check your username and email address and try again."
       )
+    setShowLoader(null)
   }
 
   async function processLoginToken(inputRef) {
@@ -128,7 +127,10 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
 
   const TokenForm = ({ inputRef }) => {
     return (
-      <Form onSubmit={e => e.preventDefault}>
+      <Form
+        onSubmit={e => e.preventDefault}
+        style={{ display: "grid", gridTemplateColumns: "3fr 1fr" }}
+      >
         <Input
           ref={inputRef}
           style={{ marginRight: 12 }}
@@ -137,7 +139,7 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
 
         <Button
           content="Go"
-          primary={loginLinkSent}
+          primary
           onClick={() => {
             processLoginToken(inputRef)
           }}
@@ -146,8 +148,31 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
     )
   }
 
+  function phoneChangeHandler() {
+    let phoneInputValue = phoneInput.current.inputRef.current.value || ""
+    if (!phoneInputValue.startsWith("+"))
+      phoneInputValue = `+${phoneInputValue}`
+    const validChars = "0123456789+"
+    for (let i = 0; i < phoneInputValue.length; i++) {
+      const char = phoneInputValue[i]
+      if (!validChars.includes(char))
+        phoneInputValue = phoneInputValue.split(char).join("")
+    }
+
+    const valid = validatePhone(phoneInputValue)
+    if (valid != phoneValid) setPhoneValid(valid)
+    if (newUserPhone != phoneInputValue) {
+      setNewUserPhone(phoneInputValue)
+      setTimeout(() => {
+        phoneInput.current.focus()
+      }, 0)
+    }
+  }
+
   const ModalContent = () => (
     <div className="authenticate">
+      {userMessage && <Segment color="red">{userMessage}</Segment>}
+
       <div style={{ display: loginLinkSent ? "block" : "none" }}>
         <h2>Please check your inbox for a Login Link.</h2>
 
@@ -172,13 +197,214 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
         <br />
       </div>
 
-      <div
+      <Form
         style={{
           display: !user || loginLinkSent ? "none" : "block",
         }}
       >
-        <h4>{userEmail}</h4>
-      </div>
+        <Form.Field>
+          <Input
+            label="Username"
+            value={username}
+            onFocus={({ target }) => {
+              target.blur()
+            }}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Input
+            action={{
+              style: { cursor: user && user.emailVerified ? "default" : "pointer" },
+              icon: user && user.emailVerified ? (
+                <FontAwesomeIcon
+                  className="icon"
+                  icon={faCheck}
+                  color="#009900"
+                  title="Verified Email"
+                />
+              ) : (
+                <Dropdown
+                  onClose={async e => {
+                    if (e && e.target) {
+                      setUserMessage(null)
+                      // request token to verify email address
+                      const { data: updatedUser } = await requestMagicLoginLink({
+                        email: userEmail,
+                      })
+                      if (!updatedUser || updatedUser.error)
+                        setUserMessage(
+                          <span>
+                            <Icon
+                              name="close"
+                              style={{ float: "right", cursor: "pointer" }}
+                              onClick={() => {
+                                setUserMessage(null)
+                              }}
+                            />
+                            {updatedUser.error}
+                          </span>
+                        )
+                      else
+                        setUserMessage(
+                          <span>
+                            <Icon
+                              name="close"
+                              style={{ float: "right", cursor: "pointer" }}
+                              onClick={() => {
+                                setUserMessage(null)
+                              }}
+                            />
+                            Please check your inbox for a verification link.
+                          </span>
+                        )
+                    }
+                  }}
+                  direction="left"
+                  inline
+                  icon={
+                    <FontAwesomeIcon
+                      className="icon"
+                      icon={faExclamationCircle}
+                      color="#990000"
+                    />
+                  }
+                  options={[{ key: "a", text: "Resend verification link" }]}
+                />
+              ),
+            }}
+            label="Email"
+            value={userEmail}
+            onFocus={({ target }) => {
+              target.blur()
+            }}
+          />
+        </Form.Field>
+        {userPhone && (
+          <Form.Field>
+            <Input
+              action={{
+                style: { cursor: user.phoneVerified ? "default" : "pointer" },
+                icon: user.phoneVerified ? (
+                  <FontAwesomeIcon
+                    className="icon"
+                    icon={faCheck}
+                    color="#009900"
+                    title="Verified Phone"
+                  />
+                ) : (
+                  <Dropdown
+                    onClose={async e => {
+                      if (e && e.target) {
+                        setUserMessage(null)
+                        // request token to verify phone number
+                        const { data: updatedUser } = await addUserPhone(
+                          userPhone,
+                          true
+                        )
+                        if (!updatedUser || updatedUser.error)
+                          setUserMessage(
+                            <span>
+                              <Icon
+                                name="close"
+                                style={{ float: "right", cursor: "pointer" }}
+                                onClick={() => {
+                                  setUserMessage(null)
+                                }}
+                              />
+                              {updatedUser.error}
+                            </span>
+                          )
+                        else
+                          setUserMessage(
+                            <span>
+                              <Icon
+                                name="close"
+                                style={{ float: "right", cursor: "pointer" }}
+                                onClick={() => {
+                                  setUserMessage(null)
+                                }}
+                              />
+                              Please check your text messages for a verification
+                              link.
+                            </span>
+                          )
+                      }
+                    }}
+                    direction="left"
+                    inline
+                    icon={
+                      <FontAwesomeIcon
+                        className="icon"
+                        icon={faExclamationCircle}
+                        color="#990000"
+                      />
+                    }
+                    options={[{ key: "a", text: "Resend verification link" }]}
+                  />
+                ),
+              }}
+              label="Phone"
+              value={userPhone}
+              onFocus={({ target }) => {
+                target.blur()
+              }}
+            />
+          </Form.Field>
+        )}
+        {!userPhone && (
+          <Form.Field>
+            <Input
+              action={{
+                color: "blue",
+                labelPosition: "left",
+                icon: "plus",
+                content: "Add Phone",
+                onClick: async ({ target }) => {
+                  setShowLoader(true)
+                  setUserMessage(null)
+                  const phone = target.parentNode.children[1]["value"]
+                  const { data: updatedUser } = await addUserPhone(phone)
+                  if (updatedUser.error) alert(updatedUser.error)
+                  else
+                    setUser({
+                      ...user,
+                      phone,
+                    })
+                  setShowLoader(null)
+                  setUserMessage(
+                    <span>
+                      <Icon
+                        name="close"
+                        style={{ float: "right", cursor: "pointer" }}
+                        onClick={() => {
+                          setUserMessage(null)
+                        }}
+                      />
+                      Please check your text messages for a verification link.
+                    </span>
+                  )
+                },
+              }}
+              actionPosition="left"
+              placeholder="phone number (ex: +18005551212)"
+              defaultValue=""
+              onChange={({ target }) => {
+                const validChars = "0123456789"
+                for (let i = 0; i < target.value.length; i++) {
+                  const char = target.value[i]
+                  if (!validChars.includes(char))
+                    target.value = target.value.split(char).join("")
+                }
+                target.value = "+" + target.value
+
+                if (!validatePhone(target.value))
+                  target.parentNode.parentNode.classList.add("error")
+                else target.parentNode.parentNode.classList.remove("error")
+              }}
+            />
+          </Form.Field>
+        )}
+      </Form>
 
       <div
         style={{
@@ -195,57 +421,83 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
         >
           <h2>Create an Account</h2>
 
-          <Form.Field>
+          <span className="signup-field-note">* required</span>
+          <Form.Field className="signup-field">
             <Input
               ref={newUserUsernameInput}
               name="username"
+              onChange={({ target }) => {
+                setNewUserUsername(target.value)
+                setTimeout(() => {
+                  newUserUsernameInput.current.focus()
+                }, 0)
+              }}
               type="text"
+              value={newUserUsername}
               placeholder="choose a username (letters, numbers, and underscores allowed)"
             />
           </Form.Field>
 
           <Form.Field>
+            <span className="signup-field-note">* required</span>
             <Input
               ref={newUserEmailInput}
               name="email"
+              onChange={({ target }) => {
+                setNewUserEmail(target.value)
+                setTimeout(() => {
+                  newUserEmailInput.current.focus()
+                }, 0)
+              }}
               type="email"
+              value={newUserEmail}
               placeholder="email address"
             />
           </Form.Field>
+
+          <Form.Field className={phoneValid ? "" : "error"}>
+            <span className="signup-field-note">(optional)</span>
+
+            <Input
+              ref={phoneInput}
+              name="phone"
+              type="tel"
+              placeholder="phone number (ex: +18005551212)"
+              value={newUserPhone}
+              onChange={phoneChangeHandler}
+              // onBlur={({ target }) => {
+              //   setNewUserPhone(target.value)
+              // }}
+              // error={!phoneValid}
+            />
+          </Form.Field>
+
           <p>
             <button className="primary" onClick={createAccount}>
               Create My Account
             </button>
           </p>
         </Form>
-        <Form
-          style={{
-            display: !showLogin || loginLinkSent ? "none" : "block",
-          }}
-          onSubmit={e => {
-            e.preventDefault()
-          }}
-        >
-          <h2>Log In</h2>
-          <Form.Field>
-            <Input
-              ref={emailInput}
-              name="email"
-              type="email"
-              placeholder="email address"
-              defaultValue={email}
-            />
-          </Form.Field>
-          <Form.Field>
-            <button className="primary" onClick={logIn}>
-              Send me a Login Link
-            </button>
-          </Form.Field>
-        </Form>
+
+        {showLogin && (
+          <LoginForm
+            // email={email}
+            // setEmail={setEmail}
+            // setEmailState={setEmailState}
+            setShowLoader={setShowLoader}
+            setLoginLinkSent={setLoginLinkSent}
+            setShowLogin={setShowLogin}
+            setShowTokenForm={setShowTokenForm}
+            showTokenForm={showTokenForm}
+            user={user}
+            visible={showLogin || loginLinkSent}
+          />
+        )}
 
         <div
           style={{
-            display: !showLogin || loginLinkSent ? "none" : "block",
+            display:
+              showLogin && (loginLinkSent || showTokenForm) ? "block" : "none",
           }}
         >
           <p style={{ marginTop: 36 }}>Have a Token already? Paste it here:</p>
@@ -280,7 +532,7 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
             display: showLogin ? "inline-block" : "none",
           }}
           onClick={() => {
-            setShowLogin(null)
+            setShowLogin(false)
           }}
         >
           Sign Up
@@ -299,7 +551,9 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
       </div>
 
       <p style={{ display: user ? "block" : "none", paddingTop: 30 }}>
-        <button onClick={logOut}>Log Out</button>
+        <a style={{ cursor: "pointer", padding: 12 }} onClick={logOut}>
+          Log Out
+        </a>
       </p>
     </div>
   )
@@ -322,7 +576,7 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
             </a>
 
             {user ? (
-              <h3>Welcome, {username}</h3>
+              <h3>Account Details</h3>
             ) : (
               <h3>Please Log In or Sign Up</h3>
             )}

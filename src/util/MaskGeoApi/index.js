@@ -35,11 +35,30 @@ function logError(payload) {
  * @param {string} email User's email address
  * @param {string} username Desired username
  */
-function createUser(email, username) {
+function createUser(email, username, phone) {
   return post(`${apiUri}/user`, {
     email,
     username,
+    phone,
   }).catch(c => c.response)
+}
+
+/**
+ * @title UPDATE User to add phone number
+ * @dev Save a valid phone number to the user object
+ *
+ * @param {string} phone New, unique phone number
+ */
+async function addUserPhone(phone, resend) {
+  const response = await post(
+    `${apiUri}/phone/${phone}${resend ? "?resend=1" : ""}`
+  ).catch(c => c.response)
+  if (response && response.data && response.data["accessToken"]) {
+    accessToken = response.data["accessToken"]
+    storage.setData("accessToken", accessToken)
+    universalHeaders["Authorization"] = `Bearer ${accessToken}`
+  }
+  return response
 }
 
 /**
@@ -53,9 +72,9 @@ async function processToken(token) {
   if (response && response.data && response.data["apiVersion"])
     storage.setData("apiVersion", response.data["apiVersion"])
   if (response && response.data && response.data["accessToken"]) {
-    storage.setData("accessToken", response.data["accessToken"])
     accessToken = response.data["accessToken"]
-    universalHeaders["Authorization"] = `Bearer ${response.data["accessToken"]}`
+    storage.setData("accessToken", accessToken)
+    universalHeaders["Authorization"] = `Bearer ${accessToken}`
   }
   return response
 }
@@ -87,9 +106,9 @@ async function decryptToken() {
   if (response && response.data && response.data["error"])
     storage.clearStorage("accessToken")
   if (response && response.data && response.data["accessToken"]) {
-    storage.setData("accessToken", response.data["accessToken"])
     accessToken = response.data["accessToken"]
-    universalHeaders["Authorization"] = `Bearer ${response.data["accessToken"]}`
+    storage.setData("accessToken", accessToken)
+    universalHeaders["Authorization"] = `Bearer ${accessToken}`
   }
   return response
 }
@@ -100,10 +119,16 @@ async function decryptToken() {
  *
  * @param {string} email User's email address
  */
-function requestMagicLoginLink(email) {
-  if (!email || !validate.isEmail(email))
+function requestMagicLoginLink({ email, phone }) {
+  if (!email && !phone)
+    return new Error("Please enter an email address or phone number.")
+  if (email && !validate.isEmail(email))
     return new Error("Email address is not valid.")
-  return get(`${apiUri}/login/${email}`).catch(console.error)
+  if (phone && !/^\+[1-9]\d{10,14}$/.test(phone))
+    return new Error("Phone number is not valid.")
+  if (email) return get(`${apiUri}/login/email/${email}`).catch(console.error)
+  else if (phone)
+    return get(`${apiUri}/login/phone/${phone}`).catch(console.error)
 }
 
 /**
@@ -170,6 +195,7 @@ function del(url) {
 }
 
 export {
+  addUserPhone,
   createUser,
   decryptToken,
   fetchReviews,

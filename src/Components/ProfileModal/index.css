@@ -1,4 +1,25 @@
-.authenticate button, .authenticate .button {
+.authenticate button,
+.authenticate .button {
   padding: 15px 21px;
   font-size: 1rem;
+}
+.authenticate .divider.text {
+  display: none !important;
+}
+.authenticate .signup-field-note {
+  float: right;
+  font-style: italic;
+  font-size: 0.81rem;
+}
+.authenticate .ui.form .field {
+  margin-bottom: 6px;
+}
+.authenticate .ui.labeled.input .ui.label.label {
+  min-width: 30%;
+}
+@media (max-width: 450px) {
+  .authenticate .ui.labeled.input .ui.label.label {
+    font-size: 0.66rem;
+    padding-top: 18px;
+  }
 }

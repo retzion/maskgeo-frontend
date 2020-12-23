@@ -10,7 +10,9 @@ export const appEnvironments = {
 }
 
 export const appEnvironment =
-  appEnvironments[process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"] || "production"]
+  appEnvironments[
+    process.env["REACT_APP_MG_ENV"] || process.env["NODE_ENV"] || "production"
+  ]
 
 const apiDomains = {
   development: "https://staging-maskgeo-backend.herokuapp.com",
@@ -32,6 +34,7 @@ export const cookieNames = {
   email: "email",
   jwtAccessToken: "mg-jwt",
   jwtRefreshToken: "mg-refresh-jwt",
+  phone: "phone",
   position: "position",
 }
 

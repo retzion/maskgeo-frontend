@@ -324,6 +324,8 @@ export default function Map(props) {
   }, [])
 
   async function logOut() {
+    setShowProfile(null)
+    setShowLoader(true)
     await removeToken()
     Cookies.remove(cookieNames.jwtAccessToken, { httpOnly: true, path: "/" })
     Cookies.remove(cookieNames.jwtRefreshToken, { httpOnly: true, path: "/" })
@@ -331,6 +333,7 @@ export default function Map(props) {
     Cookies.remove(cookieNames.position, { path: "/" })
     storage.clearStorage()
     setUser(null)
+    setShowLoader(false)
   }
 
   if (loadError) return "Error"

@@ -1,6 +1,6 @@
 {
   "name": "maskgeo-frontend",
-  "version": "0.1.94",
+  "version": "0.1.95",
   "private": true,
   "engines": {
     "node": "15.2.0",
@@ -28,6 +28,7 @@
     "react-sidebar": "^3.0.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
+    "twilio": "^3.54.1",
     "uniqolor": "^1.0.1",
     "universal-cookie": "^4.0.4",
     "use-places-autocomplete": "^1.6.0",
