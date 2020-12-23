@@ -100,7 +100,7 @@ export default ({
         setEmail(email)
 
         if (magicLinkResponse && magicLinkResponse.status === 200)
-          setLoginLinkSent(true)
+          setLoginLinkSent("email")
         else
           alert(
             "There was a problem sending to that email address. Please check your email address and try again."
@@ -116,7 +116,7 @@ export default ({
         setPhone(phone)
 
         if (magicLinkResponse && magicLinkResponse.status === 200)
-          setLoginLinkSent(true)
+          setLoginLinkSent("phone")
         else
           alert(
             "There was a problem sending to that phone number. Please check your phone number and format and try again."

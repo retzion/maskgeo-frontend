@@ -100,7 +100,7 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
       )
     else if (response.error) alert(response.error)
     else if (createUserResponse.status === 200) {
-      setLoginLinkSent(true)
+      setLoginLinkSent("email")
       setShowLogin(true)
     } else
       alert(
@@ -174,12 +174,12 @@ export default function ProfileSideBar({ close, logOut, setUser, user }) {
       {userMessage && <Segment color="red">{userMessage}</Segment>}
 
       <div style={{ display: loginLinkSent ? "block" : "none" }}>
-        <h2>Please check your inbox for a Login Link.</h2>
+        <h2>Please check your {loginLinkSent === "email" ? "inbox" : "phone"} for a Login Link.</h2>
 
-        <p>
+        {loginLinkSent === "email" && <p>
           If you do not see the email we just sent, please check your spam
           folder.
-        </p>
+        </p>}
 
         <hr
           style={{
